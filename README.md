@@ -29,7 +29,7 @@ Economic model : Free unlimited trial version, and premium version with subscrip
 
 
 #### Major stages of project development :
-1. Concretely define the project 
+1. Concretely define the project<br>
 Draw up a trello board, create a github repo, write the specifications.
 
 2. Start the development<br>
