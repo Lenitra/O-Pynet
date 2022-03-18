@@ -2,43 +2,47 @@
 Admin panel for vps
 
 
-English
-O-Pynet
+## English
+
+### O-Pynet
+
 Launch date : 18 mars 2022
 
 
-Global view :
-
+#### Global view :
 O-Pynet is a software that allows you to have a server monitoring (vps) live. It is a web administration panel available anywhere, anytime.
 
 
-Goals :
-
+#### Goals :
 Create a practical and easy tool: The promise of a simple installation and use tool that will facilitate the use of vps especially for beginners in the field.
 A constantly evolving tool: The objective is to make life easier for people who have a vps without knowing how to use it too much. The use is simple and intuitive.
 
 
-Characteristics
-
-Used technologies : Python/flask, bash, html/css/javascript
-Target audience : People running a vps or dedicated with one or more services on it
-Target plateform : Linux : Ubuntu then Windows
+#### Characteristics :
+Used technologies : Python/flask, bash, html/css/javascript<br>
+Target audience : People running a vps or dedicated with one or more services on it<br>
+Target plateform : Linux : Ubuntu then Windows<br>
 Economic model : Free unlimited trial version, and premium version with subscription 5€/month or one-time purchase 60€
 
 
-Major stages of project development
+#### Major stages of project development :
 
 1. Concretely define the project 
 Draw up a trello board, create a github repo, write the specifications.
-2. Start the development
+
+2. Start the development<br>
 Start the back-end code without worrying about the visuals.
-3.Graphic work
+
+3. Graphic work<br>
 Create a graphic identity: logo, colors of the application, ... And work on the UX/UI before starting the font-end.
-4.Promote O-Pynet
+
+4. Promote O-Pynet<br>
 Create a communication plan, open social media accounts, and develop smart posting tools.
-5.Integrate the requested features 
+
+5. Integrate the requested features <br>
 Stay tuned to users and continue constant and useful development.
-6.New Horizons 
+
+6. New Horizons <br>
 Think about creating new things like a phone application or something else.
 	
 
