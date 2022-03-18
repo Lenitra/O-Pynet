@@ -1,5 +1,5 @@
 # O-Pynet
-Admin panel for vps
+Admin panel for vps or dedicated
 
 
 ## English
