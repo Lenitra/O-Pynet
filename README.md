@@ -10,12 +10,15 @@ Launch date : 18 mars 2022
 
 
 #### Global view :
-O-Pynet is a software that allows you to have a server monitoring (vps) live. It is a web administration panel available anywhere, anytime.
+O-Pynet is a software that allows you to have a server monitoring (vps or dedicated) live. It is a web administration panel available anywhere, anytime.
 
 
 #### Goals :
-Create a practical and easy tool: The promise of a simple installation and use tool that will facilitate the use of vps especially for beginners in the field.
-A constantly evolving tool: The objective is to make life easier for people who have a vps without knowing how to use it too much. The use is simple and intuitive.
+Create a practical and easy tool:<br>
+The promise of a simple installation and use tool that will facilitate the use of vps especially for beginners in the field.
+<br>
+A constantly evolving tool:<br>
+The objective is to make life easier for people who have a vps without knowing how to use it too much. The use is simple and intuitive.
 
 
 #### Characteristics :
@@ -26,7 +29,6 @@ Economic model : Free unlimited trial version, and premium version with subscrip
 
 
 #### Major stages of project development :
-
 1. Concretely define the project 
 Draw up a trello board, create a github repo, write the specifications.
 
@@ -46,33 +48,49 @@ Stay tuned to users and continue constant and useful development.
 Think about creating new things like a phone application or something else.
 	
 
-Français
-O-Pynet
+## Français
+
+### O-Pynet
+
 Date de lancement : 18 mars 2022
-Vue d'ensemble
-O-Pynet est un logiciel qui permet d’avoir un suivi de serveur (vps) en direct. C’est un panel d’administration web disponible n’importe où, n’importe quand.
-Objectifs
-Créer un outil pratique et facile : La promesse d’un outil simple d’installation et d’utilisation qui facilitera l’utilisation de vps notamment pour les débutants dans le domaine
-Un outil en constante évolution : L’objectif est de faciliter la vie des gens qui ont un vps sans savoir trop s’en servir. L’utilisation est simple et intuitive.
-Caractéristiques
-Technologies utilisées : Python/flask, bash, html/css/javascript
-Public ciblé : Personnes faisant fonctionner un vps avec un ou plusieurs services dessus
-Plateforme cible : Ubuntu puis Windows
+
+
+#### Vue d'ensemble
+O-Pynet est un logiciel qui permet d’avoir un suivi de serveur (vps ou dédié) en direct. C’est un panel d’administration web disponible n’importe où, n’importe quand.
+
+
+#### Objectifs
+Créer un outil pratique et facile :<br>
+La promesse d’un outil simple d’installation et d’utilisation qui facilitera l’utilisation de vps notamment pour les débutants dans le domaine
+<br>
+Un outil en constante évolution :<br>
+L’objectif est de faciliter la vie des gens qui ont un vps sans savoir trop s’en servir. L’utilisation est simple et intuitive.
+
+
+#### Caractéristiques
+Technologies utilisées : Python/flask, bash, html/css/javascript<br>
+Public ciblé : Personnes faisant fonctionner un vps ou un dédié avec un ou plusieurs services dessus<br>
+Plateforme cible : Linux/Ubuntu puis Windows<br>
 Modèle économique : Version gratuite d’essai illimitée, et version premium avec abonnement 5€/mois ou achat unique 60€
 
 
-Grandes étapes du développement du projet
-Définir concrètement le projet 
+#### Grandes étapes du développement du projet
+1. Définir concrètement le projet <br>
 Dresser un tableau trello, créer un repo github, rédiger le cahier des charges.
-Lancer le développement 
+
+2. Lancer le développement <br>
 Commencer le code back-end sans s’occuper des visuels.
-Travail graphique 
+
+3. Travail graphique <br>
 Créer une charte graphique : logo, couleurs de l’application, … Et travailler l’UX/UI avant de commencer le font-end.
-Promouvoir O-Pynet
+
+4. Promouvoir O-Pynet <br>
 Créer un plan de communication, ouvrir des comptes sur les réseaux sociaux, et développer des outils de posts intelligents.
-Intégrer les features demandées 
+
+5. Intégrer les features demandées <br>
 Rester à l’écoute des utilisateurs et continuer un développement constant et utile.
-De nouveaux horizons 
+
+6. De nouveaux horizons <br>
 Réfléchir à créer de nouvelles choses comme une application ou autre.
 
 	
