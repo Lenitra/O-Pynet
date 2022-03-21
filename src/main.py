@@ -6,8 +6,8 @@ from datetime import date, datetime
 import socket
 import sys
 from flask import Flask, render_template, request, redirect, session
-from matplotlib.pyplot import title
 import yaml
+import requests
 import psutil
 
 app = Flask(__name__)
@@ -15,11 +15,28 @@ app.secret_key = "ahcestcontulaspas"
 app.debug = True
 
 
+def get_current_ipv4():
+    try:
+        return requests.get("https://api4.ipify.org", timeout=5).text
+    except requests.exceptions.ConnectionError as ex:
+        return None
+
 # Permet de charger la configration de la machine (appelée dans le main)
 def loadconfig():
     # read the config file
+
     with open('config/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
+    if config["ip"] == 0:
+        config["ip"] = get_current_ipv4()
+        with open('config/config.yaml', 'w') as file:
+            config = yaml.dump(config, file)
+        
+    
+
+    with open('config/config.yaml', 'r') as f:
+        config = yaml.safe_load(f)
+
     return config
 
 def is_logged():
@@ -85,7 +102,7 @@ def dashboard():
 
 if __name__ == '__main__':
     config = loadconfig()
-    config["url"] = IP_addres = socket.gethostbyname(socket.gethostname()) + ":" + str(config["port"])
+    config["url"] = IP_addres = str(config["ip"]) + ":" + str(config["port"])
 
     # if platform.system() != "Windows":
     website_url = config["url"] 
