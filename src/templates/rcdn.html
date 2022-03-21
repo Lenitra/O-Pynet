@@ -5,11 +5,18 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
 </head>
 <body>
-    Page admin
-    
+    <p>{{ram}}</p>
+    <p>{{cpu}}</p>
+    <p>{{disk}}</p>
+    <p>{{network}}</p>
+
+    <script type="text/javascript">
+        setTimeout(function () {
+            location.reload();
+        }, "{{config['ramcputime']}}"*1000);
+    </script>
+
 </body>
 </html>

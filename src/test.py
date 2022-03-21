@@ -1,17 +1,10 @@
 import yaml
 
-test = [{
-        "user": "Taumah",
-        "password": "admin",
-        "perms": "admin" 
-    },
-    {
-        "user": "Taumah",
-        "password": "admin",
-        "perms": "admin"
-    }
-    ]
+test = {
+    'title': 'title',
+    'port': 5000,
+}
 
-with open('C:/Users/thoma/Desktop/O-Pynet/src/config/accounts.yaml', 'w') as file:
+with open('C:/Users/thoma/Desktop/O-Pynet/src/config/config.yaml', 'w') as file:
 
     outputs = yaml.dump(test, file)
