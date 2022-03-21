@@ -4,6 +4,7 @@ import platform
 import os
 from datetime import date, datetime
 import socket
+import sys
 from flask import Flask, render_template, request, redirect, session
 from matplotlib.pyplot import title
 import yaml
@@ -29,11 +30,20 @@ def is_logged():
         pass
     return redirect('/login')
 
+def cmd(cmd):
+    os.system(cmd)
+
 
 @app.route('/')
 def index():
     return render_template('index.html', title=config["title"])
 
+
+@app.route('/reload')
+def reload():
+    # restart the server
+    cmd("sudo reboot")
+    return redirect('/dashboard')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

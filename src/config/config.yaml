@@ -1,4 +1,4 @@
 port: 5000
 title: title
-ramcputime: 5
+ramcputime: 10
 url : ""
