@@ -8,4 +8,4 @@ echo "@reboot bash /home/ubuntu/O-Pynet/src/start.sh" >> mycron
 # Install new cron file
 crontab mycron
 rm mycron
-
+sudo reboot
