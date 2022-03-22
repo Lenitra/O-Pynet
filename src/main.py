@@ -27,13 +27,9 @@ def loadconfig():
 
     with open('config/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
-    if config["ip"] == 0:
-        config["ip"] = get_current_ipv4()
-        with open('config/config.yaml', 'w') as file:
-            config = yaml.dump(config, file)
-        
-    
-
+    config["ip"] = get_current_ipv4()
+    with open('config/config.yaml', 'w') as file:
+        config = yaml.dump(config, file)
     with open('config/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
 
@@ -48,7 +44,8 @@ def is_logged():
     return redirect('/login')
 
 def cmd(cmd):
-    os.system(cmd)
+    return os.popen(cmd).read()
+
 
 
 @app.route('/')
@@ -83,6 +80,8 @@ def checklogin():
 
 @app.route('/rcdn')
 def rcdn():
+    if is_logged() != True:
+        return is_logged()
     ram = f"RAM : {round(psutil.virtual_memory()[3]/1000000000, 2)} / {round(psutil.virtual_memory()[0]/1000000000, 2)} Go | {psutil.virtual_memory()[2]}%"
     cpu = f"CPU : {psutil.getloadavg()[2]} / {os.cpu_count()}  | {(psutil.getloadavg()[2]/os.cpu_count()) * 100}%"
     disk = f"DISK : {round(psutil.disk_usage('/')[2]/1000000000, 2)} / {round(psutil.disk_usage('/')[0]/1000000000, 2)} Go | {psutil.disk_usage('/')[3]}%"
@@ -92,22 +91,53 @@ def rcdn():
 
 @app.route("/dashboard")
 def dashboard():
-    # print(session["is_logged"])
-    if is_logged() != True:
+    if is_logged() != True: 
         return is_logged()
+    session["console"] = ""
     return render_template('dashboard.html', config=config)
 
     
+@app.route("/cmd", methods=['POST', 'GET'])
+def cmd_exec():
+    if is_logged() != True:
+        return is_logged()
+    # Si il y a pas de commande valide (à la première connexion ou à l'envois d'un formulaire vide)
+    try :
+        command = request.form['cmd']
+    except:
+        command = False
+    if command == "":
+        command = False
+    if type(command) != str:
+        return render_template('cmd.html', config=config, console=session["console"])
+
+    if command == "clear":
+        session["console"] = ""
+        torun = ""
+    else:
+        torun = cmd(command)
+
+    if torun == "":
+        torun = "command not found"
+
+    try:
+        session["console"] += "> " + command + "\n" + torun + "\n"
+    except:
+        session["console"] = torun
+    return render_template('cmd.html', config=config, console=session["console"])
 
 
 if __name__ == '__main__':
     config = loadconfig()
+
+
     config["url"] = IP_addres = str(config["ip"]) + ":" + str(config["port"])
 
-    # if platform.system() != "Windows":
-    website_url = config["url"] 
-    app.config['SERVER_NAME'] = website_url
+    if platform.system() != "Windows":
+        website_url = config["url"] 
+        app.config['SERVER_NAME'] = website_url
 
     app.config['SESSION_COOKIE_SECURE'] = False
     app.config['SESSION_COOKIE_NAME'] = "BonsCookies"
+    print("Your admin panel is ready here : http://" + config["ip"] + ":" + str(config["port"]))
     app.run()
