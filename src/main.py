@@ -2,9 +2,6 @@
 # -*- coding: Utf-8 -*-
 import platform
 import os
-from datetime import date, datetime
-import socket
-import sys
 from flask import Flask, render_template, request, redirect, session
 import yaml
 import requests
@@ -17,7 +14,7 @@ app.debug = True
 
 def get_current_ipv4():
     try:
-        return requests.get("https://api4.ipify.org", timeout=5).text
+        return requests.get("https://api4.ipify.org", timeout=10).text
     except requests.exceptions.ConnectionError as ex:
         return None
 
@@ -44,7 +41,18 @@ def is_logged():
     return redirect('/login')
 
 def cmd(cmd):
-    return os.popen(cmd).read()
+    # in utf8
+    # return os.popen(cmd).read().utf8
+    os.system("rm -rf tmp/tmp.sh")
+    try :
+        if session['dir'] == "":
+            pass
+        else:
+            pass
+    except:
+        pass
+
+    return os.popen("bash tmp/tmp.sh").read()
 
 
 
@@ -85,8 +93,7 @@ def rcdn():
     ram = f"RAM : {round(psutil.virtual_memory()[3]/1000000000, 2)} / {round(psutil.virtual_memory()[0]/1000000000, 2)} Go | {psutil.virtual_memory()[2]}%"
     cpu = f"CPU : {psutil.getloadavg()[2]} / {os.cpu_count()}  | {(psutil.getloadavg()[2]/os.cpu_count()) * 100}%"
     disk = f"DISK : {round(psutil.disk_usage('/')[2]/1000000000, 2)} / {round(psutil.disk_usage('/')[0]/1000000000, 2)} Go | {psutil.disk_usage('/')[3]}%"
-    network = f"NETWORK : download {round(psutil.net_io_counters()[1]/1000000000, 2)} Go \n upload {round(psutil.net_io_counters()[0]/1000000000, 2)} Go"
-    return render_template('rcdn.html', config=config, ram=ram, cpu=cpu, disk=disk, network=network)
+    return render_template('rcdn.html', config=config, ram=ram, cpu=cpu, disk=disk)
 
 
 @app.route("/dashboard")
@@ -117,8 +124,6 @@ def cmd_exec():
     else:
         torun = cmd(command)
 
-    if torun == "":
-        torun = "command not found"
 
     try:
         session["console"] += "> " + command + "\n" + torun + "\n"
