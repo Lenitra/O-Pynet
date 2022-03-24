@@ -1,1 +1,3 @@
-echo test;
+cd ~; 
+cd /home; 
+dir;

@@ -45,12 +45,12 @@ def cmd(cmd):
     # return os.popen(cmd).read().utf8
     os.system("rm -rf tmp/tmp.sh")
     try :
-        if session['dir'] == "":
-            pass
-        else:
-            pass
+        session["dir"]
     except:
-        pass
+        session['dir'] = "/home"
+
+    with open('tmp/tmp.sh', 'w') as file:
+        file.write(f"cd ~; \ncd {session['dir']}; \n{cmd};")
 
     return os.popen("bash tmp/tmp.sh").read()
 
@@ -101,6 +101,7 @@ def dashboard():
     if is_logged() != True: 
         return is_logged()
     session["console"] = ""
+    session['dir'] = "/home"
     return render_template('dashboard.html', config=config)
 
     
@@ -116,20 +117,32 @@ def cmd_exec():
     if command == "":
         command = False
     if type(command) != str:
-        return render_template('cmd.html', config=config, console=session["console"])
+        return render_template('cmd.html', config=config, console=session["console"], pwd=session["dir"])
+
+    try:
+        session["dir"]
+    except:
+        session['dir'] = "/home"
 
     if command == "clear":
         session["console"] = ""
         torun = ""
+    
+    elif command.startswith("cd"):
+        session["dir"] += "/" + command.split(" ")[1]
+        session["console"] += "\n> " + command + "\n" + session["dir"] + "\n"
+        return render_template('cmd.html', config=config, console=session["console"], pwd=session["dir"])
+
     else:
         torun = cmd(command)
+
 
 
     try:
         session["console"] += "> " + command + "\n" + torun + "\n"
     except:
         session["console"] = torun
-    return render_template('cmd.html', config=config, console=session["console"])
+    return render_template('cmd.html', config=config, console=session["console"], pwd = session["dir"])
 
 
 if __name__ == '__main__':

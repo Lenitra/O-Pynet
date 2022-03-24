@@ -1,6 +1,4 @@
-import os
-# write "lol" in tmp.sh
-# delete tmp.sh
-os.system("rm -rf tmp.sh")
-os.system("echo echo lol > tmp.sh")
-os.system("bash tmp.sh")
+
+# write "lol" in tmp.txt
+with open('tmp/tmp.sh', 'w') as file:
+    file.write("echo lol")
