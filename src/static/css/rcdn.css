@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+body {
+    margin-left: 1vw;
+}
+#ram, #cpu, #disk {
+    display: none;
+}
+
+.mod {
+    float: left;
+    width: 30vw;
+    background-color: rgb(240, 240, 240);
+    border-radius: 5px;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+}
+
+#divcpu{
+    margin-left: 4vw;
+    margin-right: 4vw;
+}
+
+.mod .percent {
+    float: left;
+    padding-bottom: 1vw;
+    padding-left: 2vw;
+}
+.mod .used {
+    float: right;
+    margin-right: 2vw;
+}
+
+.pbb {
+    background-color: bisque;
+    border-radius: 5px;
+    height: 2vh;
+    width: 26vw;
+    margin-left: 2vw;
+}
+
+.pb {
+    background-color: rgb(61, 61, 61);
+    border-radius: 5px;
+    height: 2vh;
+}

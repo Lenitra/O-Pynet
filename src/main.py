@@ -18,6 +18,7 @@ def get_current_ipv4():
     except requests.exceptions.ConnectionError as ex:
         return None
 
+
 # Permet de charger la configration de la machine (appelée dans le main)
 def loadconfig():
     # read the config file
@@ -32,6 +33,7 @@ def loadconfig():
 
     return config
 
+
 def is_logged():
     try:
         if session['is_logged'] == True:
@@ -39,6 +41,7 @@ def is_logged():
     except:
         pass
     return redirect('/login')
+
 
 def cmd(cmd):
     # in utf8
@@ -67,6 +70,7 @@ def reload():
     cmd("sudo reboot")
     return redirect('/dashboard')
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template('login.html', config=config)
@@ -86,13 +90,14 @@ def checklogin():
                 return redirect('/dashboard')
     return redirect('/login')
 
+
 @app.route('/rcdn')
 def rcdn():
     if is_logged() != True:
         return is_logged()
-    ram = f"RAM : {round(psutil.virtual_memory()[3]/1000000000, 2)} / {round(psutil.virtual_memory()[0]/1000000000, 2)} Go | {psutil.virtual_memory()[2]}%"
-    cpu = f"CPU : {psutil.getloadavg()[2]} / {os.cpu_count()}  | {(psutil.getloadavg()[2]/os.cpu_count()) * 100}%"
-    disk = f"DISK : {round(psutil.disk_usage('/')[2]/1000000000, 2)} / {round(psutil.disk_usage('/')[0]/1000000000, 2)} Go | {psutil.disk_usage('/')[3]}%"
+    ram = f"{round(psutil.virtual_memory()[3]/1000000000, 2)},{int(round(psutil.virtual_memory()[0]/1000000000, 0))}"
+    cpu = f"{psutil.getloadavg()[2]},{os.cpu_count()}"
+    disk = f"{round(psutil.disk_usage('/')[2]/1000000000, 2)},{int(round(psutil.disk_usage('/')[0]/1000000000, 0))}"
     return render_template('rcdn.html', config=config, ram=ram, cpu=cpu, disk=disk)
 
 
@@ -101,7 +106,7 @@ def dashboard():
     if is_logged() != True: 
         return is_logged()
     session["console"] = ""
-    session['dir'] = "/home"
+    session['dir'] = config['default_folder']
     return render_template('dashboard.html', config=config)
 
     
@@ -122,7 +127,7 @@ def cmd_exec():
     try:
         session["dir"]
     except:
-        session['dir'] = "/home"
+        session['dir'] = config['default_folder']
 
     if command == "clear":
         session["console"] = ""
