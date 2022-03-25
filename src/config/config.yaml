@@ -1,5 +1,6 @@
 default_folder: /home
-ip: 84.102.197.97
+ip: 46.193.4.150
 port: 8080
-ramcputime: 10
-title: title
+ramcputime: 5
+title: TauMah VPS
+url: 46.193.4.150:8080

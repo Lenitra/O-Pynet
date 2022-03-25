@@ -33,6 +33,10 @@ def loadconfig():
 
     return config
 
+def saveconfig(config):
+    with open('config/config.yaml', 'w') as file:
+        config = yaml.dump(config, file)
+
 
 def is_logged():
     try:
@@ -149,6 +153,24 @@ def cmd_exec():
         session["console"] = torun
     return render_template('cmd.html', config=config, console=session["console"], pwd = session["dir"])
 
+
+@app.route("/configupdate", methods=['POST', 'GET'])
+def configupdate():
+    if is_logged() != True:
+        return is_logged()
+    config["title"] = request.form['title']
+    config["default_folder"] = request.form['default_folder']
+    config["port"] = int(request.form['port'])
+    config["ramcputime"] = int(request.form['ramcputime'])
+    saveconfig(config)
+    cmd("sudo reboot")
+    return redirect('/dashboard')
+
+@app.route("/config")
+def param():
+    if is_logged() != True:
+        return is_logged()
+    return render_template('config.html', config=config)
 
 if __name__ == '__main__':
     config = loadconfig()

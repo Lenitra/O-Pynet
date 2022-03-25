@@ -1,0 +1,9 @@
+* {margin: 0; padding: 0;}
+
+#lateralmenu {
+    width: 10vw;
+    height: 100vh;
+    float: left;
+    background-color: bisque;
+    margin-right: 3vw;
+}
