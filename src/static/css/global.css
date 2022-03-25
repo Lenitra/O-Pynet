@@ -1,9 +1,28 @@
 * {margin: 0; padding: 0;}
 
+body {
+    background-color: #d4d4d4;
+}
+
 #lateralmenu {
-    width: 10vw;
+    width: 15vw;
     height: 100vh;
     float: left;
-    background-color: bisque;
+    background-color: rgb(39, 39, 39);
     margin-right: 3vw;
+}
+
+#lateralmenu li * {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+#lateralmenu li {
+    text-decoration: none;
+    text-align: center;
+    
+    width: 13vw;
+    margin-left: 1vw;
+    margin-top: 1vh;
+    border: solid 1px whitesmoke;
 }

@@ -5,6 +5,10 @@
 }
 
 #rcdn {
-    height: 25vh;
+    height: 10vh;
     width: 80vw;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    box-shadow: 0 15px 50px 0 rgba(125,125,125,0.70);
+    margin-bottom: 5vh;
 }
