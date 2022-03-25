@@ -138,7 +138,9 @@ def cmd_exec():
         torun = ""
     
     elif command.startswith("cd"):
-        if command.split(" ")[1] == "..":
+        if command.split(" ")[1] == "~":
+            session['dir'] = "/home"
+        elif command.split(" ")[1] == "..":
             dire = session["dir"].split("/")
             dire[-1] = ""
             session["dir"] = "" 
