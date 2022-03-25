@@ -1,12 +1,12 @@
 #cmd {
-    width: 50vw;
+    width: 79vw;
     height: 50vh;
     background-color: black;
 }
 
 #rcdn {
     height: 10vh;
-    width: 80vw;
+    width: 79vw;
     background-color: whitesmoke;
     border-radius: 10px;
     box-shadow: 0 15px 50px 0 rgba(125,125,125,0.70);

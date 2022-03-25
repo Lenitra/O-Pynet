@@ -7,10 +7,12 @@
     <title>Config</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='/static/css/dashboard.css'>
-
+    <link rel='stylesheet' type='text/css' media='screen' href='/static/css/global.css'>
+    <script src="/static/js/comuns.js"></script>
 </head>
 
 <body>
+    <script>menu('{{config["title"]}}');</script>
     <h1>Config</h1>
     <h4>{{config["title"]}}</h4>
     <form action="/configupdate" method="post">

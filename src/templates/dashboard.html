@@ -5,29 +5,20 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Dashboard</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' type='text/css' media='screen' href='/static/css/dashboard.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='/static/css/global.css'>
-
+    <script src="/static/js/comuns.js"></script>
 </head>
 <body>
-
-    <ul id="lateralmenu">
-        <li id="Title"><h4>{{config["title"]}}</h4></li>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/config">Configuration</a></li>
-        <li><a href="/users">Users</a></li>
-        <li><a href="/screens">Screens</a></li>
-    </ul>
-
+    <script>menu('{{config["title"]}}');</script>
     <h1>Dashboard</h1>
     <h4>{{config["title"]}}</h4>
     <br>
     <iframe id="rcdn" src="/rcdn" frameborder="0"></iframe>
+    <a href="/reload"><button><i class="fa fa-refresh"></i> Reload the server</button></a>
+    <br>
     <br>
     <iframe id="cmd" src="/cmd" frameborder="0"></iframe>
-
-    <a href="/reload"><button>Reload</button></a>
-
-
 </body>
 </html>
