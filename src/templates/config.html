@@ -18,7 +18,7 @@
     <form action="/configupdate" method="post">
         <p>Title for your panel</p>
         <input name="title" placeholder="Title" type="text" value="{{config['title']}}">
-        <p>The port for O-Pynet (your link will be "ip":"port")</p>
+        <p>The port for O-Pynet (your link will be http://{{config["ip"]}}:'port')</p>
         <input name="port" placeholder="port" type="number" max="9999" min="0" value="{{config['port']}}">
         <p>Default path for the dashboard console</p>
         <input name="default_folder" placeholder="Default path" type="text" value="{{config['default_folder']}}">
