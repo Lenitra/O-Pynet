@@ -1,3 +1,3 @@
 cd ~; 
-cd /home; 
-dsq;
+cd ; 
+dir;
