@@ -155,6 +155,7 @@ def cmd_exec():
 
     else:
         torun = cmd(command)
+        print(torun)
 
 
 
