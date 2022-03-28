@@ -1,4 +1,3 @@
 cd ~; 
 cd ; 
 dir;
-ljgy

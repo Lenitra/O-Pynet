@@ -138,21 +138,24 @@ def cmd_exec():
         torun = ""
     
     elif command.startswith("cd"):
-        if command.split(" ")[1] == "~":
-            session['dir'] = "/home"
-        elif command.split(" ")[1] == "..":
-            dire = session["dir"].split("/")
-            dire[-1] = ""
-            session["dir"] = "" 
-            for e in dire:
-                session["dir"] += e + "/"
-            session["dir"] = session["dir"][:-1]
-            session["dir"] = session["dir"][:-1]
-        else:
-            session["dir"] += "/" + command.split(" ")[1]
-            session["console"] += "\n> " + command + "\n" + session["dir"] + "\n"
-        return render_template('cmd.html', config=config, console=session["console"], pwd=session["dir"])
-
+        try :
+            command.split(" ")[1]
+            if command.split(" ")[1] == "~":
+                session['dir'] = "/home"
+            elif command.split(" ")[1] == "..":
+                dire = session["dir"].split("/")
+                dire[-1] = ""
+                session["dir"] = "" 
+                for e in dire:
+                    session["dir"] += e + "/"
+                session["dir"] = session["dir"][:-1]
+                session["dir"] = session["dir"][:-1]
+            else:
+                session["dir"] += "/" + command.split(" ")[1]
+                session["console"] += "\n> " + command + "\n" + session["dir"] + "\n"
+            return render_template('cmd.html', config=config, console=session["console"], pwd=session["dir"])
+        except:
+            session["dir"] = config["default_folder"]
     else:
         torun = cmd(command)
         print(torun)
