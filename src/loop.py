@@ -27,7 +27,7 @@ while True:
             data = yaml.safe_load(file)
         data["ram"][hour] = round(psutil.virtual_memory()[3]/1000000000, 2) / int(round(psutil.virtual_memory()[0]/1000000000, 0)) * 100
         data["cpu"][hour] = psutil.getloadavg()[2] / os.cpu_count() * 100
-        data["disk"][hour] = round(psutil.disk_usage('/')[2]/1000000000, 2) / int(round(psutil.disk_usage('/')[0]/1000000000, 0)) *100
+        data["disk"][hour] = 100- round(psutil.disk_usage('/')[2]/1000000000, 2) / int(round(psutil.disk_usage('/')[0]/1000000000, 0)) *100
         print(data)
         with open('tmp/usage.yaml', 'w') as file:
             data = yaml.dump(data, file)
