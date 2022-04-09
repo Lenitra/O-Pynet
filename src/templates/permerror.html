@@ -9,20 +9,14 @@
     <link rel='stylesheet' type='text/css' media='screen' href='/static/css/dashboard.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='/static/css/global.css'>
     <script src="/static/js/comuns.js"></script>
-    <script src="../static/js/graph.js"></script>
 </head>
 <body>
-    <script>menu('{{config["title"]}}');</script>
-    <h1>Dashboard</h1>
+    <h1>Error !</h1>
     <h4>{{config["title"]}}</h4>
     <br>
-    <iframe id="rcdn" src="/rcdn" frameborder="0"></iframe>
-    <iframe id="graph" src="/graph" frameborder="0"></iframe>
-    <a href="/reload"><button><i class="fa fa-refresh"></i> Restart the server</button></a>
+    <p>You don't have the permission to watch this.</p>
+    <p>Go back to the dashboard.</p>
     <br>
-    <br>
-    <iframe id="cmd" src="/cmd" frameborder="0"></iframe>
-
-    
+    <a href="/dashboard"><button><i class="fa fa-arrow-left"></i> Dashboard</button></a>
 </body>
 </html>

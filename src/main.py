@@ -2,6 +2,8 @@
 # -*- coding: Utf-8 -*-
 import platform
 import os
+import re
+from tabnanny import check
 from flask import Flask, render_template, request, redirect, session
 import yaml
 import requests
@@ -22,7 +24,6 @@ def get_current_ipv4():
 # Permet de charger la configration de la machine (appelée dans le main)
 def loadconfig():
     # read the config file
-
     with open('config/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
     config["ip"] = get_current_ipv4()
@@ -38,18 +39,25 @@ def saveconfig(config):
         config = yaml.dump(config, file)
 
 
-def is_logged():
-    try:
-        if session['is_logged'] == True:
-            return True
-    except:
-        pass
-    return redirect('/login')
-
+def checkperms(perm):
+    if perm == "log":
+        try:
+            session['is_logged']
+        except:
+            return redirect("/login")
+        if session['is_logged'] != True:
+            return redirect("/login")
+        return True
+    with open('config/accounts.yaml', 'r') as f:
+        data = yaml.safe_load(f)
+    for user in data:
+        if session["user"] == user["user"]:
+            if user["perms"][perm] == True:
+                return True
+    return redirect("/permerror")
+    
 
 def cmd(cmd):
-    # in utf8
-    # return os.popen(cmd).read().utf8
     os.system("rm -rf tmp/tmp.sh")
     try :
         session["dir"]
@@ -58,15 +66,21 @@ def cmd(cmd):
 
     with open('tmp/tmp.sh', 'w') as file:
         file.write(f"cd ~; \ncd {session['dir']}; \n{cmd};")
-
     return os.popen("bash tmp/tmp.sh").read()
-
 
 
 @app.route('/')
 def index():
     return render_template('index.html', title=config["title"])
 
+@app.route('/graph')
+def graph():
+    return render_template('graph.html')
+
+
+@app.route('/permerror')
+def permerror():
+    return render_template('permerror.html', config=config)
 
 @app.route('/reload')
 def reload():
@@ -77,6 +91,8 @@ def reload():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    del session["user"]  
+    del session["is_logged"]
     return render_template('login.html', config=config)
 
 
@@ -89,7 +105,7 @@ def checklogin():
         for account in accounts:
             print(account)
             if account['user'] == user and account['password'] == password:
-                session['username'] = user
+                session['user'] = user
                 session['is_logged'] = True
                 return redirect('/dashboard')
     return redirect('/login')
@@ -97,8 +113,8 @@ def checklogin():
 
 @app.route('/rcdn')
 def rcdn():
-    if is_logged() != True:
-        return is_logged()
+    if checkperms("log") != True:
+        return redirect('/login')
     ram = f"{round(psutil.virtual_memory()[3]/1000000000, 2)},{int(round(psutil.virtual_memory()[0]/1000000000, 0))}"
     cpu = f"{psutil.getloadavg()[2]},{os.cpu_count()}"
     disk = f"{round(psutil.disk_usage('/')[2]/1000000000, 2)},{int(round(psutil.disk_usage('/')[0]/1000000000, 0))}"
@@ -107,8 +123,8 @@ def rcdn():
 
 @app.route("/dashboard")
 def dashboard():
-    if is_logged() != True: 
-        return is_logged()
+    if checkperms("log") != True:
+        return redirect('/login')
     session["console"] = ""
     session['dir'] = config['default_folder']
     return render_template('dashboard.html', config=config)
@@ -116,8 +132,10 @@ def dashboard():
     
 @app.route("/cmd", methods=['POST', 'GET'])
 def cmd_exec():
-    if is_logged() != True:
-        return is_logged()
+    if checkperms("log") != True:
+        return checkperms("log")
+    if checkperms("cmd") != True:
+        return checkperms("cmd")
     # Si il y a pas de commande valide (à la première connexion ou à l'envois d'un formulaire vide)
     try :
         command = request.form['cmd']
@@ -171,8 +189,10 @@ def cmd_exec():
 
 @app.route("/configupdate", methods=['POST', 'GET'])
 def configupdate():
-    if is_logged() != True:
-        return is_logged()
+    if checkperms("log") != True:
+        return redirect('/login')
+    if checkperms("config") != True:
+        return redirect('/permerror')
     config["title"] = request.form['title']
     config["default_folder"] = request.form['default_folder']
     config["port"] = int(request.form['port'])
@@ -183,8 +203,8 @@ def configupdate():
 
 @app.route("/config")
 def param():
-    if is_logged() != True:
-        return is_logged()
+    if checkperms("log") != True:
+        return redirect('/login')
     return render_template('config.html', config=config)
 
 if __name__ == '__main__':

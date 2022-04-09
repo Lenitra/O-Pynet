@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Config</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/static/css/dashboard.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='/static/css/global.css'>
+    <script src="/static/js/comuns.js"></script>
+</head>
+
+<body>
+    <script>menu('{{config["title"]}}');</script>
+    <h1>Users</h1>
+    <h4>{{config["title"]}}</h4>
+    <!-- <form action="/configupdate" method="post">
+        <p>Title for your panel</p>
+        <input name="title" placeholder="Title" type="text" value="{{config['title']}}">
+        <p>The port for O-Pynet (your link will be http://{{config["ip"]}}:'port')</p>
+        <input name="port" placeholder="port" type="number" max="9999" min="0" value="{{config['port']}}">
+        <p>Default path for the dashboard console</p>
+        <input name="default_folder" placeholder="Default path" type="text" value="{{config['default_folder']}}">
+        <p>Time in seconds for CPU/RAM/Disk calculation refresh</p>
+        <input name="ramcputime" placeholder="Time" type="number" value="{{config['ramcputime']}}">
+        <br><br>
+        <p>It will reload the machine</p>
+        <input type="submit" value="Confirm">
+    
+    </form> -->
+
+
+</body>
+
+</html>

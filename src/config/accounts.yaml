@@ -1,6 +1,14 @@
 - password: admin
-  perms: admin
+  perms:
+    config: false
+    cmd: true
+    screen: true
+    users: true
   user: Taumah
 - password: admin
-  perms: admin
-  user: Taumah
+  perms:
+    config: false
+    cmd: true
+    screen: false
+    users: false
+  user: admin
