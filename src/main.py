@@ -75,7 +75,23 @@ def index():
 
 @app.route('/graph')
 def graph():
-    return render_template('graph.html')
+    # read the config file
+    with open('tmp/usage.yaml', 'r') as f:
+        data = yaml.safe_load(f)
+    cpu = ''
+    ram = ''
+    disk = ''
+    for k, v in data["cpu"].items():
+        cpu += str(k) + ":" + str(v) + ","
+
+    for k,v in data["ram"].items():
+        ram += str(k) + ":" + str(v) + ","
+
+    for k, v in data["disk"].items():
+        disk += str(k) + ":" + str(v) + ","
+
+    return render_template('graph.html', config = config, cpu=cpu, ram=ram, disk=disk)
+
 
 
 @app.route('/permerror')

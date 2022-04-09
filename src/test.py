@@ -1,10 +1,8 @@
 import yaml
-from main import checkperms
 
-user = [{'user': 'Taumah', 'password': 'admin', "perms":{"console": True, "config": True, "users": True, "screen": True}}, 
-        {'user': 'admin', 'password': 'admin', "perms":{"console": True, "config": False, "users": False, "screen": False}}]
+user = {"disk" : {0: 15, 1: 10, 2: 5, 3: 0}, "ram" : {0: 15, 1: 10, 2: 5, 3: 0}, "cpu" : {0: 15, 1: 10, 2: 5, 3: 0}}
 
-with open('config/accounts.yaml', 'w') as file:
+with open('tmp/data.yaml', 'w') as file:
     user = yaml.dump(user, file)
 
 

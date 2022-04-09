@@ -2,10 +2,61 @@
 <html>
 
 <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>{{config["title"]}}</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src="../static/js/graph.js"></script>
 
     <script>window.onload = function () {
+        let cpu = ('{{cpu}}');
+        let fcpu = [];
+        let tmp = {};
+        for (let i = 0; i < cpu.split(",").length; i++) {
+            if (cpu.split(",")[i].split(":").length != 1){
+                console.log(cpu.split(",")[i].split(":"));
+                tmp = {};
+                tmp["x"] = parseInt(cpu.split(",")[i].split(":")[0]);
+                tmp["y"] = parseInt(cpu.split(",")[i].split(":")[1]);
+                fcpu.push(tmp);
+            }
+        }
+
+        let ram = ('{{ram}}');
+        let fram = [];
+        tmp = {};
+        for (let i = 0; i < ram.split(",").length; i++) {
+            if (ram.split(",")[i].split(":").length != 1){
+                console.log(ram.split(",")[i].split(":"));
+                tmp = {};
+                tmp["x"] = parseInt(ram.split(",")[i].split(":")[0]);
+                tmp["y"] = parseInt(ram.split(",")[i].split(":")[1]);
+                fram.push(tmp);
+            }
+        }
+
+        let disk = ('{{disk}}');
+        let fdisk = [];
+        tmp = {};
+        for (let i = 0; i < disk.split(",").length; i++) {
+            if (disk.split(",")[i].split(":").length != 1){
+                console.log(disk.split(",")[i].split(":"));
+                tmp = {};
+                tmp["x"] = parseInt(disk.split(",")[i].split(":")[0]);
+                tmp["y"] = parseInt(disk.split(",")[i].split(":")[1]);
+                fdisk.push(tmp);
+            }
+        }
+
+        // let cpu = "{{cpu}}";
             var chart = new CanvasJS.Chart("chartContainer", {
+                 axisX: {
+                    interval: 1,
+                    
+                    title: "Hours",
+                },
+                
+                animationEnabled: true,
                 axisY: [{
                     title: "Usage in %",
                     lineColor: "black",
@@ -18,7 +69,11 @@
                 toolTip: {
                     shared: true
                 },
+                
                 legend: {
+                    
+                    horizontalAlign: "right",
+                    verticalAlign: "center",
                     cursor: "pointer",
                     itemclick: toggleDataSeries
                 },
@@ -28,32 +83,7 @@
                     color: "#369EAD",
                     showInLegend: true,
                     axisYIndex: 1,
-                    dataPoints: [
-                        { x: 0, y: 42.5 },
-                        { x: 1, y: 44.3 },
-                        { x: 2, y: 28.7 },
-                        { x: 3, y: 22.5 },
-                        { x: 4, y: 25.6 },
-                        { x: 5, y: 45.7 },
-                        { x: 6, y: 54.6 },
-                        { x: 7, y: 32.0 },
-                        { x: 8, y: 43.9 },
-                        { x: 9, y: 26.4 },
-                        { x: 10, y: 40.3 },
-                        { x: 11, y: 40.3 },
-                        { x: 12, y: 54.2 },
-                        { x: 13, y: 54.2 },
-                        { x: 14, y: 54.2 },
-                        { x: 15, y: 54.2 },
-                        { x: 16, y: 54.2 },
-                        { x: 17, y: 54.2 },
-                        { x: 18, y: 54.2 },
-                        { x: 19, y: 54.2 },
-                        { x: 20, y: 54.2 },
-                        { x: 21, y: 54.2 },
-                        { x: 22, y: 54.2 },
-                        { x: 23, y: 54.2 }
-                    ]
+                    dataPoints: fcpu
                 },
                 {
                     type: "line",
@@ -61,32 +91,7 @@
                     color: "#C24642",
                     axisYIndex: 1,
                     showInLegend: true,
-                    dataPoints: [
-                        { x: 0, y: 42.5 },
-                        { x: 1, y: 44.3 },
-                        { x: 2, y: 28.7 },
-                        { x: 3, y: 22.5 },
-                        { x: 4, y: 25.6 },
-                        { x: 5, y: 45.7 },
-                        { x: 6, y: 54.6 },
-                        { x: 7, y: 32.0 },
-                        { x: 8, y: 43.9 },
-                        { x: 9, y: 26.4 },
-                        { x: 10, y: 40.3 },
-                        { x: 11, y: 40.3 },
-                        { x: 12, y: 54.2 },
-                        { x: 13, y: 54.2 },
-                        { x: 14, y: 54.2 },
-                        { x: 15, y: 54.2 },
-                        { x: 16, y: 80.2 },
-                        { x: 17, y: 54.2 },
-                        { x: 18, y: 54.2 },
-                        { x: 19, y: 54.2 },
-                        { x: 20, y: 54.2 },
-                        { x: 21, y: 54.2 },
-                        { x: 22, y: 54.2 },
-                        { x: 23, y: 54.2 }
-                    ]
+                    dataPoints: fram
                 },
                 {
                     type: "line",
@@ -94,32 +99,7 @@
                     color: "#C24642",
                     axisYIndex: 1,
                     showInLegend: true,
-                    dataPoints: [
-                        { x: 0, y: 42.5 },
-                        { x: 1, y: 44.3 },
-                        { x: 2, y: 28.7 },
-                        { x: 3, y: 22.5 },
-                        { x: 4, y: 25.6 },
-                        { x: 5, y: 45.7 },
-                        { x: 6, y: 54.6 },
-                        { x: 7, y: 32.0 },
-                        { x: 8, y: 43.9 },
-                        { x: 9, y: 26.4 },
-                        { x: 10, y: 40.3 },
-                        { x: 11, y: 40.3 },
-                        { x: 12, y: 54.2 },
-                        { x: 13, y: 54.2 },
-                        { x: 14, y: 54.2 },
-                        { x: 15, y: 54.2 },
-                        { x: 16, y: 5.2 },
-                        { x: 17, y: 54.2 },
-                        { x: 18, y: 54.2 },
-                        { x: 19, y: 54.2 },
-                        { x: 20, y: 54.2 },
-                        { x: 21, y: 54.2 },
-                        { x: 22, y: 54.2 },
-                        { x: 23, y: 54.2 }
-                    ]
+                    dataPoints: fdisk
                 }]
             });
             chart.render();
