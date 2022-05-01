@@ -69,9 +69,19 @@ def cmd(cmd):
     return os.popen("bash tmp/tmp.sh").read()
 
 
+
+
 @app.route('/')
 def index():
     return render_template('index.html', title=config["title"])
+
+    
+@app.route('/reload')
+def reload():
+    # restart the server
+    cmd("sudo reboot")
+    return redirect('/dashboard')
+
 
 @app.route('/graph')
 def graph():
