@@ -76,7 +76,7 @@ def index():
 @app.route('/graph')
 def graph():
     # read the config file
-    with open('tmp/usage.yaml', 'r') as f:
+    with open('tmp/drcdata.yaml', 'r') as f:
         data = yaml.safe_load(f)
     cpu = ''
     ram = ''
