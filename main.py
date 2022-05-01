@@ -107,8 +107,11 @@ def reload():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    del session["user"]  
-    del session["is_logged"]
+    try:
+        del session["user"]  
+        del session["is_logged"]
+    except:
+        pass
     return render_template('login.html', config=config)
 
 
