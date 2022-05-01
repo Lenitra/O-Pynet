@@ -8,7 +8,7 @@ import yaml
 hour = -1
 day = -1
 
-while True:
+while True: 
     # time.sleep(60)
     print("hour : " + str(hour))
     print("day : " + str(day))

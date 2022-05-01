@@ -1,6 +1,6 @@
 default_folder: ''
 ip: 46.193.4.150
-port: 8080
+port: 5554
 ramcputime: 10
 title: PC Thomas
 url: 176.168.74.236:8080

@@ -16,7 +16,9 @@ app.debug = True
 
 def get_current_ipv4():
     try:
-        return requests.get("https://api4.ipify.org", timeout=10).text
+        ip = requests.get("https://api4.ipify.org", timeout=10).text
+        print(ip)
+        return ip
     except requests.exceptions.ConnectionError as ex:
         return None
 
