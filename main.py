@@ -2,8 +2,6 @@
 # -*- coding: Utf-8 -*-
 import platform
 import os
-import re
-from tabnanny import check
 from flask import Flask, render_template, request, redirect, session
 import yaml
 import requests

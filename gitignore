@@ -1,2 +1,2 @@
-tmp.sh
-config.yaml
+.vscode/*
+__pycache__/*
