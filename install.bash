@@ -8,7 +8,7 @@ sudo apt-get -y install python3-pip
 echo "Téléchargement de OPyNet"
 git clone https://github.com/Lenitra/O-Pynet.git
 cd O-Pynet;
-pip install -r requirements.txt
+sudo pip3 install -r requirements.txt
 
 
 echo "Installation de OPyNet"
