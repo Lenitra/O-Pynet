@@ -1,4 +1,4 @@
 
 cd ~
-cd O-Pynet/src
+cd O-Pynet
 sudo python3 main.py
