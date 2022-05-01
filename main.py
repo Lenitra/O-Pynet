@@ -98,11 +98,6 @@ def graph():
 def permerror():
     return render_template('permerror.html', config=config)
 
-@app.route('/reload')
-def reload():
-    # restart the server
-    cmd("sudo reboot")
-    return redirect('/dashboard')
 
 
 @app.route('/login', methods=['GET', 'POST'])
