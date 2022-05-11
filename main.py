@@ -69,6 +69,7 @@ def reload():
 @app.route('/update')
 def update():
     os.system("pwd")
+    os.system("git config --global --add safe.directory /home/ubuntu/O-Pynet")
     os.system("git pull")
     return redirect('/dashboard')
 
