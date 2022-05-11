@@ -153,62 +153,8 @@ def dashboard():
     session['dir'] = config['default_folder']
     return render_template('dashboard.html', config=config)
 
-    
-@app.route("/cmd", methods=['POST', 'GET'])
-def cmd_exec():
-    if checkperms("log") != True:
-        return checkperms("log")
-    if checkperms("cmd") != True:
-        return checkperms("cmd")
-    # Si il y a pas de commande valide (à la première connexion ou à l'envois d'un formulaire vide)
-    try :
-        command = request.form['cmd']
-    except:
-        command = False
-    if command == "":
-        command = False
-    if type(command) != str:
-        return render_template('cmd.html', config=config, console=session["console"], pwd=session["dir"])
-
-    try:
-        session["dir"]
-    except:
-        session['dir'] = config['default_folder']
-
-    if command == "clear":
-        session["console"] = ""
-        torun = ""
-    
-    elif command.startswith("cd"):
-        try :
-            command.split(" ")[1]
-            if command.split(" ")[1] == "~":
-                session['dir'] = "/home"
-            elif command.split(" ")[1] == "..":
-                dire = session["dir"].split("/")
-                dire[-1] = ""
-                session["dir"] = "" 
-                for e in dire:
-                    session["dir"] += e + "/"
-                session["dir"] = session["dir"][:-1]
-                session["dir"] = session["dir"][:-1]
-            else:
-                session["dir"] += "/" + command.split(" ")[1]
-                session["console"] += "\n> " + command + "\n" + session["dir"] + "\n"
-            return render_template('cmd.html', config=config, console=session["console"], pwd=session["dir"])
-        except:
-            session["dir"] = config["default_folder"]
-    else:
-        torun = cmd(command)
-        print(torun)
 
 
-
-    try:
-        session["console"] += "> " + command + "\n" + torun + "\n"
-    except:
-        session["console"] = torun
-    return render_template('cmd.html', config=config, console=session["console"], pwd = session["dir"])
 
 
 @app.route("/configupdate", methods=['POST', 'GET'])

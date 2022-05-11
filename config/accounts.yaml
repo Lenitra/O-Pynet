@@ -1,7 +1,2 @@
-- password: admin
-  perms:
-    config: true
-    cmd: true
-    screen: true
-    users: true
-  user: admin
+- password: Lemartinel05042001
+  user: TauMah
