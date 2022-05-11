@@ -48,25 +48,8 @@ def checkperms(perm):
         if session['is_logged'] != True:
             return redirect("/login")
         return True
-    with open('config/accounts.yaml', 'r') as f:
-        data = yaml.safe_load(f)
-    for user in data:
-        if session["user"] == user["user"]:
-            if user["perms"][perm] == True:
-                return True
-    return redirect("/permerror")
     
-
-def cmd(cmd):
-    os.system("rm -rf tmp/tmp.sh")
-    try :
-        session["dir"]
-    except:
-        session['dir'] = "/home"
-
-    with open('tmp/tmp.sh', 'w') as file:
-        file.write(f"cd ~; \ncd {session['dir']}; \n{cmd};")
-    return os.popen("bash tmp/tmp.sh").read()
+    
 
 
 
@@ -79,7 +62,12 @@ def index():
 @app.route('/reload')
 def reload():
     # restart the server
-    cmd("sudo reboot")
+    os.popen("sudo reboot")
+    return redirect('/dashboard')
+
+@app.route('/update')
+def reload():
+    os.popen("cd O-Pynet; bash update.sh")
     return redirect('/dashboard')
 
 
