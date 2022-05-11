@@ -2,6 +2,7 @@
 # -*- coding: Utf-8 -*-
 import platform
 import os
+import time
 from flask import Flask, render_template, request, redirect, session
 import yaml
 import requests
@@ -67,8 +68,11 @@ def reload():
 
 @app.route('/update')
 def update():
-    os.system("cd..;sudo rm -rf O-Pynet")
-    os.system("cd..;git clone https://github.com/Lenitra/O-Pynet.git")
+
+
+    os.system("cd ..;sudo rm -rf O-Pynet")
+    os.system("cd ..;git clone https://github.com/Lenitra/O-Pynet.git")
+    time.sleep(2)
     os.system("sudo reboot")
     return redirect('/dashboard')
 
