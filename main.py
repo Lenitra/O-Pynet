@@ -70,7 +70,6 @@ def reload():
 def update():
 
     os.system("git pull")
-    os.system("sudo reboot")
     return redirect('/dashboard')
 
 
