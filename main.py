@@ -69,8 +69,8 @@ def reload():
 @app.route('/update')
 def update():
 
-    os.system("cd ..;echo sudo rm-rf O-Pynet;git clone https://github.com/Lenitra/O-Pynet.git;sudo reboot > tmp.bash;sudo bash tmp.bash")
-
+    os.system("git pull")
+    os.system("sudo reboot")
     return redirect('/dashboard')
 
 
