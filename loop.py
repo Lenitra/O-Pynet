@@ -20,11 +20,11 @@ while True:
     min = time.localtime().tm_min
 
     try:
-        data["cpu"][f"{hour}:{min}"]
+        data["cpu"][f"{hour}.{min}"]
     except:
-        data["ram"][f"{hour}:{min}"] = psutil.virtual_memory()[2]
-        data["cpu"][f"{hour}:{min}"] = psutil.getloadavg()[2] / os.cpu_count() * 100
-        data["disk"][f"{hour}:{min}"] = psutil.disk_usage('/')[3]
+        data["ram"][f"{hour}.{min}"] = psutil.virtual_memory()[2]
+        data["cpu"][f"{hour}.{min}"] = psutil.getloadavg()[2] / os.cpu_count() * 100
+        data["disk"][f"{hour}.{min}"] = psutil.disk_usage('/')[3]
 
     if len(data["ram"]) > 60:
         data["ram"].popitem()
