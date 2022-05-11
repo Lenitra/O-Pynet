@@ -66,7 +66,7 @@ def reload():
     return redirect('/dashboard')
 
 @app.route('/update')
-def reload():
+def update():
     os.popen("cd O-Pynet; bash update.sh")
     return redirect('/dashboard')
 
