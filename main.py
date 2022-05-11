@@ -67,7 +67,7 @@ def reload():
 
 @app.route('/update')
 def update():
-    os.popen("cd O-Pynet; bash update.sh")
+    os.system("cd O-Pynet; bash update.sh")
     return redirect('/dashboard')
 
 
@@ -151,7 +151,7 @@ def configupdate():
     config["port"] = int(request.form['port'])
     config["ramcputime"] = int(request.form['ramcputime'])
     saveconfig(config)
-    cmd("sudo reboot")
+    os.system("sudo reboot")
     return redirect('/dashboard')
 
 @app.route("/config")
