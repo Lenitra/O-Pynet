@@ -68,7 +68,7 @@ def reload():
 
 @app.route('/update')
 def update():
-
+    os.system("pwd")
     os.system("git pull")
     return redirect('/dashboard')
 
