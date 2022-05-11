@@ -1,6 +1,8 @@
 import os
+import time
 
-os.system("cd ~")
-os.system("sudo rm -rf O-Pynet")
-os.system("git clone https://github.com/Lenitra/O-Pynet.git")
+os.system("cd ..;sudo rm -rf O-Pynet")
+os.system("cd ..;git clone https://github.com/Lenitra/O-Pynet.git")
+time.sleep(2)
+os.system("ls")
 # os.system("sudo reboot")
