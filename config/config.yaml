@@ -2,5 +2,5 @@ default_folder: home/ubuntu
 ip: 46.193.4.150
 port: 8080
 ramcputime: 10
-title: Title to config
+title: VPS Manager
 url: ''

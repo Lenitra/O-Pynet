@@ -2,141 +2,146 @@
 <html>
 
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>{{config["title"]}}</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script src="../static/js/graph.js"></script>
+    <script type="text/javascript">
+        window.onload = function () {
 
-    <script>window.onload = function () {
-        let cpu = ('{{cpu}}');
-        let fcpu = [];
-        let tmp = {};
-        for (let i = 0; i < cpu.split(",").length; i++) {
-            if (cpu.split(",")[i].split(":").length != 1){
-                console.log(cpu.split(",")[i].split(":"));
-                tmp = {};
-                tmp["x"] = parseInt(cpu.split(",")[i].split(":")[0]);
-                tmp["y"] = parseInt(cpu.split(",")[i].split(":")[1]);
-                fcpu.push(tmp);
-            }
-        }
+            
+            // { x: new Date(2012, 01, 1, 1, 1), y: 26 },
 
-        let ram = ('{{ram}}');
-        let fram = [];
-        tmp = {};
-        for (let i = 0; i < ram.split(",").length; i++) {
-            if (ram.split(",")[i].split(":").length != 1){
-                console.log(ram.split(",")[i].split(":"));
-                tmp = {};
-                tmp["x"] = parseInt(ram.split(",")[i].split(":")[0]);
-                tmp["y"] = parseInt(ram.split(",")[i].split(":")[1]);
-                fram.push(tmp);
-            }
-        }
+            let cpu = ('{{cpu}}');
+            let ram = ('{{ram}}');
+            let disk = ('{{disk}}');
 
-        let disk = ('{{disk}}');
-        let fdisk = [];
-        tmp = {};
-        for (let i = 0; i < disk.split(",").length; i++) {
-            if (disk.split(",")[i].split(":").length != 1){
-                console.log(disk.split(",")[i].split(":"));
-                tmp = {};
-                tmp["x"] = parseInt(disk.split(",")[i].split(":")[0]);
-                tmp["y"] = parseInt(disk.split(",")[i].split(":")[1]);
-                fdisk.push(tmp);
-            }
-        }
+            let arraycpu = [];
+            let arrayram = [];
+            let arraydisk = [];
 
-        // let cpu = "{{cpu}}";
-            var chart = new CanvasJS.Chart("chartContainer", {
-                 axisX: {
-                    interval: 1,
-                    
-                    title: "Hours",
-                },
-                
-                animationEnabled: true,
-                axisY: [{
-                    title: "Usage in %",
-                    lineColor: "black",
-                    tickColor: "black",
-                    labelFontColor: "black",
-                    titleFontColor: "black",
-                    includeZero: true,
-                    suffix: "%"
-                }],
-                toolTip: {
-                    shared: true,
-                    animationEnabled: true,
-                    borderColor: "black",
-                },
-                
-                legend: {
-                    
-                    horizontalAlign: "right",
-                    verticalAlign: "center",
-                    cursor: "pointer",
-                    itemclick: toggleDataSeries
-                },
-                data: [{
-                    type: "line",
-                    name: "CPU",
-                    color: "yellow",
-                    showInLegend: true,
-                    axisYIndex: 1,
-                    dataPoints: fcpu
-                },
-                {
-                    type: "line",
-                    name: "RAM",
-                    color: "red",
-                    axisYIndex: 1,
-                    showInLegend: true,
-                    dataPoints: fram
-                },
-                {
-                    type: "line",
-                    name: "Disk",
-                    color: "aqua",
-                    axisYIndex: 1,
-                    showInLegend: true,
-                    dataPoints: fdisk
-                }]
-            });
-            chart.render();
+            let h = 0;
+            let m = 0;
+            let day = new Date().getDay();
+            let month = new Date().getMonth();
+            let year = new Date().getFullYear();
+            let tmp = {};
 
-            function toggleDataSeries(e) {
-                if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-                    e.dataSeries.visible = false;
-                } else {
-                    e.dataSeries.visible = true;
+
+            for (let i = 0; i < cpu.split(",").length; i++) {
+                if (cpu.split(",")[i].split(":").length != 1) {
+                    tmp = {};
+                    h = parseInt(cpu.split(",")[i].split(":")[0].split(".")[0]);
+                    m = parseInt(cpu.split(",")[i].split(":")[0].split(".")[1]);
+                    tmp["x"] = new Date(year, month, day, h, m);
+                    tmp["y"] = parseFloat(cpu.split(",")[i].split(":")[1]);
+                    arraycpu.push(tmp);
                 }
-                e.chart.render();
             }
 
+            for (let i = 0; i < ram.split(",").length; i++) {
+                if (ram.split(",")[i].split(":").length != 1) {
+                    tmp = {};
+                    h = parseInt(ram.split(",")[i].split(":")[0].split(".")[0]);
+                    m = parseInt(ram.split(",")[i].split(":")[0].split(".")[1]);
+                    tmp["x"] = new Date(year, month, day, h, m);
+                    tmp["y"] = parseFloat(ram.split(",")[i].split(":")[1]);
+                    arrayram.push(tmp);
+                }
+            }
+
+            for (let i = 0; i < disk.split(",").length; i++) {
+                if (disk.split(",")[i].split(":").length != 1) {
+                    tmp = {};
+                    h = parseInt(disk.split(",")[i].split(":")[0].split(".")[0]);
+                    m = parseInt(disk.split(",")[i].split(":")[0].split(".")[1]);
+                    tmp["x"] = new Date(year, month, day, h, m);
+                    tmp["y"] = parseFloat(disk.split(",")[i].split(":")[1]);
+                    arraydisk.push(tmp);
+                }
+            }
+
+
+
+            
+            let min = new Date(2500, month, day, 0, 0);
+            let max = new Date(2000, month, day, 23, 59);
+            for (let i = 0; i < arraycpu.length; i++) {
+                if (arraycpu[i]["x"] < min) {
+                    min = arraycpu[i]["x"];
+                }
+                if (arraycpu[i]["x"] > max) {
+                    max = arraycpu[i]["x"];
+                }
+            }
+
+
+
+            var chart = new CanvasJS.Chart("chartContainer",
+                {
+                    title: {
+                        text: "Utilisation des ressources de la machine"
+                    },
+                    toolTip: {
+                        shared: true,
+                        // content: "{name}: {x} {y}"
+                    },
+
+                    axisX: {
+                        title: "Temps",
+                        labelAngle: -20,
+                        valueFormatString: "hh:mm",
+                        minimum: min,
+                        maximum: max
+                    },
+                    axisY: {
+                        title: "Usage en %",
+                    },
+                    data: [
+                        {              
+                            name: "CPU",              
+                            type: "area",
+                            xValueFormatString: "hh:mm",
+                            dataPoints: arraycpu,
+                            color: "rgba(0, 128, 255)",
+                        },
+                        {              
+                            name: "RAM",              
+                            type: "area",
+                            xValueFormatString: "hh:mm",
+                            dataPoints: arrayram,
+                            color: "rgba(40,175,101,0.6)",
+                        },
+                        {              
+                            name: "Disque",              
+                            type: "area",
+                            xValueFormatString: "hh:mm",
+                            dataPoints: arraydisk,
+                            color: "rgba(255, 0, 0, 0.4)",
+                        },
+                    ]
+                });
+
+            chart.render();
         }
-
-    
-</script>
-
-
+    </script>
+    <style>*{
+        color:rgba(4, 255, 0, 0.262)
+    }</style>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </head>
 
 <body>
-    <style>html{
-        overflow: hidden;
-    }</style>
+    <style>
+        html {
+            overflow: hidden;
+        }
+    </style>
     <div id="chartContainer" style="height: 94vh; width: 100%; background-color: whitesmoke;"></div>
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 
 
-<script type="text/javascript">
-    setTimeout(function () {
-        location.reload();
-    }, 600000);
-</script>
+    <script type="text/javascript">
+        setTimeout(function () {
+            location.reload();
+        }, 20000);
+    </script>
 
 </body>
 

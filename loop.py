@@ -5,34 +5,31 @@ import psutil
 import yaml
 
 
+
 hour = -1
-day = -1
+min = 9999
 
 while True: 
-    # time.sleep(60)
-    print("hour : " + str(hour))
-    print("day : " + str(day))
-    print("----")
+    
+    time.sleep(30)
+    min = time.localtime().tm_min
+    with open('tmp/drcdata.yaml', 'r') as file:
+        data = yaml.safe_load(file)
+    
+    hour = time.localtime().tm_hour
+    min = time.localtime().tm_min
 
-    if day != time.localtime().tm_mday:
-        day = time.localtime().tm_mday
-        tmp = {"disk": {}, "ram": {}, "cpu": {}}
-        with open('tmp/drcdata.yaml', 'w') as file:
-            tmp = yaml.dump(tmp, file)
+    try:
+        data["cpu"][f"{hour}:{min}"]
+    except:
+        data["ram"][f"{hour}:{min}"] = psutil.virtual_memory()[2]
+        data["cpu"][f"{hour}:{min}"] = psutil.getloadavg()[2] / os.cpu_count() * 100
+        data["disk"][f"{hour}:{min}"] = psutil.disk_usage('/')[3]
 
-    if hour != time.localtime().tm_hour:
-        hour = time.localtime().tm_hour
-        # Get the data from the server and put them on the yaml
-        with open('tmp/drcdata.yaml', 'r') as file:
-            data = yaml.safe_load(file)
-        data["ram"][hour] = round(psutil.virtual_memory()[3]/1000000000, 2) / int(round(psutil.virtual_memory()[0]/1000000000, 0)) * 100
-        data["cpu"][hour] = psutil.getloadavg()[2] / os.cpu_count() * 100
-        data["disk"][hour] = 100- round(psutil.disk_usage('/')[2]/1000000000, 2) / int(round(psutil.disk_usage('/')[0]/1000000000, 0)) *100
-        print(data)
-        with open('tmp/drcdata.yaml', 'w') as file:
-            data = yaml.dump(data, file)
+    if len(data["ram"]) > 60:
+        data["ram"].popitem()
+        data["cpu"].popitem()
+        data["disk"].popitem()
 
-
-    time.sleep(60)
-
-
+    with open('tmp/drcdata.yaml', 'w') as file:
+        data = yaml.dump(data, file)

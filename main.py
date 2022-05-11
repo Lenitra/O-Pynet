@@ -104,9 +104,6 @@ def graph():
 
 
 
-@app.route('/permerror')
-def permerror():
-    return render_template('permerror.html', config=config)
 
 
 
@@ -161,8 +158,6 @@ def dashboard():
 def configupdate():
     if checkperms("log") != True:
         return redirect('/login')
-    if checkperms("config") != True:
-        return redirect('/permerror')
     config["title"] = request.form['title']
     config["default_folder"] = request.form['default_folder']
     config["port"] = int(request.form['port'])

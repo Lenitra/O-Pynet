@@ -1,3 +1,3 @@
 cd ~; 
-cd ; 
-dir;
+cd home/ubuntu; 
+sudo reboot;
