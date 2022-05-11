@@ -1,8 +1,6 @@
-import yaml
+import os
 
-user = {"disk" : {0: 15, 1: 10, 2: 5, 3: 0}, "ram" : {0: 15, 1: 10, 2: 5, 3: 0}, "cpu" : {0: 15, 1: 10, 2: 5, 3: 0}}
-
-with open('tmp/drcdata.yaml', 'w') as file:
-    user = yaml.dump(user, file)
-
-
+os.system("cd ~")
+os.system("sudo rm -rf O-Pynet")
+os.system("git clone https://github.com/Lenitra/O-Pynet.git")
+# os.system("sudo reboot")
