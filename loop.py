@@ -18,6 +18,8 @@ while True:
     
     hour = time.localtime().tm_hour
     min = time.localtime().tm_min
+    if min < 10:
+        min = "0" + str(min)
 
     try:
         data["cpu"][f"{hour}.{min}"]
