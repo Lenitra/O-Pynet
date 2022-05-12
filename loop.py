@@ -3,14 +3,16 @@ import time
 import psutil
 
 import yaml
-
+import datetime
 
 
 hour = -1
 min = 9999
-
+day = 0
+empty = {"cpu": {}, "ram": {}, "disk": {}}
 while True: 
     
+
     time.sleep(30)
     min = time.localtime().tm_min
     with open('tmp/drcdata.yaml', 'r') as file:
@@ -20,6 +22,9 @@ while True:
     min = time.localtime().tm_min
     if min < 10:
         min = "0" + str(min)
+
+    if day != datetime.datetime.now().day:
+        data = empty
 
     try:
         data["cpu"][f"{hour}.{min}"]
