@@ -28,18 +28,18 @@ def get_current_ipv4():
 # Permet de charger la configration de la machine (appelée dans le main)
 def loadconfig():
     # read the config file
-    with open('config/config.yaml', 'r') as f:
+    with open('conf/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
     config["ip"] = get_current_ipv4()
-    with open('config/config.yaml', 'w') as file:
+    with open('conf/config.yaml', 'w') as file:
         config = yaml.dump(config, file)
-    with open('config/config.yaml', 'r') as f:
+    with open('conf/config.yaml', 'r') as f:
         config = yaml.safe_load(f)
 
     return config
 
 def saveconfig(config):
-    with open('config/config.yaml', 'w') as file:
+    with open('conf/config.yaml', 'w') as file:
         config = yaml.dump(config, file)
 
 
@@ -108,7 +108,7 @@ def login():
 def checklogin():
     user = request.form['username']	
     password = request.form['password']
-    with open('config/accounts.yaml', 'r') as file:
+    with open('conf/accounts.yaml', 'r') as file:
         accounts = yaml.safe_load(file)
         for account in accounts:
             print(account)
@@ -165,32 +165,50 @@ def param():
 
 @app.route('/insta')
 def insta():
-    return render_template("insta.html")
+    if checkperms("log") != True:
+        return redirect('/login')
+    try:
+
+        img = os.listdir('static/insta/uncheck/')[0]
+    except:
+        img = None
+    return render_template("insta.html", config=config, img=img)
 
 
-@app.route('/checkimgs')
-def checkimgs():
-    with open('insta/uncheck/page.html', 'r') as file:
-        html = file.read()
-    for e in html.split('"'):
-        if e.startswith("https://cdn.discordapp.com/attachments/"):
-            if e.endswith(".jpg") or e.endswith(".png"):
-                res = requests.get(e, stream=True)
-                with open(random.randint(0,1000000), 'wb') as f:
-                    shutil.copyfileobj("insta/uncheck/"+res.raw, f)
+@app.route('/getimgs')
+def getimgs():
+    if checkperms("log") != True:
+        return redirect('/login')
+    try:
+        with open('static/insta/uncheck/page.html', 'r', encoding="utf_8") as file:
+            html = file.read()
+        for e in html.split('"'):
+            if e.startswith("https://cdn.discordapp.com/attachments/"):
+                if e.endswith(".jpg") or e.endswith(".png") or e.endswith("jepg"):
+                    print(e)
+                    img = requests.get(e)
+                    with open("static/insta/uncheck/"+str(len(os.listdir('static/insta/uncheck/'))+1)+".jpg", 'wb') as f:
+                        f.write(img.content)
+    except:
+        pass
+
     return redirect("/insta")
-    
+
+@app.route('/saveimg', methods=['POST', 'GET'])
+def saveimg():
+    if checkperms("log") != True:
+        return redirect('/login')
+    try:
+        img = os.listdir('insta/uncheck/')[0]
+    except:
+        pass
+
+    return redirect("/insta/")
+
 
 @app.route('/post')
 def post():
-    try:
-        shutil.rmtree("config")
-    except:
-        pass
-    bot = Bot()
-    bot.login(username="0642760857", password="541!Leitmotiv")
-    bot.upload_photo(f"insta/checked/{os.listdir('Imgs')[0]}", caption="Heyyy subcribe to @waifus_hub_ to not miss anything and join us on discord (link in bio)\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\nHastags\n #anime #japan #meme #art #instapics #kawaii #animewaifu #waifugirls #sexy #sexypose #waifumaterial #cosplay #cosplaysexy #animefan #animegirlkawaii #animegirl #instamoment #fun #otaku #memesdaily #meme #daily #memeaccount #manga #mangakawaii #animekawai #hentai #spicyhentaimemes")
-    os.remove(f"insta/checked/{os.listdir('Imgs')[0]}")
+    os.system("sudo python3 post.py")
     return redirect("/insta")
 
 
@@ -199,6 +217,7 @@ def post():
 if __name__ == '__main__':
     config = loadconfig()
 
+    bot = Bot()
 
     config["url"] = IP_addres = str(config["ip"]) + ":" + str(config["port"])
 
