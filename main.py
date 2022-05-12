@@ -7,6 +7,7 @@ from flask import Flask, render_template, request, redirect, session
 import yaml
 import requests
 import psutil
+from insta import *
 
 app = Flask(__name__)
 app.secret_key = "ahcestcontulaspas"
@@ -50,21 +51,18 @@ def checkperms(perm):
             return redirect("/login")
         return True
     
-    
-
-
-
 
 @app.route('/')
 def index():
     return redirect("/dashboard")
 
-    
+
 @app.route('/reload')
 def reload():
     # restart the server
     os.popen("sudo reboot")
     return redirect('/dashboard')
+
 
 @app.route('/update')
 def update():
@@ -92,10 +90,6 @@ def graph():
         disk += str(k) + ":" + str(v) + ","
 
     return render_template('graph.html', config = config, cpu=cpu, ram=ram, disk=disk)
-
-
-
-
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -162,6 +156,8 @@ def param():
     if checkperms("log") != True:
         return redirect('/login')
     return render_template('config.html', config=config)
+
+
 
 if __name__ == '__main__':
     config = loadconfig()
