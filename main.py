@@ -2,6 +2,7 @@
 # -*- coding: Utf-8 -*-
 import platform
 import os
+import random
 import shutil
 import time
 from flask import Flask, render_template, request, redirect, session
@@ -169,6 +170,14 @@ def insta():
 
 @app.route('/checkimgs')
 def checkimgs():
+    with open('insta/uncheck/page.html', 'r') as file:
+        html = file.read()
+    for e in html.split('"'):
+        if e.startswith("https://cdn.discordapp.com/attachments/"):
+            if e.endswith(".jpg") or e.endswith(".png"):
+                res = requests.get(e, stream=True)
+                with open(random.randint(0,1000000), 'wb') as f:
+                    shutil.copyfileobj("insta/uncheck/"+res.raw, f)
     return redirect("/insta")
     
 
