@@ -57,7 +57,7 @@ def checkperms(perm):
 
 @app.route('/')
 def index():
-    return render_template('index.html', title=config["title"])
+    return redirect("/dashboard")
 
     
 @app.route('/reload')
