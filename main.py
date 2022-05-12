@@ -2,12 +2,13 @@
 # -*- coding: Utf-8 -*-
 import platform
 import os
+import shutil
 import time
 from flask import Flask, render_template, request, redirect, session
 import yaml
 import requests
 import psutil
-from insta import *
+from instabot import Bot
 
 app = Flask(__name__)
 app.secret_key = "ahcestcontulaspas"
@@ -158,6 +159,33 @@ def param():
     return render_template('config.html', config=config)
 
 
+
+# region Insta
+
+@app.route('/insta')
+def insta():
+    return render_template("insta.html")
+
+
+@app.route('/post')
+def post():
+    return redirect("/insta")
+    
+
+@app.route('/post')
+def post():
+    try:
+        shutil.rmtree("config")
+    except:
+        pass
+    bot = Bot()
+    bot.login(username="0642760857", password="541!Leitmotiv")
+    bot.upload_photo(f"insta/checked/{os.listdir('Imgs')[0]}", caption="Heyyy subcribe to @waifus_hub_ to not miss anything and join us on discord (link in bio)\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\nHastags\n #anime #japan #meme #art #instapics #kawaii #animewaifu #waifugirls #sexy #sexypose #waifumaterial #cosplay #cosplaysexy #animefan #animegirlkawaii #animegirl #instamoment #fun #otaku #memesdaily #meme #daily #memeaccount #manga #mangakawaii #animekawai #hentai #spicyhentaimemes")
+    os.remove(f"insta/checked/{os.listdir('Imgs')[0]}")
+    return redirect("/insta")
+
+
+# endregion
 
 if __name__ == '__main__':
     config = loadconfig()
