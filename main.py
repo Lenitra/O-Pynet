@@ -199,7 +199,8 @@ def saveimg():
     if checkperms("log") != True:
         return redirect('/login')
     img = os.listdir('static/insta/uncheck/')[0]
-    os.rename('static/insta/uncheck/'+img, 'static/insta/checked/'+img)
+    os.system('mv static/insta/uncheck/'+img, 'static/insta/checked/' +
+              len(os.listdir('static/insta/uncheck/'))+1+".jpg")
 
     return redirect("/insta")
 
