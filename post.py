@@ -17,7 +17,7 @@ def post():
     print("")
     print("Login en cours")
     print("")
-    bot.login(username="0642760857",
+    bot.login(username="waifus_hub_",
               password="541!Leitmotiv")
     print("")
     print("")
