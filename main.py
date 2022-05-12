@@ -167,8 +167,8 @@ def insta():
     return render_template("insta.html")
 
 
-@app.route('/post')
-def post():
+@app.route('/checkimgs')
+def checkimgs():
     return redirect("/insta")
     
 
