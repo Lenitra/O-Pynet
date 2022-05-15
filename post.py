@@ -24,7 +24,7 @@ def post():
     print("")
     print("Login OK")
     print("")
-    print("")
+    print("")   
 
     print("Upload de la photo en cours")
     print("")
@@ -32,7 +32,7 @@ def post():
     bot.upload_photo(f"static/insta/check/{os.listdir('static/insta/check/')[0]}",
                      caption="Heyyy subcribe to @waifus_hub_ to not miss anything and join us on discord (link in bio)\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\nHastags\n #anime #japan #meme #art #instapics #kawaii #animewaifu #waifugirls #sexy #sexypose #waifumaterial #cosplay #cosplaysexy #animefan #animegirlkawaii #animegirl #instamoment #fun #otaku #memesdaily #meme #daily #memeaccount #manga #mangakawaii #animekawai #hentai #spicyhentaimemes")
 
-    os.remove(f"static/insta/checked/{os.listdir('static/insta/checked/')[0]}")
+    os.remove(f"static/insta/check/{os.listdir('static/insta/check/')[0]}")
     print('Suppression')
 
     print('')
