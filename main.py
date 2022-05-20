@@ -194,6 +194,7 @@ def getimgs():
 
     return redirect("/insta")
 
+
 @app.route('/saveimg', methods=['POST', 'GET'])
 def saveimg():
     if checkperms("log") != True:
@@ -201,8 +202,8 @@ def saveimg():
     img = os.listdir('static/insta/uncheck/')[0]
     shutil.move("static/insta/uncheck/"+img, "static/insta/check/" +
                   str(len(os.listdir('static/insta/check/'))+1)+".jpg")
-
     return redirect("/insta")
+
 
 @app.route('/delimg', methods=['POST', 'GET'])
 def delimg():
