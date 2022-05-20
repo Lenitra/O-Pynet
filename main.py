@@ -212,10 +212,6 @@ def delimg():
     os.remove("static/insta/uncheck/"+img)
     return redirect("/insta")
 
-@app.route('/post')
-def post():
-    os.system("sudo python3 post.py")
-    return redirect("/insta")
 
 
 # endregion
