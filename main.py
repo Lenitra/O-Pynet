@@ -200,7 +200,7 @@ def savephotosended():
             for photo in listdirphotos:
                 if photo.startswith(num+"."):
                     num += 1
-            file.save(os.path.join(config["photosfolder"], num+"."+file.filename.split(".")[-1]))
+            file.save(os.path.join(config["photosfolder"], str(num)+"."+file.filename.split(".")[-1]))
 
     return redirect('/photo/maul')
 
