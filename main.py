@@ -172,7 +172,7 @@ def photo():
     html = ""
     for photo in photos:
         html += f'<a href="/photo/{photo}"><img src="/photo/{photo}"></a>'
-    return render_template('photos.html', config=config)
+    return render_template('photos.html', config=config, photos=html)
 
 
 @app.route("/addphoto", methods=['POST', 'GET'])
