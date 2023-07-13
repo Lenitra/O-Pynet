@@ -178,7 +178,7 @@ def photo():
     html = ""
     for photo in photos:
         if photo != "none":
-            html += f'<a href="/static/photos/{photo}"><img src="/static/photos/{photo}"></a>'
+            html += f'<a href="/static/photos/{photo}" target="_blank" class="flex-items"><img src="/static/photos/{photo}"></a>'
     return render_template('photos.html', config=config, photos=html)
 
 
