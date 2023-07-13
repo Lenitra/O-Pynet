@@ -186,19 +186,30 @@ def savephotosended():
     if checkperms("log") != True:
         return redirect('/login')
     # if request.method == 'POST':
-    if request.files:
-        images = request.files("fileToUpload")
+            #     <form action="/savephotosended" method="get">
+            #     <h3>Déposez vos images ici</h3>
+            #     <input type="file" name="fileToUpload" id="fileToUpload" multiple>
+            #     <br>
+            #     <br>
+            #     <input type="submit" value="Confirmer">
+        
+            # </form>
+    # i want to get the files
+    if 'fileToUpload' in request.files:
         print("------!UPLOAD!-------")
-        print(images)
-        for image in images:
-            print(image.filename)
-            # get a number for the image
+        files = request.files.getlist('fileToUpload')
+        print(files)
+        
+        # Parcours les fichiers téléchargés
+        for file in files:
+            # Sauvegarde le fichier sur le serveur
+            file.save('chemin/vers/le/dossier/de/sauvegarde/' + file.filename)
             num = 0
             listdirphotos = os.listdir(config["photosfolder"])
             for photo in listdirphotos:
                 if photo.startswith(num+"."):
                     num += 1
-            image.save(os.path.join(config["photosfolder"], num+"."+image.filename.split(".")[-1]))
+            file.save(os.path.join(config["photosfolder"], num+"."+file.filename.split(".")[-1]))
 
     return redirect('/photo/maul')
 
