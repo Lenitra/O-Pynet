@@ -206,7 +206,7 @@ if __name__ == '__main__':
     print("Your admin panel is ready here : http://" + config["ip"] + ":" + str(config["port"]))
     
     # debug
-    app.config['SERVER_NAME'] = None 
+    # app.config['SERVER_NAME'] = None 
     
     
     app.run()
