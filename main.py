@@ -54,6 +54,9 @@ def checkperms(perm):
     
 
 def loadphotos():
+    # delete all photos in static/photos
+    shutil.rmtree("static/photos")
+    os.mkdir("static/photos")
     photos = os.listdir(config["photosfolder"])
     # copy all photos to static/photos
     for photo in photos:
