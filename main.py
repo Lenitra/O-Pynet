@@ -185,16 +185,9 @@ def addphoto():
 def savephotosended():
     if checkperms("log") != True:
         return redirect('/login')
-    # if request.method == 'POST':
-            #     <form action="/savephotosended" method="get">
-            #     <h3>Déposez vos images ici</h3>
-            #     <input type="file" name="fileToUpload" id="fileToUpload" multiple>
-            #     <br>
-            #     <br>
-            #     <input type="submit" value="Confirmer">
-        
-            # </form>
-    # i want to get the files
+
+
+    print("------!TENTATIVE!-------")
     if 'fileToUpload' in request.files:
         print("------!UPLOAD!-------")
         files = request.files.getlist('fileToUpload')
@@ -202,8 +195,6 @@ def savephotosended():
         
         # Parcours les fichiers téléchargés
         for file in files:
-            # Sauvegarde le fichier sur le serveur
-            file.save('chemin/vers/le/dossier/de/sauvegarde/' + file.filename)
             num = 0
             listdirphotos = os.listdir(config["photosfolder"])
             for photo in listdirphotos:
