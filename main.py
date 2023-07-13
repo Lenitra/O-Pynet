@@ -168,14 +168,28 @@ def param():
 def photo():
     if checkperms("log") != True:
         return redirect('/login')
-    if request.method == 'POST':
-        if request.files:
-            image = request.files["image"]
-            image.save(os.path.join(config["default_folder"], image.filename))
+    photos = os.listdir(config["photosfolder"])
+    html = ""
+    for photo in photos:
+        html += f'<a href="/photo/{photo}"><img src="/photo/{photo}"></a>'
     return render_template('photos.html', config=config)
 
 
+@app.route("/addphoto", methods=['POST', 'GET'])
+def addphoto():
+    if checkperms("log") != True:
+        return redirect('/login')
+    return render_template('addphoto.html', config=config)
 
+@app.route("/savephotosended", methods=['POST', 'GET'])
+def savephotosended():
+    if checkperms("log") != True:
+        return redirect('/login')
+    if request.method == 'POST':
+        if request.files:
+            image = request.files["image"]
+            image.save(os.path.join(config["photosfolder"], image.filename))
+    return redirect('/photo/maul')
 
 if __name__ == '__main__':
     config = loadconfig()
