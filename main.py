@@ -187,7 +187,7 @@ def savephotosended():
         return redirect('/login')
     # if request.method == 'POST':
     if request.files:
-        images = request.files.getlist("fileToUpload")
+        images = request.files("fileToUpload")
         print("------!UPLOAD!-------")
         print(images)
         for image in images:
