@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -117,7 +110,7 @@
             text-decoration: none;
         }
         
-        button, input[type="submit"] {
+        button {
             background-color: #333;
             color: #fff;
             border: none;
@@ -126,24 +119,26 @@
             font-size: 16px;
             margin-right: 10px;
         }
-
-        input[type="text"],
-        input[type="number"] {
-        /* width: %; */
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        background-color: #f2f2f2;
-        color: #333;
-        transition: border-color 0.3s ease;
+        /* flexbox des photos */
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: flex-end;
+            align-content: flex-start;
         }
 
-        input[type="text"]:focus,
-        input[type="number"]:focus {
-        outline: none;
-        border-color: #777;
+        .flex-items {
+            display: block;
+            flex-grow: 0;
+            flex-shrink: 1;
+            flex-basis: auto;
+            align-self: auto;
+            order: 0;
+            width: 10vw;
         }
-        
+
         
         </style>
     <script>
@@ -172,23 +167,11 @@
     <!-- Contenu principal -->
     <div id="content" class="content">
         <button onclick="toggleSidebar()" class="menu-button">Menu</button>
-        <h1>Paramètres</h1>
-        <h4>{{config["title"]}}</h4>
-        <form action="/configupdate" method="post">
-            <p>Titre du site</p>
-            <input name="title" placeholder="Title" type="text" value="{{config['title']}}">
-            <!-- <p>The port for O-Pynet (your link will be http://{{config["ip"]}}:'port')</p> -->
-            <!-- <input name="port" placeholder="port" type="number" max="9999" min="0" value="{{config['port']}}"> -->
-            <!-- <p>Default path for the dashboard console</p> -->
-            <!-- <input name="default_folder" placeholder="Default path" type="text" value="{{config['default_folder']}}"> -->
-            <p>Temps en secondes pour le rafraichissement du calcul de CPU/RAM/Disque</p>
-            <input name="ramcputime" placeholder="Time" type="number" value="{{config['ramcputime']}}">
-            <p>Redémarrer la machine ? <input type="checkbox" name="reboot"></p>
-            
-            <input type="submit" value="Confirmer">
-    
-        </form>
+        <div class="flex-container">
+            <!-- <img src="https://th.bing.com/th/id/OIG.v4A9ikq9_Ges7xv3tJLo?pid=ImgGn" alt="" class="flex-items"> -->
+            <!-- <img src="https://th.bing.com/th/id/OIG.SAEhEbcbEdLH_NQLGEB6?pid=ImgGn" alt="" class="flex-items"> -->
         </div>
+    </div>
 </body>
 </html>
 

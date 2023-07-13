@@ -1,29 +1,161 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Dashboard</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel='stylesheet' type='text/css' media='screen' href='/static/css/dashboard.css'>
-    <link rel='stylesheet' type='text/css' media='screen' href='/static/css/global.css'>
-    <script src="/static/js/comuns.js"></script>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>Panneau d'administration</title>
+        <style>
+            /* Styles généraux */
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+            }
+            
+            /* Styles du menu latéral */
+            .sidebar {
+                width: 250px;
+                height: 100vh;
+                background-color: #333;
+                color: #fff;
+                position: fixed;
+                left: 0;
+                top: 0;
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar .logo {
+                padding: 20px;
+            text-align: center;
+            background-color: #222;
+        }
+        
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar ul li {
+            padding: 10px;
+            border-bottom: 1px solid #777;
+        }
+        
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        /* Styles du contenu principal */
+        .content {
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        /* Styles pour le menu rétractable */
+        .sidebar-collapsed {
+            transform: translateX(-250px);
+        }
+        
+        .content-expanded {
+            margin-left: 250px;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+            }
+            
+            .sidebar-collapsed {
+                transform: translateX(0);
+            }
+            
+            .content-expanded {
+                margin-left: 0;
+            }
+        }
+        
+        /* Styles pour le bouton de menu */
+        .menu-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            align-items: center;
+        }
+        
+        /* Styles pour le contenu de la page */
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        h4 {
+            font-size: 18px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+        
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        
+        
+        </style>
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("sidebar-collapsed");
+            
+            var content = document.getElementById("content");
+            content.classList.toggle("content-expanded");
+        }
+    </script>
 </head>
 <body>
-    <script>menu('{{config["title"]}}');</script>
-    <h1>Dashboard</h1>
-    <h4>{{config["title"]}}</h4>
-    <br>
-    <iframe id="rcdn" src="/rcdn" frameborder="0"></iframe>
-    <iframe id="graph" src="/graph" frameborder="0"></iframe>
-    <h3>Commandes rapides</h3>
-    <br>
-    <a href="/reload"><button><i class="fa fa-refresh"></i> Restart the server</button></a>
-    <a href="/update"><button><i class="fa fa-angle-double-up"></i> Update O-Pynet</button></a>
-    <br>
-    <br>
-    <br>
-    <footer>Tout droits réservés Thomas Lemartinel</footer>
+    <!-- Menu latéral -->
+    <div id="sidebar" class="sidebar sidebar-collapsed">
+        <div class="logo">
+            <h2>{{config['title']}}</h2>
+        </div>
+        <ul>
+            <li><a href="/dashboard">Accueil</a></li>
+            <li><a href="/config">Paramètres</a></li>
+            <li><a href="/photo/maul">Photos</a></li>
+        </ul>
+    </div>
+    
+    <!-- Contenu principal -->
+    <div id="content" class="content">
+        <button onclick="toggleSidebar()" class="menu-button">Menu</button>
+        <h1>{{config['title']}}</h1>
+        <h4>IP : <input type="text" name="ip" value="{{config['ip']}}"></h2>
+            <br>
+            <h2>Utilisation des ressources</h2>
+            <iframe id="rcdn" src="/rcdn" frameborder="0" width="100%"></iframe>
+            <h2>Commandes rapides</h2>
+            <a href="/reload"><button><i class="fa fa-refresh"></i> Redémarrer le serveur</button></a>
+        </div>
 </body>
 </html>
+

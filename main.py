@@ -123,7 +123,10 @@ def rcdn():
     if checkperms("log") != True:
         return redirect('/login')
     ram = f"{round(psutil.virtual_memory()[3]/1000000000, 2)},{int(round(psutil.virtual_memory()[0]/1000000000, 0))}"
-    cpu = f"{psutil.getloadavg()[2]},{os.cpu_count()}"
+    tmpcup = psutil.getloadavg()[2]
+    # enlever tout ce qui 2 chiffres après la virgule
+    tmpcup = round(tmpcup, 2)
+    cpu = f"{tmpcup},{os.cpu_count()}"
     disk = f"{round(psutil.disk_usage('/')[2]/1000000000, 2)},{int(round(psutil.disk_usage('/')[0]/1000000000, 0))}"
     return render_template('rcdn.html', config=config, ram=ram, cpu=cpu, disk=disk)
 
@@ -145,11 +148,12 @@ def configupdate():
     if checkperms("log") != True:
         return redirect('/login')
     config["title"] = request.form['title']
-    config["default_folder"] = request.form['default_folder']
-    config["port"] = int(request.form['port'])
+    # config["default_folder"] = request.form['default_folder']
+    # config["port"] = int(request.form['port'])
     config["ramcputime"] = int(request.form['ramcputime'])
     saveconfig(config)
-    os.system("sudo reboot")
+    if request.form['reboot'] != None:
+        os.system("sudo reoboot")
     return redirect('/dashboard')
 
 @app.route("/config")
@@ -160,61 +164,18 @@ def param():
 
 
 
-# region Insta
-
-@app.route('/insta')
-def insta():
+@app.route("/photo/maul", methods=['POST', 'GET'])
+def photo():
     if checkperms("log") != True:
         return redirect('/login')
-    try:
-
-        img = os.listdir('static/insta/uncheck/')[0]
-    except:
-        img = None
-    return render_template("insta.html", config=config, img=img)
-
-
-@app.route('/getimgs')
-def getimgs():
-    if checkperms("log") != True:
-        return redirect('/login')
-    try:
-        with open('static/insta/uncheck/page.html', 'r', encoding="utf_8") as file:
-            html = file.read()
-        for e in html.split('"'):
-            if e.startswith("https://cdn.discordapp.com/attachments/"):
-                if e.endswith(".jpg") or e.endswith(".png") or e.endswith("jepg"):
-                    print(e)
-                    img = requests.get(e)
-                    with open("static/insta/uncheck/"+str(len(os.listdir('static/insta/uncheck/'))+1)+".jpg", 'wb') as f:
-                        f.write(img.content)
-    except:
-        pass
-
-    return redirect("/insta")
-
-
-@app.route('/saveimg', methods=['POST', 'GET'])
-def saveimg():
-    if checkperms("log") != True:
-        return redirect('/login')
-    img = os.listdir('static/insta/uncheck/')[0]
-    shutil.move("static/insta/uncheck/"+img, "static/insta/check/" +
-                  str(len(os.listdir('static/insta/check/'))+1)+".jpg")
-    return redirect("/insta")
-
-
-@app.route('/delimg', methods=['POST', 'GET'])
-def delimg():
-    if checkperms("log") != True:
-        return redirect('/login')
-    img = os.listdir('static/insta/uncheck/')[0]
-    os.remove("static/insta/uncheck/"+img)
-    return redirect("/insta")
+    if request.method == 'POST':
+        if request.files:
+            image = request.files["image"]
+            image.save(os.path.join(config["default_folder"], image.filename))
+    return render_template('photos.html', config=config)
 
 
 
-# endregion
 
 if __name__ == '__main__':
     config = loadconfig()
@@ -229,4 +190,9 @@ if __name__ == '__main__':
     app.config['SESSION_COOKIE_SECURE'] = False
     app.config['SESSION_COOKIE_NAME'] = "BonsCookies"
     print("Your admin panel is ready here : http://" + config["ip"] + ":" + str(config["port"]))
+    
+    # debug
+    app.config['SERVER_NAME'] = None 
+    
+    
     app.run()
