@@ -177,7 +177,8 @@ def photo():
     photos = os.listdir("static/photos")
     html = ""
     for photo in photos:
-        html += f'<a href="/static/photos/{photo}"><img src="/static/photos/{photo}"></a>'
+        if photo != "none":
+            html += f'<a href="/static/photos/{photo}"><img src="/static/photos/{photo}"></a>'
     return render_template('photos.html', config=config, photos=html)
 
 
