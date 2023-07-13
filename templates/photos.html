@@ -113,7 +113,7 @@
             text-decoration: none;
         }
         
-        button, a {
+        button, a.button {
             background-color: #333;
             color: #fff;
             border: none;
@@ -140,6 +140,10 @@
             align-self: auto;
             order: 0;
             width: 10vw;
+        }
+        .flex-items img {
+            width: 100%;
+            height: auto;
         }
 
         
@@ -171,7 +175,7 @@
     <div id="content" class="content">
         <button onclick="toggleSidebar()" class="menu-button">Menu</button>
         <br>
-        <a href="/addphoto">+ Ajouter des photos</a>
+        <a href="/addphoto" class="button">+ Ajouter des photos</a>
         <br>
         <div class="flex-container">
             {{photos | safe}}
