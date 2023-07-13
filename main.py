@@ -198,7 +198,7 @@ def savephotosended():
             num = 0
             listdirphotos = os.listdir(config["photosfolder"])
             for photo in listdirphotos:
-                if photo.startswith(num+"."):
+                if photo.startswith(str(num)+"."):
                     num += 1
             file.save(os.path.join(config["photosfolder"], str(num)+"."+file.filename.split(".")[-1]))
 
