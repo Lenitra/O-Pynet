@@ -187,8 +187,15 @@ def savephotosended():
         return redirect('/login')
     if request.method == 'POST':
         if request.files:
-            image = request.files["image"]
-            image.save(os.path.join(config["photosfolder"], image.filename))
+            images = request.files.getlist("fileToUpload")
+            for image in images:
+                # get a number for the image
+                num = 0
+                listdirphotos = os.listdir(config["photosfolder"])
+                for photo in listdirphotos:
+                    if photo.startswith(num+"."):
+                        num += 1
+                image.save(os.path.join(config["photosfolder"], num+"."+image.filename.split(".")[-1]))
     return redirect('/photo/maul')
 
 if __name__ == '__main__':
