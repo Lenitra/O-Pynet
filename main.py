@@ -58,7 +58,7 @@ def loadphotos():
     shutil.rmtree("static/photos")
     os.mkdir("static/photos")
     photos = os.listdir(config["photosfolder"])
-    # copy all photos to static/photos
+    # copy all photos from photosfolder to static/photos
     for photo in photos:
         shutil.copyfile(f"{config['photosfolder']}/{photo}", f"static/photos/{photo}")
 
@@ -81,25 +81,6 @@ def update():
     os.system("git pull")
     return redirect('/dashboard')
 
-
-@app.route('/graph')
-def graph():
-    # read the config file
-    with open('tmp/drcdata.yaml', 'r') as f:
-        data = yaml.safe_load(f)
-    cpu = ''
-    ram = ''
-    disk = ''
-    for k, v in data["cpu"].items():
-        cpu += str(k) + ":" + str(v) + ","
-
-    for k,v in data["ram"].items():
-        ram += str(k) + ":" + str(v) + ","
-
-    for k, v in data["disk"].items():
-        disk += str(k) + ":" + str(v) + ","
-
-    return render_template('graph.html', config = config, cpu=cpu, ram=ram, disk=disk)
 
 
 @app.route('/login', methods=['GET', 'POST'])
