@@ -9,7 +9,6 @@ from flask import Flask, render_template, request, redirect, session
 import yaml
 import requests
 import psutil
-from instabot import Bot
 
 app = Flask(__name__)
 app.secret_key = "ahcestcontulaspas"
@@ -220,7 +219,6 @@ def delimg():
 if __name__ == '__main__':
     config = loadconfig()
 
-    bot = Bot()
 
     config["url"] = IP_addres = str(config["ip"]) + ":" + str(config["port"])
 
