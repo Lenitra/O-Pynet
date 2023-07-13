@@ -185,20 +185,20 @@ def addphoto():
 def savephotosended():
     if checkperms("log") != True:
         return redirect('/login')
-    if request.method == 'POST':
-        if request.files:
-            images = request.files.getlist("fileToUpload")
-            print("------!UPLOAD!-------")
-            print(images)
-            for image in images:
-                print(image.filename)
-                # get a number for the image
-                num = 0
-                listdirphotos = os.listdir(config["photosfolder"])
-                for photo in listdirphotos:
-                    if photo.startswith(num+"."):
-                        num += 1
-                image.save(os.path.join(config["photosfolder"], num+"."+image.filename.split(".")[-1]))
+    # if request.method == 'POST':
+    if request.files:
+        images = request.files.getlist("fileToUpload")
+        print("------!UPLOAD!-------")
+        print(images)
+        for image in images:
+            print(image.filename)
+            # get a number for the image
+            num = 0
+            listdirphotos = os.listdir(config["photosfolder"])
+            for photo in listdirphotos:
+                if photo.startswith(num+"."):
+                    num += 1
+            image.save(os.path.join(config["photosfolder"], num+"."+image.filename.split(".")[-1]))
 
     return redirect('/photo/maul')
 
