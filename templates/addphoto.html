@@ -179,7 +179,7 @@
         <button onclick="toggleSidebar()" class="menu-button">Menu</button>
         <h1>Ajouter des photo</h1>
 
-        <form action="/savephotosended" method="post">
+        <form action="/savephotosended" method="post" enctype="multipart/form-data">
             <h3>Déposez vos images ici</h3>
             <input type="file" name="fileToUpload" id="fileToUpload" multiple>
             <br>
