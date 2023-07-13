@@ -205,6 +205,7 @@ def savephotosended():
         
         # Parcours les fichiers téléchargés
         for file in files:
+            print(file)
             num = 0
             listdirphotos = os.listdir(config["photosfolder"])
             for photo in listdirphotos:
