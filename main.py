@@ -53,6 +53,12 @@ def checkperms(perm):
         return True
     
 
+def loadphotos():
+    photos = os.listdir(config["photosfolder"])
+    # copy all photos to static/photos
+    for photo in photos:
+        shutil.copyfile(f"{config['photosfolder']}/{photo}", f"static/photos/{photo}")
+
 @app.route('/')
 def index():
     return redirect("/dashboard")
@@ -168,10 +174,10 @@ def param():
 def photo():
     if checkperms("log") != True:
         return redirect('/login')
-    photos = os.listdir(config["photosfolder"])
+    photos = os.listdir("static/photos")
     html = ""
     for photo in photos:
-        html += f'<a href="/photo/{photo}"><img src="/photo/{photo}"></a>'
+        html += f'<a href="/static/photos/{photo}"><img src="/static/photos/{photo}"></a>'
     return render_template('photos.html', config=config, photos=html)
 
 
@@ -201,11 +207,13 @@ def savephotosended():
                 if photo.startswith(str(num)+"."):
                     num += 1
             file.save(os.path.join(config["photosfolder"], str(num)+"."+file.filename.split(".")[-1]))
+            file.save("/static/photos" + str(num)+"."+file.filename.split(".")[-1])
 
     return redirect('/photo/maul')
 
 if __name__ == '__main__':
     config = loadconfig()
+    loadphotos()
 
 
     config["url"] = IP_addres = str(config["ip"]) + ":" + str(config["port"])
