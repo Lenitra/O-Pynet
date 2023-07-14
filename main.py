@@ -290,14 +290,13 @@ def savephotosended():
     if checkperms("log") != True:
         return redirect('/login')
 
-
     print("------!TENTATIVE!-------")
     if 'fileToUpload' in request.files:
         print("------!UPLOAD!-------")
         files = request.files.getlist('fileToUpload')
         print(files)
-        
-        # Parcours les fichiers téléchargés
+
+        # Parcours des fichiers téléchargés
         for file in files:
             print(file)
             num = 0
@@ -314,13 +313,32 @@ def savephotosended():
             # Commencer à incrémenter à partir du plus grand numéro existant + 1
             num = max_num + 1
 
-            file.save(os.path.join(config["photosfolder"], str(num)+"."+file.filename.split(".")[-1]))
+            # Chemin de destination pour l'enregistrement de l'image
+            chemin_fichier_destination = os.path.join(config["photosfolder"], str(num) + "." + file.filename.split(".")[-1])
+
+            # Enregistrer une copie de l'image en préservant les métadonnées
+            file.save(chemin_fichier_destination)
+            copier_image_avec_metadata(chemin_fichier_destination, file)
+
             print("------!SAVED!-------")
-            print("save as :" + str(num)+"."+file.filename.split(".")[-1])
-            print("in :" + config["photosfolder"])
+            print("save as: " + str(num) + "." + file.filename.split(".")[-1])
+            print("in: " + config["photosfolder"])
             loadphotos()
 
     return redirect('/photo/maul')
+
+def copier_image_avec_metadata(chemin_destination, file):
+    # Ouvrir l'image en utilisant Pillow
+    image = Image.open(file)
+
+    # Extraire les métadonnées de l'image
+    metadata = image.info
+
+    # Enregistrer une copie de l'image en préservant les métadonnées
+    image.save(chemin_destination, **metadata)
+
+    # Fermer l'image
+    image.close()
 
 if __name__ == '__main__':
     config = loadconfig()
