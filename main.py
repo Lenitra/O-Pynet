@@ -287,6 +287,8 @@ def addphoto():
         return redirect('/login')
     return render_template('addphoto.html', config=config)
 
+from PIL import Image
+
 @app.route("/savephotosended", methods=['POST', 'GET'])
 def savephotosended():
     if checkperms("log") != True:
@@ -318,20 +320,22 @@ def savephotosended():
             # Chemin de destination pour l'enregistrement de l'image
             chemin_fichier_destination = os.path.join(config["photosfolder"], str(num) + "." + file.filename.split(".")[-1])
 
-            # Enregistrer une copie de l'image en préservant les métadonnées
-            file.save(chemin_fichier_destination)
-            copier_image_avec_metadata(chemin_fichier_destination, file)
+            # Ouvrir l'image en utilisant Pillow
+            image = Image.open(file)
 
-            # afficher la date de la photo
-            date = os.path.getmtime(chemin_fichier_destination)
-            date = datetime.fromtimestamp(date).strftime('%Y/%m/%d %H:%M:%S')
-            print("------!DATE!-------")
-            print(date)
+            # Enregistrer l'image en préservant les métadonnées
+            image.save(chemin_fichier_destination)
+
+            # Fermer l'image
+            image.close()
 
             print("------!SAVED!-------")
             print("save as: " + str(num) + "." + file.filename.split(".")[-1])
             print("in: " + config["photosfolder"])
             loadphotos()
+
+    return redirect('/photo/maul')
+
 
     return redirect('/photo/maul')
 
