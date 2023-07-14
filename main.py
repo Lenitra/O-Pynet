@@ -5,12 +5,11 @@ import os
 import random
 import shutil
 import time
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, send_file
 import yaml
 import requests
 import psutil
 from datetime import datetime
-from PIL import Image, ExifTags
 
 app = Flask(__name__)
 app.secret_key = "ahcestcontulaspas"
@@ -55,7 +54,7 @@ def checkperms(perm):
         return True
     
 
-def loadphotos():
+def loadphotosForHtml():
     # trier_et_renommer_photos()
     # delete all photos in static/photos
     shutil.rmtree("static/photos")
@@ -63,109 +62,9 @@ def loadphotos():
     photos = os.listdir(config["photosfolder"])
     # copy all photos from photosfolder to static/photos
     for photo in photos:
-        copier_image_avec_metadata(f"static/photos/{photo}", f"{config['photosfolder']}/{photo}")
-        # shutil.copyfile(f"{config['photosfolder']}/{photo}", f"static/photos/{photo}")
-
-def obtenir_date_capture(chemin_photo):
-    try:
-        # Ouvrir l'image en utilisant Pillow
-        image = Image.open(chemin_photo)
-
-        # Extraire les métadonnées de l'image
-        metadata = image._getexif()
-
-        if metadata is not None:
-            for key, value in metadata.items():
-                tag = TAGS.get(key)
-                if tag == 'DateTimeOriginal':
-                    return datetime.strptime(value, '%Y:%m:%d %H:%M:%S')
-        return None
-    except (IOError, KeyError, IndexError):
-        return None
-    finally:
-        # Fermer l'image
-        if image:
-            image.close()
+        shutil.copy2(f"{config['photosfolder']}/{photo}", f"static/photos/{photo}")
 
 
-def trier_et_renommer_photos():
-    dossier_photos = config["photosfolder"]
-    chemin_destination = dossier_photos
-    chemin_source = dossier_photos+"/tmp"
-    # # Liste les fichiers du dossier
-    fichiers = os.listdir(dossier_photos)
-    try:
-        os.mkdir(f"{dossier_photos}/tmp")
-        os.system(f"chmod 777 {dossier_photos}/tmp")
-    except:
-        os.system(f"rm -rf {dossier_photos}/tmp")
-        # time.sleep(0.5)
-        os.mkdir(f"{dossier_photos}/tmp")
-        os.system(f"chmod 777 {dossier_photos}/tmp")
-        
-
-    # move all photos to tmp folder and convert them to jpg
-    for fichier in fichiers:
-        if fichier.endswith('.jpg'):
-            copier_image_avec_metadata(f"{dossier_photos}/tmp/{fichier}", f"{dossier_photos}/{fichier}")
-        elif fichier.endswith('.png') or fichier.endswith('.jpeg'):
-            copier_image_avec_metadata(f"{dossier_photos}/tmp/{fichier.split('.')[0]}.jpg", f"{dossier_photos}/{fichier}")
-
-
-    fichiers = os.listdir(chemin_source)
-
-
-    # Filtrer les fichiers avec et sans date de capture
-    fichiers_avec_date = []
-    fichiers_sans_date = []
-    for fichier in fichiers:
-        chemin_fichier = os.path.join(chemin_source, fichier)
-        date_capture = obtenir_date_capture(chemin_fichier)
-        if date_capture is not None:
-            fichiers_avec_date.append((fichier, date_capture))
-        else:
-            fichiers_sans_date.append(fichier)
-
-    # Trier les fichiers avec date de capture par ordre croissant
-    fichiers_avec_date_tries = sorted(fichiers_avec_date, key=lambda x: x[1])
-
-    # Détermination du format du nom de fichier (nombre de chiffres nécessaires)
-    nombre_photos = len(fichiers_avec_date_tries) + len(fichiers_sans_date)
-    nombre_chiffres = len(str(nombre_photos - 1))
-
-    # Parcours des fichiers avec date de capture triés
-    for i, (fichier, _) in enumerate(fichiers_avec_date_tries):
-        chemin_fichier_source = os.path.join(chemin_source, fichier)
-
-        # Construction du nouveau nom de fichier
-        nouveau_nom = '{:0{}}.jpg'.format(i, nombre_chiffres)
-
-        # Chemin de destination pour le fichier renommé
-        chemin_fichier_destination = os.path.join(chemin_destination, nouveau_nom)
-
-        # Déplacement du fichier renommé vers le répertoire de destination
-        copier_image_avec_metadata(f"{chemin_fichier_destination}", f"{chemin_fichier_source}")
-
-        print("Fichier {} déplacé vers {}".format(fichier, nouveau_nom))
-
-    # Parcours des fichiers sans date de capture
-    for i, fichier in enumerate(fichiers_sans_date):
-        chemin_fichier_source = os.path.join(chemin_source, fichier)
-
-        # Construction du nouveau nom de fichier pour les fichiers sans date
-        nouveau_nom = '{:0{}}.jpg'.format(i + len(fichiers_avec_date_tries), nombre_chiffres)
-
-        # Chemin de destination pour le fichier renommé
-        chemin_fichier_destination = os.path.join(chemin_destination, nouveau_nom)
-
-        # Déplacement du fichier renommé vers le répertoire de destination
-        copier_image_avec_metadata(f"{chemin_fichier_destination}", f"{chemin_fichier_source}")
-
-
-        print("Fichier {} déplacé vers {}".format(fichier, nouveau_nom))
-
-    # delete all photos from tmp folder
-    shutil.rmtree(f"{dossier_photos}/tmp")
 
 
 @app.route('/')
@@ -280,6 +179,11 @@ def photo():
     return render_template('photos.html', config=config, photos=html)
 
 
+@app.route("/dlallphotos")
+def dlallphotos():
+    # télécharger toutes les photos
+    shutil.make_archive("photos", 'zip', "static/photos")
+    return send_file("photos.zip", as_attachment=True)
 
 @app.route("/addphoto", methods=['POST', 'GET'])
 def addphoto():
@@ -287,7 +191,6 @@ def addphoto():
         return redirect('/login')
     return render_template('addphoto.html', config=config)
 
-from PIL import Image
 
 @app.route("/savephotosended", methods=['POST', 'GET'])
 def savephotosended():
@@ -302,7 +205,6 @@ def savephotosended():
 
         # Parcours des fichiers téléchargés
         for file in files:
-            print(file)
             num = 0
             max_num = 0
             listdirphotos = os.listdir(config["photosfolder"])
@@ -317,76 +219,27 @@ def savephotosended():
             # Commencer à incrémenter à partir du plus grand numéro existant + 1
             num = max_num + 1
 
-            # Chemin de destination pour l'enregistrement de l'image
-            chemin_fichier_destination = os.path.join(config["photosfolder"], str(num) + "." + file.filename.split(".")[-1])
-
-            # Ouvrir l'image en utilisant Pillow
-            image = Image.open(file)
-
-            # Enregistrer l'image en préservant les métadonnées
-            image.save(chemin_fichier_destination)
-
-            # Fermer l'image
-            image.close()
-
-            # Afficher la date des métadonnées
-            date_capture = obtenir_date_capture(chemin_fichier_destination)
-            if date_capture is not None:
-                date_formattee = date_capture.strftime('%Y/%m/%d %H:%M:%S')
-                print("Date de capture de l'image:", date_formattee)
+            # sauvegarder la photo
+            file.save(config["photosfolder"] + str(num) + ".jpg")
 
             print("------!SAVED!-------")
-            print("save as: " + str(num) + "." + file.filename.split(".")[-1])
+            print("save as: " + str(num) + ".jpg")
             print("in: " + config["photosfolder"])
-            loadphotos()
 
+        loadphotosForHtml()
     return redirect('/photo/maul')
 
 
 
-def obtenir_date_capture(chemin_photo):
-    try:
-        # Ouvrir l'image en utilisant Pillow
-        image = Image.open(chemin_photo)
-
-        # Extraire les métadonnées de l'image
-        metadata = image._getexif()
-
-        if metadata is not None:
-            tags_a_verifier = ['DateTimeOriginal', 'DateTimeDigitized', 'DateTime', 'DateTimeModified', 'Pris le', 'Date de modification', 'Date de création', 'pris le', 'date de modification', 'date de création']
-            for tag in tags_a_verifier:
-                if tag in metadata:
-                    value = metadata[tag]
-                    if isinstance(value, str):
-                        return datetime.strptime(value, '%Y:%m:%d %H:%M:%S')
-
-        return None
-    except (IOError, KeyError, IndexError):
-        return None
-    finally:
-        # Fermer l'image
-        if image:
-            image.close()
 
 
 
 
-def copier_image_avec_metadata(chemin_destination, file):
-    # Ouvrir l'image en utilisant Pillow
-    image = Image.open(file)
 
-    # Extraire les métadonnées de l'image
-    metadata = image.info
-
-    # Enregistrer une copie de l'image en préservant les métadonnées
-    image.save(chemin_destination, **metadata)
-
-    # Fermer l'image
-    image.close()
 
 if __name__ == '__main__':
     config = loadconfig()
-    loadphotos()
+    loadphotosForHtml()
 
 
     config["url"] = IP_addres = str(config["ip"]) + ":" + str(config["port"])

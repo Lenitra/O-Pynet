@@ -124,6 +124,7 @@
         }
         /* flexbox des photos */
         .flex-container {
+            margin-top: 25px;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
@@ -176,6 +177,7 @@
         <button onclick="toggleSidebar()" class="menu-button">Menu</button>
         <br>
         <a href="/addphoto" class="button">+ Ajouter des photos</a>
+        <a href="/dlallphotos" class="button">Tout télécharger</a>
         <br>
         <div class="flex-container">
             {{photos | safe}}
