@@ -10,6 +10,8 @@ import yaml
 import requests
 import psutil
 from datetime import datetime
+from PIL import Image
+from PIL.ExifTags import TAGS
 
 app = Flask(__name__)
 app.secret_key = "ahcestcontulaspas"
@@ -64,6 +66,27 @@ def loadphotos():
     for photo in photos:
         shutil.copyfile(f"{config['photosfolder']}/{photo}", f"static/photos/{photo}")
 
+def obtenir_date_capture(chemin_photo):
+    try:
+        # Ouvrir l'image en utilisant Pillow
+        image = Image.open(chemin_photo)
+
+        # Extraire les métadonnées de l'image
+        metadata = image._getexif()
+
+        if metadata is not None:
+            for key, value in metadata.items():
+                tag = TAGS.get(key)
+                if tag == 'DateTimeOriginal':
+                    return datetime.strptime(value, '%Y:%m:%d %H:%M:%S')
+        return None
+    except (IOError, KeyError, IndexError):
+        return None
+    finally:
+        # Fermer l'image
+        if image:
+            image.close()
+
 
 def trier_et_renommer_photos():
     dossier_photos = config["photosfolder"]
@@ -91,7 +114,7 @@ def trier_et_renommer_photos():
     fichiers = os.listdir(chemin_source)
 
     # Tri des fichiers par date de création
-    fichiers_tries = sorted(fichiers, key=lambda x: os.path.getctime(os.path.join(chemin_source, x)))
+    fichiers_tries = sorted(fichiers, key=lambda x: obtenir_date_capture(os.path.join(chemin_source, x)))
 
     # Détermination du format du nom de fichier (nombre de chiffres nécessaires)
     nombre_photos = len(fichiers_tries)
@@ -101,9 +124,11 @@ def trier_et_renommer_photos():
     for i, fichier in enumerate(fichiers_tries):
         chemin_fichier_source = os.path.join(chemin_source, fichier)
 
-        # Récupération de la date de création du fichier
-        date_creation = datetime.fromtimestamp(os.path.getctime(chemin_fichier_source))
-        date_formattee = date_creation.strftime('%Y%m%d%H%M%S')
+        # Récupération de la date de capture du fichier
+        date_capture = obtenir_date_capture(chemin_fichier_source)
+        if date_capture is None:
+            print(f"Aucune date de capture disponible pour le fichier : {fichier}")
+            continue
 
         # Construction du nouveau nom de fichier
         nouveau_nom = '{:0{}}.jpg'.format(i, nombre_chiffres)
