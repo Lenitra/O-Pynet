@@ -181,6 +181,13 @@ def photo():
             html += "</div>"
     return render_template('photos.html', config=config, photos=html)
 
+@app.route("/deletephoto/<photo>")
+def deletephoto(photo):
+    if checkperms("log") != True:
+        return redirect('/login')
+    os.remove(f"static/photos/{photo}")
+    os.remove(f"{config['photosfolder']}/{photo}")
+    return redirect("/photo/maul")
 
 @app.route("/dlallphotos")
 def dlallphotos():
