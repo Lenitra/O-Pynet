@@ -66,9 +66,19 @@ def loadphotos():
 
 def trier_et_renommer_photos():
     dossier_photos = config["photosfolder"]
-    # Liste les fichiers du dossier
+    # # Liste les fichiers du dossier
     fichiers = os.listdir(dossier_photos)
+    # create a folder tmp
+    os.mkdir(f"{dossier_photos}/tmp")
+    # move all photos to tmp folder and convert them to jpg
+    for fichier in fichiers:
+        if fichier.endswith('.jpg'):
+            shutil.move(f"{dossier_photos}/{fichier}", f"{dossier_photos}/tmp/{fichier}")
+        elif fichier.endswith('.png') or fichier.endswith('.jpeg'):
+            os.system(f"convert {dossier_photos}/{fichier} {dossier_photos}/tmp/{fichier}.jpg")
+        os.remove(f"{dossier_photos}/{fichier}")
 
+    fichiers = os.listdir(f"{dossier_photos}/tmp")
     # Filtrer uniquement les fichiers avec l'extension .jpg
     fichiers_jpg = [fichier for fichier in fichiers if fichier.endswith('.jpg')]
 
@@ -76,9 +86,8 @@ def trier_et_renommer_photos():
     fichiers_tries = sorted(fichiers_jpg, key=lambda x: os.path.getctime(os.path.join(dossier_photos, x)))
 
     # Format de nommage pour les photos
-    format_nom = "{:05d}.jpg"
+    format_nom = "{:09d}.jpg"
     nouveau_nom = 0
-
     # Parcourir les fichiers triés et les renommer dans l'ordre croissant
     for fichier in fichiers_tries:
         # Récupère la date de création du fichier
