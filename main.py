@@ -74,6 +74,7 @@ def trier_et_renommer_photos():
         os.system(f"chmod 777 {dossier_photos}/tmp")
     except:
         os.system(f"rm - rf {dossier_photos}/tmp")
+        time.sleep(0.5)
         os.mkdir(f"{dossier_photos}/tmp")
         os.system(f"chmod 777 {dossier_photos}/tmp")
         
