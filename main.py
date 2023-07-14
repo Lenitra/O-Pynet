@@ -193,7 +193,8 @@ def savephotosended():
                 if photo.startswith(str(num)+"."):
                     num += 1
             file.save(os.path.join(config["photosfolder"], str(num)+"."+file.filename.split(".")[-1]))
-            file.save("static/photos/" + str(num)+"."+file.filename.split(".")[-1])
+            # file.save("static/photos/" + str(num)+"."+file.filename.split(".")[-1])
+            loadphotos()
 
     return redirect('/photo/maul')
 
