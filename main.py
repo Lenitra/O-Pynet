@@ -83,6 +83,7 @@ def trier_et_renommer_photos():
         if fichier.endswith('.jpg'):
             shutil.move(f"{dossier_photos}/{fichier}", f"{dossier_photos}/tmp/{fichier}")
         elif fichier.endswith('.png') or fichier.endswith('.jpeg'):
+            os.system(f"echo >> {dossier_photos}/tmp/{fichier.split('.')[0]}.jpg")
             shutil.move(f"{dossier_photos}/{fichier}", f"{dossier_photos}/tmp/{fichier.split('.')[0]}.jpg")
 
     time.sleep(0.5)
