@@ -175,12 +175,7 @@ def photo():
             date = os.path.getmtime(f"static/photos/{photo}")
             # formaater la date yyyy/mm/dd hh:mm:ss
             date = datetime.fromtimestamp(date).strftime('%Y/%m/%d %H:%M:%S')
-            html += f'''
-                <div class="flex-items">
-                <a href="/static/photos/{photo}" target="_blank" class=""><img src="/static/photos/{photo}" width="100%"></a>
-                <a href="/deletephoto/{photo}" class=""><i class="fas fa-trash-alt"></i></a>
-                </div>
-            '''
+            html += f'<a href="/static/photos/{photo}" target="_blank" class="flex-items"><img src="/static/photos/{photo}" width="100%"></a>'
     return render_template('photos.html', config=config, photos=html)
 
 
