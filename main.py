@@ -219,8 +219,9 @@ def savephotosended():
             # Commencer à incrémenter à partir du plus grand numéro existant + 1
             num = max_num + 1
 
-            # sauvegarder la photo
-            file.save(config["photosfolder"] + str(num) + ".jpg")
+            # Sauvegarder la photo
+            chemin_fichier_destination = os.path.join(config["photosfolder"], str(num) + ".jpg")
+            file.save(chemin_fichier_destination)
 
             print("------!SAVED!-------")
             print("save as: " + str(num) + ".jpg")
