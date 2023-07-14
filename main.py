@@ -329,6 +329,14 @@ def savephotosended():
             # Fermer l'image
             image.close()
 
+            # afficher la date
+            date = os.path.getmtime(chemin_fichier_destination)
+            date = datetime.fromtimestamp(date).strftime('%Y/%m/%d %H:%M:%S')
+            print("------!DATE!-------")
+            print(date)
+
+
+
             print("------!SAVED!-------")
             print("save as: " + str(num) + "." + file.filename.split(".")[-1])
             print("in: " + config["photosfolder"])
