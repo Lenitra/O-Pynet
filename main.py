@@ -188,10 +188,19 @@ def savephotosended():
         for file in files:
             print(file)
             num = 0
+            max_num = 0
             listdirphotos = os.listdir(config["photosfolder"])
             for photo in listdirphotos:
-                if photo.split(".")[0] == str(num):
-                    num += 1
+                filename = os.path.splitext(photo)[0]
+                try:
+                    num = int(filename)
+                    max_num = max(max_num, num)
+                except ValueError:
+                    pass
+
+            # Commencer à incrémenter à partir du plus grand numéro existant + 1
+            num = max_num + 1
+
             file.save(os.path.join(config["photosfolder"], str(num)+"."+file.filename.split(".")[-1]))
             print("------!SAVED!-------")
             print("save as :" + str(num)+"."+file.filename.split(".")[-1])
