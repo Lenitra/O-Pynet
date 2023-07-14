@@ -322,6 +322,12 @@ def savephotosended():
             file.save(chemin_fichier_destination)
             copier_image_avec_metadata(chemin_fichier_destination, file)
 
+            # afficher la date de la photo
+            date = os.path.getmtime(chemin_fichier_destination)
+            date = datetime.fromtimestamp(date).strftime('%Y/%m/%d %H:%M:%S')
+            print("------!DATE!-------")
+            print(date)
+
             print("------!SAVED!-------")
             print("save as: " + str(num) + "." + file.filename.split(".")[-1])
             print("in: " + config["photosfolder"])
