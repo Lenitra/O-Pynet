@@ -107,9 +107,10 @@ def trier_et_renommer_photos():
     # move all photos to tmp folder and convert them to jpg
     for fichier in fichiers:
         if fichier.endswith('.jpg'):
-            shutil.move(f"{dossier_photos}/{fichier}", f"{dossier_photos}/tmp/{fichier}")
+            copier_image_avec_metadata(f"{dossier_photos}/tmp/{fichier}", f"{dossier_photos}/{fichier}")
         elif fichier.endswith('.png') or fichier.endswith('.jpeg'):
-            shutil.move(f"{dossier_photos}/{fichier}", f"{dossier_photos}/tmp/{fichier.split('.')[0]}.jpg")
+            copier_image_avec_metadata(f"{dossier_photos}/tmp/{fichier.split('.')[0]}.jpg", f"{dossier_photos}/{fichier}")
+
 
     fichiers = os.listdir(chemin_source)
 
@@ -143,7 +144,7 @@ def trier_et_renommer_photos():
         chemin_fichier_destination = os.path.join(chemin_destination, nouveau_nom)
 
         # Déplacement du fichier renommé vers le répertoire de destination
-        shutil.move(chemin_fichier_source, chemin_fichier_destination)
+        copier_image_avec_metadata(f"{chemin_fichier_destination}", f"{chemin_fichier_source}")
 
         print("Fichier {} déplacé vers {}".format(fichier, nouveau_nom))
 
@@ -158,7 +159,8 @@ def trier_et_renommer_photos():
         chemin_fichier_destination = os.path.join(chemin_destination, nouveau_nom)
 
         # Déplacement du fichier renommé vers le répertoire de destination
-        shutil.move(chemin_fichier_source, chemin_fichier_destination)
+        copier_image_avec_metadata(f"{chemin_fichier_destination}", f"{chemin_fichier_source}")
+
 
         print("Fichier {} déplacé vers {}".format(fichier, nouveau_nom))
 
