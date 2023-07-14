@@ -343,6 +343,7 @@ def savephotosended():
     return redirect('/photo/maul')
 
 
+
 def obtenir_date_capture(chemin_photo):
     try:
         # Ouvrir l'image en utilisant Pillow
@@ -352,10 +353,13 @@ def obtenir_date_capture(chemin_photo):
         metadata = image._getexif()
 
         if metadata is not None:
-            for tag, value in metadata.items():
-                tag_name = ExifTags.TAGS.get(tag)
-                if tag_name == 'DateTimeOriginal':
-                    return datetime.strptime(value, '%Y:%m:%d %H:%M:%S')
+            tags_a_verifier = ['DateTimeOriginal', 'DateTimeDigitized', 'DateTime', 'DateTimeModified', 'Pris le', 'Date de modification', 'Date de création', 'pris le', 'date de modification', 'date de création']
+            for tag in tags_a_verifier:
+                if tag in metadata:
+                    value = metadata[tag]
+                    if isinstance(value, str):
+                        return datetime.strptime(value, '%Y:%m:%d %H:%M:%S')
+
         return None
     except (IOError, KeyError, IndexError):
         return None
@@ -363,6 +367,7 @@ def obtenir_date_capture(chemin_photo):
         # Fermer l'image
         if image:
             image.close()
+
 
 
 
