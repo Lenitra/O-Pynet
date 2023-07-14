@@ -80,8 +80,8 @@ def trier_et_renommer_photos():
         elif fichier.endswith('.png') or fichier.endswith('.jpeg'):
             os.system(f"convert {dossier_photos}/{fichier} {dossier_photos}/tmp/{fichier}.jpg")
             os.remove(f"{dossier_photos}/{fichier}")
-
-    fichiers = os.listdir(f"photos/tmp")
+    time.sleep(0.5)
+    fichiers = os.listdir(f"{dossier_photos}/tmp")
     # Filtrer uniquement les fichiers avec l'extension .jpg
     fichiers_jpg = [fichier for fichier in fichiers if fichier.endswith('.jpg')]
 
