@@ -57,14 +57,15 @@ def checkperms(perm):
     
 
 def loadphotos():
-    trier_et_renommer_photos()
+    # trier_et_renommer_photos()
     # delete all photos in static/photos
     shutil.rmtree("static/photos")
     os.mkdir("static/photos")
     photos = os.listdir(config["photosfolder"])
     # copy all photos from photosfolder to static/photos
     for photo in photos:
-        shutil.copyfile(f"{config['photosfolder']}/{photo}", f"static/photos/{photo}")
+        copier_image_avec_metadata(f"static/photos/{photo}", f"{config['photosfolder']}/{photo}")
+        # shutil.copyfile(f"{config['photosfolder']}/{photo}", f"static/photos/{photo}")
 
 def obtenir_date_capture(chemin_photo):
     try:
