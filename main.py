@@ -68,8 +68,6 @@ def trier_et_renommer_photos():
     dossier_photos = config["photosfolder"]
     # # Liste les fichiers du dossier
     fichiers = os.listdir(dossier_photos)
-    # create a folder tmp
-    os.mkdir(f"{dossier_photos}/tmp")
     # move all photos to tmp folder and convert them to jpg
     for fichier in fichiers:
         if fichier.endswith('.jpg'):
@@ -104,6 +102,8 @@ def trier_et_renommer_photos():
 
         # Incrémente le nouveau_nom pour le prochain fichier
         nouveau_nom += 1
+    # delete all photos from tmp folder
+    shutil.rmtree(f"{dossier_photos}/tmp")
 
 
 @app.route('/')
