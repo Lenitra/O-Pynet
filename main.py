@@ -55,6 +55,7 @@ def checkperms(perm):
     
 
 def loadphotos():
+    trier_et_renommer_photos()
     # delete all photos in static/photos
     shutil.rmtree("static/photos")
     os.mkdir("static/photos")
@@ -260,7 +261,6 @@ def savephotosended():
 
 if __name__ == '__main__':
     config = loadconfig()
-    trier_et_renommer_photos()
     loadphotos()
 
 
