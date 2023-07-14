@@ -67,6 +67,8 @@ def loadphotos():
 
 def trier_et_renommer_photos():
     dossier_photos = config["photosfolder"]
+    chemin_destination = dossier_photos
+    chemin_source = dossier_photos+"/tmp"
     # # Liste les fichiers du dossier
     fichiers = os.listdir(dossier_photos)
     try:
@@ -84,36 +86,36 @@ def trier_et_renommer_photos():
         if fichier.endswith('.jpg'):
             shutil.move(f"{dossier_photos}/{fichier}", f"{dossier_photos}/tmp/{fichier}")
         elif fichier.endswith('.png') or fichier.endswith('.jpeg'):
-            os.system(f"echo >> {dossier_photos}/tmp/{fichier.split('.')[0]}.jpg")
             shutil.move(f"{dossier_photos}/{fichier}", f"{dossier_photos}/tmp/{fichier.split('.')[0]}.jpg")
 
-    time.sleep(0.5)
-    fichiers = os.listdir(f"{dossier_photos}/tmp")
-    # Filtrer uniquement les fichiers avec l'extension .jpg
-    fichiers_jpg = [fichier for fichier in fichiers if fichier.endswith('.jpg')]
+    fichiers = os.listdir(chemin_source)
 
-    # Trie les fichiers par date de création
-    fichiers_tries = sorted(fichiers_jpg, key=lambda x: os.path.getctime(os.path.join(dossier_photos, x)))
+    # Tri des fichiers par date de création
+    fichiers_tries = sorted(fichiers, key=lambda x: os.path.getctime(os.path.join(chemin_source, x)))
 
-    # Format de nommage pour les photos
-    format_nom = "{:09d}.jpg"
-    nouveau_nom = 0
-    # Parcourir les fichiers triés et les renommer dans l'ordre croissant
-    for fichier in fichiers_tries:
-        # Récupère la date de création du fichier
-        date_creation = datetime.fromtimestamp(os.path.getctime(os.path.join(dossier_photos, fichier)))
+    # Détermination du format du nom de fichier (nombre de chiffres nécessaires)
+    nombre_photos = len(fichiers_tries)
+    nombre_chiffres = len(str(nombre_photos - 1))
 
-        # Formatte le nouveau nom en utilisant le format_nom
-        nouveau_nom_formatte = format_nom.format(nouveau_nom)
+    # Parcours des fichiers triés
+    for i, fichier in enumerate(fichiers_tries):
+        chemin_fichier_source = os.path.join(chemin_source, fichier)
 
-        # Construit le nouveau chemin complet pour le fichier renommé
-        nouveau_chemin = os.path.join(dossier_photos, nouveau_nom_formatte)
+        # Récupération de la date de création du fichier
+        date_creation = datetime.fromtimestamp(os.path.getctime(chemin_fichier_source))
+        date_formattee = date_creation.strftime('%Y%m%d%H%M%S')
 
-        # Renomme le fichier
-        os.rename(os.path.join(dossier_photos, fichier), nouveau_chemin)
+        # Construction du nouveau nom de fichier
+        nouveau_nom = '{:0{}}.jpg'.format(i, nombre_chiffres)
 
-        # Incrémente le nouveau_nom pour le prochain fichier
-        nouveau_nom += 1
+        # Chemin de destination pour le fichier renommé
+        chemin_fichier_destination = os.path.join(chemin_destination, nouveau_nom)
+
+        # Déplacement du fichier renommé vers le répertoire de destination
+        shutil.move(chemin_fichier_source, chemin_fichier_destination)
+
+        print("Fichier {} déplacé vers {}".format(fichier, nouveau_nom))
+        
     # delete all photos from tmp folder
     shutil.rmtree(f"{dossier_photos}/tmp")
 
