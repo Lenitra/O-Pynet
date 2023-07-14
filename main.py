@@ -330,13 +330,11 @@ def savephotosended():
             # Fermer l'image
             image.close()
 
-            # afficher la date
-            date = os.path.getmtime(chemin_fichier_destination)
-            date = datetime.fromtimestamp(date).strftime('%Y/%m/%d %H:%M:%S')
-            print("------!DATE!-------")
-            print(date)
-
-
+            # Afficher la date des métadonnées
+            date_capture = obtenir_date_capture(chemin_fichier_destination)
+            if date_capture is not None:
+                date_formattee = date_capture.strftime('%Y/%m/%d %H:%M:%S')
+                print("Date de capture de l'image:", date_formattee)
 
             print("------!SAVED!-------")
             print("save as: " + str(num) + "." + file.filename.split(".")[-1])
@@ -345,8 +343,27 @@ def savephotosended():
 
     return redirect('/photo/maul')
 
+def obtenir_date_capture(chemin_photo):
+    try:
+        # Ouvrir l'image en utilisant Pillow
+        image = Image.open(chemin_photo)
 
-    return redirect('/photo/maul')
+        # Extraire les métadonnées de l'image
+        metadata = image._getexif()
+
+        if metadata is not None:
+            for tag, value in metadata.items():
+                tag_name = TAGS.get(tag)
+                if tag_name == 'DateTimeOriginal':
+                    return datetime.strptime(value, '%Y:%m:%d %H:%M:%S')
+        return None
+    except (IOError, KeyError, IndexError):
+        return None
+    finally:
+        # Fermer l'image
+        if image:
+            image.close()
+
 
 def copier_image_avec_metadata(chemin_destination, file):
     # Ouvrir l'image en utilisant Pillow
