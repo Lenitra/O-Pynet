@@ -224,7 +224,11 @@ def photo():
     html = ""
     for photo in photos_triees:
         if photo != "none":
-            html += f'<a href="/static/photos/{photo}" target="_blank" class="flex-items"><img src="/static/photos/{photo}" width="100%"></a>'
+            # récupérer la date sur les méta données de la photo
+            date = os.path.getmtime(f"static/photos/{photo}")
+            # formaater la date yyyy/mm/dd hh:mm:ss
+            date = datetime.fromtimestamp(date).strftime('%Y/%m/%d %H:%M:%S')
+            html += f'<a href="/static/photos/{photo}" target="_blank" class="flex-items"><img src="/static/photos/{photo}" width="100%"><p>{date}</p></a>'
     return render_template('photos.html', config=config, photos=html)
 
 
