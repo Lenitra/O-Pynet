@@ -115,7 +115,7 @@ def trier_et_renommer_photos():
         shutil.move(chemin_fichier_source, chemin_fichier_destination)
 
         print("Fichier {} déplacé vers {}".format(fichier, nouveau_nom))
-        
+
     # delete all photos from tmp folder
     shutil.rmtree(f"{dossier_photos}/tmp")
 
@@ -217,11 +217,16 @@ def photo():
     if checkperms("log") != True:
         return redirect('/login')
     photos = os.listdir("static/photos")
+    
+    # Tri des photos par nom
+    photos_triees = sorted(photos, key=lambda x: int(os.path.splitext(x)[0]))
+
     html = ""
-    for photo in photos:
+    for photo in photos_triees:
         if photo != "none":
             html += f'<a href="/static/photos/{photo}" target="_blank" class="flex-items"><img src="/static/photos/{photo}" width="100%"></a>'
     return render_template('photos.html', config=config, photos=html)
+
 
 
 @app.route("/addphoto", methods=['POST', 'GET'])
