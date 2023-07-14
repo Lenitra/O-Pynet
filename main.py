@@ -9,6 +9,7 @@ from flask import Flask, render_template, request, redirect, session
 import yaml
 import requests
 import psutil
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "ahcestcontulaspas"
@@ -61,6 +62,40 @@ def loadphotos():
     # copy all photos from photosfolder to static/photos
     for photo in photos:
         shutil.copyfile(f"{config['photosfolder']}/{photo}", f"static/photos/{photo}")
+
+
+def trier_et_renommer_photos():
+    dossier_photos = config["photosfolder"]
+    # Liste les fichiers du dossier
+    fichiers = os.listdir(dossier_photos)
+
+    # Filtrer uniquement les fichiers avec l'extension .jpg
+    fichiers_jpg = [fichier for fichier in fichiers if fichier.endswith('.jpg')]
+
+    # Trie les fichiers par date de création
+    fichiers_tries = sorted(fichiers_jpg, key=lambda x: os.path.getctime(os.path.join(dossier_photos, x)))
+
+    # Format de nommage pour les photos
+    format_nom = "{:05d}.jpg"
+    nouveau_nom = 0
+
+    # Parcourir les fichiers triés et les renommer dans l'ordre croissant
+    for fichier in fichiers_tries:
+        # Récupère la date de création du fichier
+        date_creation = datetime.fromtimestamp(os.path.getctime(os.path.join(dossier_photos, fichier)))
+
+        # Formatte le nouveau nom en utilisant le format_nom
+        nouveau_nom_formatte = format_nom.format(nouveau_nom)
+
+        # Construit le nouveau chemin complet pour le fichier renommé
+        nouveau_chemin = os.path.join(dossier_photos, nouveau_nom_formatte)
+
+        # Renomme le fichier
+        os.rename(os.path.join(dossier_photos, fichier), nouveau_chemin)
+
+        # Incrémente le nouveau_nom pour le prochain fichier
+        nouveau_nom += 1
+
 
 @app.route('/')
 def index():
@@ -211,6 +246,7 @@ def savephotosended():
 
 if __name__ == '__main__':
     config = loadconfig()
+    trier_et_renommer_photos()
     loadphotos()
 
 
