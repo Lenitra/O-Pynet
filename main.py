@@ -113,25 +113,46 @@ def trier_et_renommer_photos():
 
     fichiers = os.listdir(chemin_source)
 
-    # Tri des fichiers par date de création
-    fichiers_tries = sorted(fichiers, key=lambda x: obtenir_date_capture(os.path.join(chemin_source, x)))
+
+    # Filtrer les fichiers avec et sans date de capture
+    fichiers_avec_date = []
+    fichiers_sans_date = []
+    for fichier in fichiers:
+        chemin_fichier = os.path.join(chemin_source, fichier)
+        date_capture = obtenir_date_capture(chemin_fichier)
+        if date_capture is not None:
+            fichiers_avec_date.append((fichier, date_capture))
+        else:
+            fichiers_sans_date.append(fichier)
+
+    # Trier les fichiers avec date de capture par ordre croissant
+    fichiers_avec_date_tries = sorted(fichiers_avec_date, key=lambda x: x[1])
 
     # Détermination du format du nom de fichier (nombre de chiffres nécessaires)
-    nombre_photos = len(fichiers_tries)
+    nombre_photos = len(fichiers_avec_date_tries) + len(fichiers_sans_date)
     nombre_chiffres = len(str(nombre_photos - 1))
 
-    # Parcours des fichiers triés
-    for i, fichier in enumerate(fichiers_tries):
+    # Parcours des fichiers avec date de capture triés
+    for i, (fichier, _) in enumerate(fichiers_avec_date_tries):
         chemin_fichier_source = os.path.join(chemin_source, fichier)
-
-        # Récupération de la date de capture du fichier
-        date_capture = obtenir_date_capture(chemin_fichier_source)
-        if date_capture is None:
-            print(f"Aucune date de capture disponible pour le fichier : {fichier}")
-            continue
 
         # Construction du nouveau nom de fichier
         nouveau_nom = '{:0{}}.jpg'.format(i, nombre_chiffres)
+
+        # Chemin de destination pour le fichier renommé
+        chemin_fichier_destination = os.path.join(chemin_destination, nouveau_nom)
+
+        # Déplacement du fichier renommé vers le répertoire de destination
+        shutil.move(chemin_fichier_source, chemin_fichier_destination)
+
+        print("Fichier {} déplacé vers {}".format(fichier, nouveau_nom))
+
+    # Parcours des fichiers sans date de capture
+    for i, fichier in enumerate(fichiers_sans_date):
+        chemin_fichier_source = os.path.join(chemin_source, fichier)
+
+        # Construction du nouveau nom de fichier pour les fichiers sans date
+        nouveau_nom = '{:0{}}.jpg'.format(i + len(fichiers_avec_date_tries), nombre_chiffres)
 
         # Chemin de destination pour le fichier renommé
         chemin_fichier_destination = os.path.join(chemin_destination, nouveau_nom)
