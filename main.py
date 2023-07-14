@@ -10,8 +10,7 @@ import yaml
 import requests
 import psutil
 from datetime import datetime
-from PIL import Image
-from PIL.ExifTags import TAGS
+from PIL import Image, ExifTags
 
 app = Flask(__name__)
 app.secret_key = "ahcestcontulaspas"
@@ -343,6 +342,7 @@ def savephotosended():
 
     return redirect('/photo/maul')
 
+
 def obtenir_date_capture(chemin_photo):
     try:
         # Ouvrir l'image en utilisant Pillow
@@ -353,7 +353,7 @@ def obtenir_date_capture(chemin_photo):
 
         if metadata is not None:
             for tag, value in metadata.items():
-                tag_name = TAGS.get(tag)
+                tag_name = ExifTags.TAGS.get(tag)
                 if tag_name == 'DateTimeOriginal':
                     return datetime.strptime(value, '%Y:%m:%d %H:%M:%S')
         return None
@@ -363,6 +363,7 @@ def obtenir_date_capture(chemin_photo):
         # Fermer l'image
         if image:
             image.close()
+
 
 
 def copier_image_avec_metadata(chemin_destination, file):
