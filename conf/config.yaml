@@ -1,6 +1,6 @@
 ip: 176.148.40.171
-photosfolder: ~/photos
+photosfolder: ../photos
 port: 8080
 ramcputime: 5
-title: Serveur de Thomas
-url: 176.148.40.171:8080
+title: O-Pynet
+url: 0.0.0.0:8080
