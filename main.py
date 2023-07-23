@@ -74,8 +74,8 @@ def index():
 
 @app.route('/reload')
 def reload():
-    # restart the server
-    os.popen("sudo reboot")
+    # run sudo reboot
+    os.system("sudo reboot")
     return redirect('/dashboard')
 
 
