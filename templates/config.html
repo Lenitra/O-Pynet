@@ -182,13 +182,13 @@
         <form action="/configupdate" method="post">
             <p>Titre du site</p>
             <input name="title" placeholder="Title" type="text" value="{{config['title']}}">
-            <!-- <p>The port for O-Pynet (your link will be http://{{config["ip"]}}:'port')</p> -->
-            <!-- <input name="port" placeholder="port" type="number" max="9999" min="0" value="{{config['port']}}"> -->
-            <!-- <p>Default path for the dashboard console</p> -->
-            <!-- <input name="default_folder" placeholder="Default path" type="text" value="{{config['default_folder']}}"> -->
+            <p>le port O-Pynet (ton lien sera de la forme http://{{config["ip"]}}:'port')</p>
+            <input name="port" placeholder="port" type="number" max="9999" min="0" value="{{config['port']}}">
+            <p>Chemin pour ton dossier de photos :</p>
+            <input name="photosfolder" placeholder="photos path" type="text" value="{{config['photosfolder']}}">
             <p>Temps en secondes pour le rafraichissement du calcul de CPU/RAM/Disque</p>
             <input name="ramcputime" placeholder="Time" type="number" value="{{config['ramcputime']}}">
-            <p>Redémarrer la machine ? <input type="checkbox" name="reboot"></p>
+            <p>Redémarrer la machine pour appliquer ?<input type="checkbox" name="reboot"></p>
             
             <input type="submit" value="Confirmer">
     

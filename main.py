@@ -79,12 +79,12 @@ def reload():
     return redirect('/dashboard')
 
 
-@app.route('/update')
-def update():
-    os.system("pwd")
-    os.system("git config --global --add safe.directory /home/ubuntu/O-Pynet")
-    os.system("git pull")
-    return redirect('/dashboard')
+# @app.route('/update')
+# def update():
+#     os.system("pwd")
+#     os.system("git config --global --add safe.directory /home/ubuntu/O-Pynet")
+#     os.system("git pull")
+#     return redirect('/dashboard')
 
 
 
@@ -144,7 +144,7 @@ def configupdate():
         return redirect('/login')
     config["title"] = request.form['title']
     # config["default_folder"] = request.form['default_folder']
-    # config["port"] = int(request.form['port'])
+    config["port"] = int(request.form['port'])
     config["ramcputime"] = int(request.form['ramcputime'])
     saveconfig(config)
     if request.form['reboot'] != None:

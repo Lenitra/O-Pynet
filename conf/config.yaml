@@ -1,6 +1,5 @@
-default_folder: home/ubuntu
 ip: 176.148.40.171
-photosfolder: /home/ubuntu/photos
+photosfolder: ~/photos
 port: 8080
 ramcputime: 5
 title: Serveur de Thomas
