@@ -56,7 +56,11 @@ def checkperms(perm):
 
 def loadphotosForHtml():
     if not os.path.exists(config["photosfolder"]):
-        os.mkdir(config["photosfolder"])
+        # create a folder photos in the directory ~
+        try:
+            os.system(f"mkdir {config['photosfolder']}")
+        except:
+            pass
     # trier_et_renommer_photos()
     # delete all photos in static/photos
     shutil.rmtree("static/photos")
