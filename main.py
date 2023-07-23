@@ -136,8 +136,6 @@ def rcdn():
 def dashboard():
     if checkperms("log") != True:
         return redirect('/login')
-    session["console"] = ""
-    session['dir'] = config['default_folder']
     return render_template('dashboard.html', config=config)
 
 
