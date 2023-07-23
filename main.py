@@ -161,7 +161,7 @@ def param():
 
 
 
-@app.route("/photo/maul", methods=['POST', 'GET'])
+@app.route("/photos", methods=['POST', 'GET'])
 def photo():
     if checkperms("log") != True:
         return redirect('/login')
@@ -189,7 +189,7 @@ def deletephoto(photo):
         return redirect('/login')
     os.remove(f"static/photos/{photo}")
     os.remove(f"{config['photosfolder']}/{photo}")
-    return redirect("/photo/maul")
+    return redirect("/photos")
 
 @app.route("/dlallphotos")
 def dlallphotos():
@@ -240,7 +240,7 @@ def savephotosended():
             print("in: " + config["photosfolder"])
 
         loadphotosForHtml()
-    return redirect('/photo/maul')
+    return redirect('/photos')
 
 
 
