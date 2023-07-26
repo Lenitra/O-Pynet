@@ -143,6 +143,7 @@ def update():
     if checkperms("log") != True:
         return redirect('/login')
     # copy the file conf and all files inside it
+    os.system("mkdir ../555conf555")
     shutil.copytree("conf", "../555conf555")
     os.system("git pull")
     time.sleep(10)
