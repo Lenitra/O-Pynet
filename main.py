@@ -154,6 +154,7 @@ def update():
     os.system("sudo git pull")
     time.sleep(10)
     # copy the file conf and all files inside it
+    shutil.rmtree("conf")
     shutil.copytree("../555conf555", "conf")
     shutil.rmtree("../555conf555")
     return redirect('/dashboard')
