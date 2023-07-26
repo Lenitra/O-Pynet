@@ -138,6 +138,12 @@ def dashboard():
         return redirect('/login')
     return render_template('dashboard.html', config=config)
 
+@app.route("/update")
+def update():
+    if checkperms("log") != True:
+        return redirect('/login')
+    os.system("git pull")
+    return redirect('/dashboard')
 
 
 
