@@ -142,7 +142,13 @@ def dashboard():
 def update():
     if checkperms("log") != True:
         return redirect('/login')
+    # copy the file conf and all files inside it
+    shutil.copytree("conf", "../555conf555")
     os.system("git pull")
+    time.sleep(10)
+    # copy the file conf and all files inside it
+    shutil.copytree("../555conf555", "conf")
+    shutil.rmtree("../555conf555")
     return redirect('/dashboard')
 
 
