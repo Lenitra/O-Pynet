@@ -151,6 +151,7 @@ def update():
     
     
     # delete all files in the directory O-Pynet
+    os.system("git config --global --add safe.directory /home/ubuntu/O-Pynet")
     os.system("sudo git pull")
     time.sleep(10)
     # copy the file conf and all files inside it
