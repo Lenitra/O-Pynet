@@ -1,8 +1,8 @@
-function menu(){
+function menu(title){
     html = `
         <div id="sidebar" class="sidebar sidebar-collapsed">
         <div class="logo">
-            <h2>{{config['title']}}</h2>
+            <h2>`+ title +`</h2>
         </div>
         <ul>
             <li><a href="/dashboard">Accueil</a></li>
