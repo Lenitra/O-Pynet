@@ -145,7 +145,7 @@ def update():
     # copy the directory conf to 555conf555
     shutil.copytree("conf", "../555conf555")
     # delete all files in the directory O-Pynet
-    os.system("git pull")
+    os.system("sudo git pull")
     time.sleep(10)
     # copy the file conf and all files inside it
     shutil.copytree("../555conf555", "conf")
