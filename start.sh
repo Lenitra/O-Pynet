@@ -1,7 +1,7 @@
 
 cd ~
 # copy the O-Pynet conf folder to the home directory named as 555temp555
-cp -r O-Pynet/conf 555temp55
+cp -r O-Pynet/conf 555temp555
 # copy this file to the home directory named as 555temp555.sh
 # cp O-Pynet/start.sh 555temp555.sh
 # run the 555temp555.sh file
