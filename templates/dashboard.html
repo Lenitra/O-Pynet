@@ -3,6 +3,8 @@
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>Panneau d'administration</title>
+        <!-- add js -->
+        <script src="../static/commun.js"></script>
         <style>
             /* Styles généraux */
             body {
@@ -138,16 +140,7 @@
 </head>
 <body>
     <!-- Menu latéral -->
-    <div id="sidebar" class="sidebar sidebar-collapsed">
-        <div class="logo">
-            <h2>{{config['title']}}</h2>
-        </div>
-        <ul>
-            <li><a href="/dashboard">Accueil</a></li>
-            <li><a href="/config">Paramètres</a></li>
-            <li><a href="/photos">Photos</a></li>
-        </ul>
-    </div>
+    <script>menu();</script>
     
     <!-- Contenu principal -->
     <div id="content" class="content">
