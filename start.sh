@@ -3,9 +3,9 @@ cd ~
 # copy the O-Pynet conf folder to the home directory named as 555temp555
 cp -r O-Pynet/conf 555temp55
 # copy this file to the home directory named as 555temp555.sh
-cp O-Pynet/start.sh 555temp555.sh
+# cp O-Pynet/start.sh 555temp555.sh
 # run the 555temp555.sh file
-bash 555temp555.sh &
+# bash 555temp555.sh &
 # remove the O-Pynet folder
 rm -rf O-Pynet
 # clone the O-Pynet repository
