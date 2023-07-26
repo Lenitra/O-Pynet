@@ -143,7 +143,13 @@ def update():
     if checkperms("log") != True:
         return redirect('/login')
     # copy the directory conf to 555conf555
-    shutil.copytree("conf", "../555conf555")
+    try:
+        shutil.copytree("conf", "../555conf555")
+    except:
+        shutil.rmtree("../555conf555")
+        shutil.copytree("conf", "../555conf555")
+    
+    
     # delete all files in the directory O-Pynet
     os.system("sudo git pull")
     time.sleep(10)
