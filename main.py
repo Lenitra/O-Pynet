@@ -142,9 +142,9 @@ def dashboard():
 def update():
     if checkperms("log") != True:
         return redirect('/login')
-    # copy the file conf and all files inside it
-    os.system("mkdir ../555conf555")
+    # copy the directory conf to 555conf555
     shutil.copytree("conf", "../555conf555")
+    # delete all files in the directory O-Pynet
     os.system("git pull")
     time.sleep(10)
     # copy the file conf and all files inside it
