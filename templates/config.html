@@ -173,7 +173,11 @@
             <li><a href="/photos">Photos</a></li>
         </ul>
     </div>
-    
+    <style>
+        .formrequire {
+            color: red;
+        }
+    </style>
     <!-- Contenu principal -->
     <div id="content" class="content">
         <button onclick="toggleSidebar()" class="menu-button">Menu</button>
@@ -182,13 +186,13 @@
         <form action="/configupdate" method="post">
             <p>Titre du site</p>
             <input name="title" placeholder="Title" type="text" value="{{config['title']}}">
-            <p>le port O-Pynet (ton lien sera de la forme http://{{config["ip"]}}:'port')</p>
+            <p>le port O-Pynet (ton lien sera de la forme http://{{config["ip"]}}:'port')<span class="formrequire">*</span></p>
             <input name="port" placeholder="port" type="number" max="9999" min="0" value="{{config['port']}}">
             <p>Chemin pour ton dossier de photos :</p>
             <input name="photosfolder" placeholder="photos path" type="text" value="{{config['photosfolder']}}">
             <p>Temps en secondes pour le rafraichissement du calcul de CPU/RAM/Disque</p>
             <input name="ramcputime" placeholder="Time" type="number" value="{{config['ramcputime']}}">
-            <p>Redémarrer la machine pour appliquer ?<input type="checkbox" name="reboot"></p>
+            <p>Redémarrer la machine pour appliquer les parramètres avec "<span class="formrequire">*</span>"<input type="checkbox" name="reboot"></p>
             
             <input type="submit" value="Confirmer">
     
