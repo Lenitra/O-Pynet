@@ -172,8 +172,11 @@ def configupdate():
     config["port"] = int(request.form['port'])
     config["ramcputime"] = int(request.form['ramcputime'])
     saveconfig(config)
-    if request.form['reboot'] != None:
-        os.system("sudo reoboot")
+    try:
+        if request.form['reboot'] != None:
+            os.system("sudo reboot")
+    except:
+        pass
     return redirect('/dashboard')
 
 @app.route("/config")
