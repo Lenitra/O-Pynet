@@ -163,16 +163,7 @@
 </head>
 <body>
     <!-- Menu latéral -->
-    <div id="sidebar" class="sidebar sidebar-collapsed">
-        <div class="logo">
-            <h2>{{config['title']}}</h2>
-        </div>
-        <ul>
-            <li><a href="/dashboard">Accueil</a></li>
-            <li><a href="/config">Paramètres</a></li>
-            <li><a href="/photos">Photos</a></li>
-        </ul>
-    </div>
+    <script src="../static/commun.js">menu("{{ config['title']}}");</script>
     <style>
         .formrequire {
             color: red;

@@ -191,22 +191,13 @@ def param():
 def photo():
     if checkperms("log") != True:
         return redirect('/login')
-    photos = os.listdir("static/photos")
-    
-    # Tri des photos par nom
-    photos_triees = sorted(photos, key=lambda x: int(os.path.splitext(x)[0]))
+    # get all folders in the directory photos
+    listfolders = os.listdir(config["photosfolder"])
 
     html = ""
-    for photo in photos_triees:
-        if photo != "none":
-            # récupérer la date sur les méta données de la photo
-            date = os.path.getmtime(f"static/photos/{photo}")
-            # formaater la date yyyy/mm/dd hh:mm:ss
-            date = datetime.fromtimestamp(date).strftime('%Y/%m/%d %H:%M:%S')
-            html += "<div class='flex-items'>"
-            html += f'<a href="/static/photos/{photo}" target="_blank" width="100%"><img src="/static/photos/{photo}" width="100%"></a>'
-            html += f"<a href='/deletephoto/{photo}'>Supprimer</a>"
-            html += "</div>"
+    for folder in listfolders:
+        html += f"<a href='/photos/{folder}'>{folder}</a>"
+
     return render_template('photos.html', config=config, photos=html)
 
 @app.route("/deletephoto/<photo>")
@@ -235,9 +226,9 @@ def savephotosended():
     if checkperms("log") != True:
         return redirect('/login')
 
-    print("------!TENTATIVE!-------")
+    # print("------!TENTATIVE!-------")
     if 'fileToUpload' in request.files:
-        print("------!UPLOAD!-------")
+        # print("------!UPLOAD!-------")
         files = request.files.getlist('fileToUpload')
         print(files)
 
@@ -261,9 +252,9 @@ def savephotosended():
             chemin_fichier_destination = os.path.join(config["photosfolder"], str(num) + ".jpg")
             file.save(chemin_fichier_destination)
 
-            print("------!SAVED!-------")
-            print("save as: " + str(num) + ".jpg")
-            print("in: " + config["photosfolder"])
+            # print("------!SAVED!-------")
+            # print("save as: " + str(num) + ".jpg")
+            # print("in: " + config["photosfolder"])
 
         loadphotosForHtml()
     return redirect('/photos')
