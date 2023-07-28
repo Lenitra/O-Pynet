@@ -149,6 +149,7 @@ def update():
         shutil.rmtree("../555conf555")
         shutil.copytree("conf", "../555conf555")
     
+    shutil.rmtree("conf")
     
     # delete all files in the directory O-Pynet
     os.system("git config --global --add safe.directory /home/ubuntu/O-Pynet")
