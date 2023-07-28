@@ -147,18 +147,24 @@ def update():
         shutil.copytree("conf", "../555conf555")
     except:
         shutil.rmtree("../555conf555")
+        os.system("rm -rf ../555conf555")
         shutil.copytree("conf", "../555conf555")
     
-    shutil.rmtree("conf")
+    # shutil.rmtree("conf")
+    os.system("rm -rf conf")
     
     # delete all files in the directory O-Pynet
     os.system("git config --global --add safe.directory /home/ubuntu/O-Pynet")
     os.system("sudo git pull")
-    time.sleep(10)
+    time.sleep(5)
     # copy the file conf and all files inside it
     shutil.rmtree("conf")
+    os.system("rm -rf conf")
+
     shutil.copytree("../555conf555", "conf")
+
     shutil.rmtree("../555conf555")
+    os.system("rm -rf ../555conf555")
     return redirect('/dashboard')
 
 
