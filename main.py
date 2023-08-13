@@ -251,18 +251,6 @@ def dlallphotos():
 
 
 
-@app.route("/addphoto/<folder>" , methods=['POST', 'GET'])
-def addfolder(folder):
-    if checkperms("log") != True:
-        return redirect('/login')
-    
-
-
-
-
-
-
-
 
 
 
