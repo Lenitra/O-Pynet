@@ -245,10 +245,11 @@ def addfolder():
 def addphoto(folder):
     if checkperms("log") != True:
         return redirect('/login')
-    # get the file
-    file = request.files['file']
-    # save the file
-    file.save(f"{config['photosfolder']}/{folder}/{file.filename}")
+    # get all files form the form
+    files = request.files.getlist('file[]')
+    # save all files
+    for file in files:
+        file.save(f"{config['photosfolder']}/{folder}/{file.filename}")
     return redirect(f'/photos/{folder}')
 
 
