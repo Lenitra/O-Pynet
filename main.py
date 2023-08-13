@@ -227,17 +227,11 @@ def photos(folder):
     html = ""
     for photo in listphotos:
         html += f"<a href='/static/photos/{folder}/{photo}'><img src='/static/photos/{folder}/{photo}'></a>"
-    return render_template('photos.html', config=config, photos=html, folder=folder)
+    return render_template('photosfile.html', config=config, photos=html, folder=folder)
 
 
 
-# @app.route("/deletephoto/<photo>")
-# def deletephoto(photo):
-#     if checkperms("log") != True:
-#         return redirect('/login')
-#     os.remove(f"static/photos/{photo}")
-#     os.remove(f"{config['photosfolder']}/{photo}")
-#     return redirect("/photos")
+
 
 
 
@@ -249,44 +243,12 @@ def dlallphotos():
 
 
 
-
-# @app.route("/savephotosended", methods=['POST', 'GET'])
-# def savephotosended():
-#     if checkperms("log") != True:
-#         return redirect('/login')
-
-#     # print("------!TENTATIVE!-------")
-#     if 'fileToUpload' in request.files:
-#         # print("------!UPLOAD!-------")
-#         files = request.files.getlist('fileToUpload')
-#         print(files)
-
-#         # Parcours des fichiers téléchargés
-#         for file in files:
-#             num = 0
-#             max_num = 0
-#             listdirphotos = os.listdir(config["photosfolder"])
-#             for photo in listdirphotos:
-#                 filename = os.path.splitext(photo)[0]
-#                 try:
-#                     num = int(filename)
-#                     max_num = max(max_num, num)
-#                 except ValueError:
-#                     pass
-
-#             # Commencer à incrémenter à partir du plus grand numéro existant + 1
-#             num = max_num + 1
-
-#             # Sauvegarder la photo
-#             chemin_fichier_destination = os.path.join(config["photosfolder"], str(num) + ".jpg")
-#             file.save(chemin_fichier_destination)
-
-#             # print("------!SAVED!-------")
-#             # print("save as: " + str(num) + ".jpg")
-#             # print("in: " + config["photosfolder"])
-
-#         loadphotosForHtml()
-#     return redirect('/photos')
+@app.route("/addphoto/<folder>" , methods=['POST', 'GET'])
+def addfolder(folder):
+    if checkperms("log") != True:
+        return redirect('/login')
+    
+    
 
 
 

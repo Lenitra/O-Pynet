@@ -171,7 +171,11 @@
     <div id="content" class="content">
         <button onclick="toggleSidebar()" class="menu-button">Menu</button>
         <br>
-        <a href="/addphoto" class="button">+ Ajouter des photos</a>
+        <!-- <a href="/addphoto/{folder}" class="button">+ Ajouter des photos</a> -->
+        <form action="/addphoto/{folder}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file[]" multiple>
+            <input type="submit" value="Ajouter des photos" name="submit">
+        </form>
         <a href="/dlallphotos" class="button">Tout télécharger</a>
         <br>
         <div class="flex-container">
