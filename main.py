@@ -62,16 +62,19 @@ def loadphotosForHtml():
             os.system(f"mkdir {config['photosfolder']}")
         except:
             pass
-    # trier_et_renommer_photos()
-    # delete all photos in static/photos
-    shutil.rmtree("static/photos")
-    os.mkdir("static/photos")
-    photos = os.listdir(config["photosfolder"])
-    # copy all folders and files in the directory photos to static/photos
-    for photo in photos:
-        shutil.copytree(f"{config['photosfolder']}/{photo}", f"static/photos/{photo}")
-    return photos
-
+        
+    # copy all contnent recursively from the directory photos to the directory static/photos
+    try:
+        shutil.rmtree("static/photos")
+        os.system("rm -rf static/photos")
+    except:
+        pass
+    
+    try:
+        shutil.copytree(config["photosfolder"], "static/photos")
+    except:
+        pass
+    
     
 
 
