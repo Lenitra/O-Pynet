@@ -180,6 +180,7 @@ def configupdate():
     config["port"] = int(request.form['port'])
     config["ramcputime"] = int(request.form['ramcputime'])
     saveconfig(config)
+    time.sleep(5)
     try:
         if request.form['reboot'] != None:
             os.system("sudo reboot")
@@ -208,13 +209,30 @@ def photo():
 
     return render_template('photos.html', config=config, photos=html)
 
-@app.route("/deletephoto/<photo>")
-def deletephoto(photo):
+
+
+@app.route("/photos/<folder>", methods=['POST', 'GET'])
+def photos(folder):
     if checkperms("log") != True:
         return redirect('/login')
-    os.remove(f"static/photos/{photo}")
-    os.remove(f"{config['photosfolder']}/{photo}")
-    return redirect("/photos")
+    # get all photos in the folder
+    listphotos = os.listdir(f"{config['photosfolder']}/{folder}")
+    html = ""
+    for photo in listphotos:
+        html += f"<a href='/static/photos/{folder}/{photo}'><img src='/static/photos/{folder}/{photo}'></a>"
+    return render_template('photos.html', config=config, photos=html, folder=folder)
+
+
+
+# @app.route("/deletephoto/<photo>")
+# def deletephoto(photo):
+#     if checkperms("log") != True:
+#         return redirect('/login')
+#     os.remove(f"static/photos/{photo}")
+#     os.remove(f"{config['photosfolder']}/{photo}")
+#     return redirect("/photos")
+
+
 
 @app.route("/dlallphotos")
 def dlallphotos():
@@ -222,50 +240,46 @@ def dlallphotos():
     shutil.make_archive("photos", 'zip', "static/photos")
     return send_file("photos.zip", as_attachment=True)
 
-@app.route("/addphoto", methods=['POST', 'GET'])
-def addphoto():
-    if checkperms("log") != True:
-        return redirect('/login')
-    return render_template('addphoto.html', config=config)
 
 
-@app.route("/savephotosended", methods=['POST', 'GET'])
-def savephotosended():
-    if checkperms("log") != True:
-        return redirect('/login')
 
-    # print("------!TENTATIVE!-------")
-    if 'fileToUpload' in request.files:
-        # print("------!UPLOAD!-------")
-        files = request.files.getlist('fileToUpload')
-        print(files)
+# @app.route("/savephotosended", methods=['POST', 'GET'])
+# def savephotosended():
+#     if checkperms("log") != True:
+#         return redirect('/login')
 
-        # Parcours des fichiers téléchargés
-        for file in files:
-            num = 0
-            max_num = 0
-            listdirphotos = os.listdir(config["photosfolder"])
-            for photo in listdirphotos:
-                filename = os.path.splitext(photo)[0]
-                try:
-                    num = int(filename)
-                    max_num = max(max_num, num)
-                except ValueError:
-                    pass
+#     # print("------!TENTATIVE!-------")
+#     if 'fileToUpload' in request.files:
+#         # print("------!UPLOAD!-------")
+#         files = request.files.getlist('fileToUpload')
+#         print(files)
 
-            # Commencer à incrémenter à partir du plus grand numéro existant + 1
-            num = max_num + 1
+#         # Parcours des fichiers téléchargés
+#         for file in files:
+#             num = 0
+#             max_num = 0
+#             listdirphotos = os.listdir(config["photosfolder"])
+#             for photo in listdirphotos:
+#                 filename = os.path.splitext(photo)[0]
+#                 try:
+#                     num = int(filename)
+#                     max_num = max(max_num, num)
+#                 except ValueError:
+#                     pass
 
-            # Sauvegarder la photo
-            chemin_fichier_destination = os.path.join(config["photosfolder"], str(num) + ".jpg")
-            file.save(chemin_fichier_destination)
+#             # Commencer à incrémenter à partir du plus grand numéro existant + 1
+#             num = max_num + 1
 
-            # print("------!SAVED!-------")
-            # print("save as: " + str(num) + ".jpg")
-            # print("in: " + config["photosfolder"])
+#             # Sauvegarder la photo
+#             chemin_fichier_destination = os.path.join(config["photosfolder"], str(num) + ".jpg")
+#             file.save(chemin_fichier_destination)
 
-        loadphotosForHtml()
-    return redirect('/photos')
+#             # print("------!SAVED!-------")
+#             # print("save as: " + str(num) + ".jpg")
+#             # print("in: " + config["photosfolder"])
+
+#         loadphotosForHtml()
+#     return redirect('/photos')
 
 
 
