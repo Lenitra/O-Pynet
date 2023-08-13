@@ -241,6 +241,16 @@ def addfolder():
     os.mkdir(f"{config['photosfolder']}/{folder}")
     return redirect('/photos')
 
+@app.route("/addphoto/<folder>", methods=['POST', 'GET'])
+def addphoto(folder):
+    if checkperms("log") != True:
+        return redirect('/login')
+    # get the file
+    file = request.files['file']
+    # save the file
+    file.save(f"{config['photosfolder']}/{folder}/{file.filename}")
+    return redirect(f'/photos/{folder}')
+
 
 
 @app.route("/dlallphotos")
