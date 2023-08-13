@@ -227,7 +227,7 @@ def photos(folder):
     html = ""
     for photo in listphotos:
         html += f"<a href='/static/photos/{folder}/{photo}'><img src='/static/photos/{folder}/{photo}'></a>"
-    return render_template('photosfile.html', config=config, photos=html, folder=folder)
+    return render_template('photofile.html', config=config, photos=html, folder=folder)
 
 
 
@@ -248,7 +248,7 @@ def addfolder(folder):
     if checkperms("log") != True:
         return redirect('/login')
     
-    
+
 
 
 
