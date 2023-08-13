@@ -21,7 +21,9 @@ echo "git clone https://github.com/Lenitra/O-Pynet.git;" >> 555temp555.sh
 
 echo "echo 'Copie de la configuration...';" >> 555temp555.sh
 echo "rm -rf O-Pynet/conf;" >> 555temp555.sh
-echo "cp -r 555temp555 O-Pynet/conf;" >> 555temp555.sh
+echo "cp -r 555temp555 O-Pynet/;" >> 555temp555.sh
+# rename the 555temp555 folder to conf
+echo "mv O-Pynet/555temp555 O-Pynet/conf;" >> 555temp555.sh
 echo "rm -rf 555temp555;" >> 555temp555.sh
 
 echo "echo 'Lancement de O-Pynet...';" >> 555temp555.sh
