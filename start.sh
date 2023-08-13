@@ -11,11 +11,13 @@ rm -rf O-Pynet
 # clone the O-Pynet repository
 git clone https://github.com/Lenitra/O-Pynet.git
 
+
 # copy the conf folder to the O-Pynet folder
 rm -rf O-Pynet/conf
 cp -r 555temp555 O-Pynet/conf
 # remove the 555temp555 folder
 rm -rf 555temp555
+
 
 cd O-Pynet
 sudo python3 main.py
