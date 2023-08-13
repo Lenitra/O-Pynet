@@ -170,7 +170,10 @@
         <br>
         <!-- <a href="/addphoto" class="button">+ Ajouter des photos</a> -->
         <a href="/dlallphotos" class="button">Tout télécharger</a>
-        <a href="/addfolder" class="button">Ajouter un dossier</a>
+        <!-- <a href="/addfolder" class="button">Ajouter un dossier</a> -->
+        <form action="/addfolder" method="post">
+            <input type="text" name="foldername" placeholder="Nom du dossier">
+            <input type="submit" value="Ajouter un dossier">
         <br>
         <div class="flex-container">
             {{photos | safe}}

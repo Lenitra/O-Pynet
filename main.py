@@ -231,7 +231,15 @@ def photos(folder):
 
 
 
-
+@app.route("/addfolder", methods=['POST', 'GET'])
+def addfolder():
+    if checkperms("log") != True:
+        return redirect('/login')
+    # get the name of the text field
+    folder = request.form['foldername']
+    # create the folder
+    os.mkdir(f"{config['photosfolder']}/{folder}")
+    return redirect('/photos')
 
 
 
