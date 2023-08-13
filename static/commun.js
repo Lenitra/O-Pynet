@@ -7,7 +7,7 @@ function menu(title){
         <ul>
             <li><a href="/dashboard">Accueil</a></li>
             <li><a href="/config">Paramètres</a></li>
-            <li><a href="/photos">Photos (SoOn)</a></li>
+            <li><a href="/photos">Photos</a></li>
             <li><a href="/logs">Logs (SoOn)</a></li>
         </ul>
     </div>
