@@ -250,6 +250,8 @@ def addphoto(folder):
     # save all files
     for file in files:
         file.save(f"{config['photosfolder']}/{folder}/{file.filename}")
+
+    loadphotosForHtml()
     return redirect(f'/photos/{folder}')
 
 
