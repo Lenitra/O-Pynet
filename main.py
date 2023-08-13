@@ -71,10 +71,10 @@ def loadphotosForHtml():
         pass
     
     try:
-        shutil.copytree(config["photosfolder"], "static/photos")
+        os.system(f"cp -r {config['photosfolder']} static/photos")
     except:
         pass
-    
+
     
 
 
