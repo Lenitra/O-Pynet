@@ -262,6 +262,11 @@ def dlallphotos():
     shutil.make_archive("photos", 'zip', "static/photos")
     return send_file("photos.zip", as_attachment=True)
 
+@app.route("/dlphotos/<folder>")
+def dlphotos(folder):
+    # télécharger toutes les photos
+    shutil.make_archive("photos", 'zip', f"static/photos/{folder}")
+    return send_file("photos.zip", as_attachment=True)
 
 
 
