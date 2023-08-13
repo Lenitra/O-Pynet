@@ -67,9 +67,13 @@ def loadphotosForHtml():
     shutil.rmtree("static/photos")
     os.mkdir("static/photos")
     photos = os.listdir(config["photosfolder"])
-    # copy all photos from photosfolder to static/photos
+    # copy all folders and files in the directory photos to static/photos
     for photo in photos:
-        shutil.copy2(f"{config['photosfolder']}/{photo}", f"static/photos/{photo}")
+        shutil.copytree(f"{config['photosfolder']}/{photo}", f"static/photos/{photo}")
+    return photos
+
+    
+
 
 
 
