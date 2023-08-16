@@ -155,6 +155,11 @@
             margin-bottom: 20px;
         }
 
+        .flex-photo a, .flex-photo img {
+            width: 7.5vw;
+        }
+        
+
     </style>
     <script>
         function toggleSidebar() {
@@ -183,7 +188,7 @@
         </form>
         <a href="/dlfolder/{{folder}}" class="button">Télécharger le dossier</a>
         <br>
-        <div class="flex-container">
+        <div class="flex-container flex-photos">
             {{photos | safe}}
         </div>
     </div>

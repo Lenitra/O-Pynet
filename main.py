@@ -226,9 +226,17 @@ def photos(folder):
     listphotos = os.listdir(f"{config['photosfolder']}/{folder}")
     html = ""
     for photo in listphotos:
-        html += f"<a href='/static/photos/{folder}/{photo}'><img src='/static/photos/{folder}/{photo}'></a>"
+        html += f"<a href='/static/photos/{folder}/{photo}'><img src='/static/photos/{folder}/{photo}'></a><a href='/deletephoto/{folder}/{photo}'>XXXXX</a>"
     return render_template('photofile.html', config=config, photos=html, folder=folder)
 
+
+@app.route("/deletephoto/<folder>/<photo>")
+def deletephoto(folder, photo):
+    if checkperms("log") != True:
+        return redirect('/login')
+    os.remove(f"{config['photosfolder']}/{folder}/{photo}")
+    loadphotosForHtml()
+    return redirect(f'/photos/{folder}')
 
 
 @app.route("/addfolder", methods=['POST', 'GET'])
@@ -239,6 +247,7 @@ def addfolder():
     folder = request.form['foldername']
     # create the folder
     os.mkdir(f"{config['photosfolder']}/{folder}")
+    loadphotosForHtml()
     return redirect('/photos')
 
 @app.route("/addphoto/<folder>", methods=['POST', 'GET'])
