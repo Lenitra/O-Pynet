@@ -226,7 +226,7 @@ def photos(folder):
     listphotos = os.listdir(f"{config['photosfolder']}/{folder}")
     html = ""
     for photo in listphotos:
-        html += f"<a href='/static/photos/{folder}/{photo}'><img src='/static/photos/{folder}/{photo}'></a><a href='/deletephoto/{folder}/{photo}'>XXXXX</a>"
+        html += f"<a href='/static/photos/{folder}/{photo}' class='photo'><img src='/static/photos/{folder}/{photo}'></a><a class='deletelink' href='/deletephoto/{folder}/{photo}'>XXXXX</a>"
     return render_template('photofile.html', config=config, photos=html, folder=folder)
 
 
