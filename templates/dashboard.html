@@ -1,157 +1,153 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <title>Panneau d'administration</title>
-        <style>
-            /* Styles généraux */
-            body {
-                margin: 0;
-                padding: 0;
-                font-family: Arial, sans-serif;
-            }
-            
-            /* Styles du menu latéral */
-            .sidebar {
-                width: 250px;
-                height: 100vh;
-                background-color: #333;
-                color: #fff;
-                position: fixed;
-                left: 0;
-                top: 0;
-                transition: transform 0.3s ease;
-            }
-            
-            .sidebar .logo {
-                padding: 20px;
-            text-align: center;
-            background-color: #222;
-        }
-        
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .sidebar ul li {
-            padding: 10px;
-            border-bottom: 1px solid #777;
-        }
-        
-        .sidebar ul li a {
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - VPS Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
             color: #fff;
-            text-decoration: none;
-        }
-        
-        /* Styles du contenu principal */
-        .content {
-            margin-top: 25px;
-            padding: 20px;
-            transition: margin-left 0.3s ease;
-        }
-        
-        /* Styles pour le menu rétractable */
-        .sidebar-collapsed {
-            transform: translateX(-250px);
-        }
-        
-        .content-expanded {
-            margin-left: 250px;
-        }
-        
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-            }
-            
-            .sidebar-collapsed {
-                transform: translateX(0);
-            }
-            
-            .content-expanded {
-                margin-left: 0;
-            }
-        }
-        
-        /* Styles pour le bouton de menu */
-        .menu-button {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            background-color: #333;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 18px;
-            align-items: center;
-        }
-        
-        /* Styles pour le contenu de la page */
-        h1 {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
         }
 
-        h4 {
-            font-size: 18px;
-            color: #777;
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .section {
+            background-color: #333;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .section h2 {
             margin-bottom: 20px;
         }
-        
-        h3 {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
+
+        .progress {
+            height: 20px;
+            border-radius: 5px;
+            overflow: hidden;
         }
 
-        a {
-            text-decoration: none;
+        .progress-bar {
+            background-color: #007bff;
         }
-        
-        button {
-            background-color: #333;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-right: 10px;
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
         }
-        
-        
-        </style>
-    <script>
-        function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            sidebar.classList.toggle("sidebar-collapsed");
-            
-            var content = document.getElementById("content");
-            content.classList.toggle("content-expanded");
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
         }
-    </script>
+    </style>
 </head>
+
 <body>
-    <!-- Menu latéral -->
-    <script src="../static/commun.js"></script>
-    <script>menu("{{ config['title']}}");</script>
-    <!-- Contenu principal -->
-    <div id="content" class="content">
-        <button onclick="toggleSidebar()" class="menu-button">Menu</button>
-        <h1>{{config['title']}}</h1>
-        <h4>IP : <input type="text" name="ip" value="{{config['ip']}}"></h2>
-            <br>
-            <h2>Utilisation des ressources</h2>
-            <iframe id="rcdn" src="/rcdn" frameborder="0" width="100%"></iframe>
-            <h2>Commandes rapides</h2>
-            <!-- <a href="/updateopy"><button><i class="fa fa-upload"></i> Mettre à jour</button></a> -->
-            <a href="/reload"><button><i class="fa fa-refresh"></i> Redémarrer le serveur</button></a>
+    
+    <div class="container">
+        <div class="section">
+            <h2>VPS Resources</h2>
+            <p><strong>Uptime:</strong> <span id="uptime"></span></p>
+            <p><strong>CPU Usage:</strong> <span id="cpuPercent"></span></p>
+            <div class="progress mb-3">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" id="cpuProgress"></div>
+            </div>
+            <p><strong>Memory Usage:</strong> <span id="memoryPercent"></span></p>
+            <div class="progress mb-3">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" id="memoryProgess"></div>
+            </div>
+            <p><strong>Disk Usage:</strong></p>
+            <div id="disks"></div>
+            <br><br>
+            <a href="/reboot" class="btn btn-primary btn-block mb-2">Redémarrer</a>
         </div>
+
+        <div class="section">
+            <h2>Liens</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="http://valahakprusa.ddns.net" class="btn btn-primary btn-block mb-2">Imprimante 1</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-primary btn-block mb-2">Imprimante 2</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Fonction pour mettre à jour les données de la page
+        function updateData() {
+            // Requête pour récupérer les données CPU
+            fetch('/api/cpu')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('cpuProgress').style.width = data.cpu + '%';
+                    document.getElementById('cpuPercent').textContent = data.cpu + '%';
+                });
+
+            // Requête pour récupérer les données de la mémoire
+            fetch('/api/memory')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('memoryProgess').style.width = data.memory + '%';
+                    document.getElementById('memoryPercent').textContent = data.memory + '%';
+                });
+
+            // Requête pour récupérer les données du disque
+            fetch('/api/disk')
+                .then(response => response.json())
+                .then(data => {
+                    const disks = document.getElementById('disks');
+                    disks.innerHTML = '';
+                    data.disk.forEach(disk => {
+                        const p = document.createElement('p');
+                        const strong = document.createElement('strong');
+                        strong.textContent = disk.device;
+                        p.appendChild(strong);
+                        const span = document.createElement('span');
+                        span.textContent = " : "+disk.usage + '%';
+                        p.appendChild(span);
+                        disks.appendChild(p);
+
+                        const div = document.createElement('div');
+                        div.className = 'progress mb-3';
+                        const div2 = document.createElement('div');
+                        div2.className = 'progress-bar';
+                        div2.style.width = disk.usage + '%';
+                        div.appendChild(div2);
+                        disks.appendChild(div);
+                    });
+                });
+
+            // Requête pour récupérer le temps d'activité
+            fetch('/api/uptime')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('uptime').textContent = data.uptime.split('.')[0];
+                });
+        }
+
+        // Appeler la fonction pour mettre à jour les données initialement
+        updateData();
+        // Mettre à jour les données toutes les X millisecondes (par exemple, toutes les 5 secondes)
+        setInterval(updateData, parseInt("{{refresh}}"));
+
+    </script>
 </body>
 </html>
-

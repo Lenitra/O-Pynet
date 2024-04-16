@@ -1,67 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
+
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Login</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Styles généraux */
         body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        /* Styles du formulaire de connexion */
-        form {
-            width: 300px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        form input[type="text"],
-        form input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-
-        form input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #333;
+            background-color: #121212;
             color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
         }
 
-        form input[type="submit"]:hover {
-            background-color: #555;
+        .login-container {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 100px;
         }
 
-        form input::placeholder {
-            color: #999;
+        .login-form {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
         }
 
+        .form-control {
+            background-color: #666;
+            color: #fff;
+            border-color: #666;
+        }
+
+        .form-control:focus {
+            background-color: #666;
+            color: #fff;
+            border-color: #666;
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
     </style>
-    
 </head>
+
 <body>
-    <form action="/checklogin" method="post">
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Login">
-    </form>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 login-container">
+                <h2 class="text-center mb-4">Login</h2>
+                <form class="login-form" action="/login" method="POST">
+                    <div class="form-group">
+                        <label for="username">Utilisateur</label>
+                        <input type="text" class="form-control" id="username" placeholder="Utilisateur" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" class="form-control" id="password" placeholder="Mot de passe" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Connexion</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 </body>
+
 </html>

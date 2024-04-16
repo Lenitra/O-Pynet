@@ -1,0 +1,13 @@
+{
+    "ip": "valahk.ddns.net",
+    "port": "42000",
+    "refresh": 5,
+    "users": {
+        "TauMah": "aaa",
+        "Valahak": "123"
+    },
+    "buttons":{
+        "Imprimante 1": "http://valahakprusa.ddns.net",
+        "Imprimante 2": "#"
+    }
+}
