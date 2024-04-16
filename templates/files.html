@@ -4,23 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explorateur de fichiers</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Thème sombre personnalisé -->
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+        }
+        .list-group-item {
+            background-color: #212121;
+            border-color: #383838;
+        }
+        .list-group-item a {
+            color: #fff;
+        }
+        .badge-primary {
+            background-color: #2196F3;
+        }
+        .badge-secondary {
+            background-color: #6c757d;
+        }
+        .badge-success {
+            background-color: #4CAF50;
+        }
+        .badge-pill {
+            padding: 0.4em 0.6em;
+            border-radius: 10rem;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Explorateur de fichiers</h1>
-        <h2>Répertoires:</h2>
-        <ul>
-            {% for directory in directories %}
-                <li>{{ directory }}</li>
-            {% endfor %}
-        </ul>
-        <h2>Fichiers:</h2>
-        <ul>
-            {% for file in files %}
-                <li>{{ file }}</li>
-            {% endfor %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/files/C:/">Fichiers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Déconnexion</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1 class="mb-4">Explorateur de fichiers</h1>
+        <ul class="list-group" id="files-list">
+            <!-- Contenu des fichiers ici -->
         </ul>
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Fonction pour afficher les données des fichiers
+        function displayFiles(filesData, parentElement) {
+            // Ajouter une entrée ".." pour accéder au dossier parent
+            const liParentDir = document.createElement('li');
+            liParentDir.classList.add('list-group-item');
+            const linkParentDir = document.createElement('a');
+            // const parentDirURL = window.location.href.split('/files/').slice(0, -1).join('');
+            let test = window.location.href.split('/');
+            test.pop();
+            test = test.join('/');
+            const parentDirURL = test;
+            linkParentDir.href = parentDirURL;
+            linkParentDir.innerHTML = '<span class="badge badge-secondary badge-pill mr-2">&#8678;</span>..';
+            liParentDir.appendChild(linkParentDir);
+            parentElement.appendChild(liParentDir);
+
+            // Ajouter les fichiers et dossiers actuels
+            filesData.forEach(file => {
+                const li = document.createElement('li');
+                li.classList.add('list-group-item');
+                if (file.type === 'directory') {
+                    const link = document.createElement('a');
+                    link.href = window.location.href + '/' + file.name;
+                    link.innerHTML = '<span class="badge badge-primary badge-pill mr-2">Dossier</span>' + file.name;
+                    li.appendChild(link);
+                    li.classList.add('text-primary');
+                } else {
+                    const downloadLink = document.createElement('a');
+                    const filePath = window.location.href.split('/files/').slice(1).join('') + '/' + file.name;
+                    downloadLink.href = window.location.origin + '/download/' + filePath;
+                    downloadLink.innerHTML = '<span class="badge badge-success badge-pill mr-2">Télécharger</span>' + file.name;
+                    li.appendChild(downloadLink);
+                    li.classList.add('text-success');
+                }
+                parentElement.appendChild(li);
+            });
+        }
+
+        // Récupérer les données JSON passées depuis Flask
+        const filesData = {{ files_data | tojson }};
+
+        // Afficher les données des fichiers dans la liste
+        const filesList = document.getElementById('files-list');
+        displayFiles(filesData, filesList);
+    </script>
 </body>
 </html>

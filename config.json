@@ -9,5 +9,9 @@
     "buttons":{
         "Imprimante 1": "#",
         "Imprimante 2": "#"
+    },
+    "filesShorts":{
+        "User": "C:/Users/thoma",
+        "Burreau": "C:/Users/thoma/Desktop"
     }
 }

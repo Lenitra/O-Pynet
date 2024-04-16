@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, jsonify, render_template, request, redirect, send_file, send_from_directory, session
 import psutil
 import json
 import os
@@ -9,6 +9,66 @@ import subprocess
 app = Flask(__name__)
 app.secret_key = "ahcestcontulaspas"
 app.debug = True
+
+
+
+
+
+
+
+@app.route('/download/<path:file_path>')
+def download_file(file_path):
+    # Obtenir le chemin complet du fichier à télécharger
+    full_path = os.path.join('./', file_path)
+
+    # Vérifier si le fichier existe
+    if os.path.isfile(full_path):
+        # Envoyer le fichier au client pour téléchargement
+        return send_file(full_path, as_attachment=True)
+    else:
+        return 'Le fichier spécifié n\'existe pas.', 404
+
+
+
+
+@app.route('/files/<path:directory_path>')
+def get_files_data(directory_path):
+    if 'user' not in session:
+        return redirect("/login")
+    # Vérifier si le chemin spécifié existe et est un répertoire
+    if not os.path.isdir(directory_path):
+        return jsonify({'error': 'Le chemin spécifié n\'existe pas ou n\'est pas un répertoire.'}), 404
+
+    files_data = []
+
+    # Parcourir les fichiers et répertoires dans le dossier actuel
+    for filename in os.listdir(directory_path):
+        file_path = os.path.join(directory_path, filename)
+        # Ignorer les fichiers commençant par un point (cachés)
+        if not filename.startswith('.'):
+            if os.path.isdir(file_path):
+                # Si c'est un répertoire, ajouter ses informations
+                files_data.append({
+                    'name': filename,
+                    'type': 'directory'
+                })
+            else:
+                # Si c'est un fichier, ajouter ses informations
+                files_data.append({
+                    'name': filename,
+                    'type': 'file',
+                    'size': os.path.getsize(file_path)  # Taille du fichier en octets
+                })
+
+    # Rendre le template 'files.html' avec les données JSON
+    return render_template('files.html', files_data=files_data)
+
+
+
+
+
+
+
 
 
 
@@ -30,20 +90,6 @@ def is_repo_up_to_date():
         return False
 
 
-
-
-ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
-
-
-@app.route('/files')
-def files():
-    # Liste des fichiers dans le répertoire racine
-    files = os.listdir(ROOT_DIR)
-    # Filtre les répertoires
-    directories = [f for f in files if os.path.isdir(os.path.join(ROOT_DIR, f))]
-    # Filtre les fichiers
-    files = [f for f in files if os.path.isfile(os.path.join(ROOT_DIR, f))]
-    return render_template('files.html', directories=directories, files=files)
 
 # Redirection vers la page de login si l'utilisateur n'est pas connecté
 @app.route('/')
