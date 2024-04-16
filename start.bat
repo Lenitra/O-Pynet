@@ -5,8 +5,8 @@ cd ..
 move O-Pynet/config.json /tempopyconfig.json
 
 @REM déplace le fichier de lancement
-move O-Pynet/torun.bat /supprimeMoi.bat
+move O-Pynet/torun.bat /torun.bat
 
 @REM exécute le fichier de lancement
-start ./supprimeMoi.bat
+start ./torun.bat
 
