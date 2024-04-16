@@ -1,6 +1,6 @@
 {
-    "ip": "valahk.ddns.net",
-    "port": "42000",
+    "ip": "0.0.0.0",
+    "port": "5000",
     "refresh": 5,
     "users": {
         "TauMah": "aaa",
