@@ -5,7 +5,7 @@ rmdir /s /q O-Pynet
 git clone https://github.com/Lenitra/O-Pynet.git
 
 @REM Récupère l'ancien fichier de configuration
-move /tempopyconfig.json O-Pynet/config.json
+move /y tempopyconfig.json O-Pynet\config.json
 
 @REM Passe sur le répertoire O-Pynet
 cd O-Pynet
