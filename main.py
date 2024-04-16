@@ -100,8 +100,8 @@ def uptime():
 def update():
     if 'user' not in session:
         return redirect("/login")
-    os.system("move /y update.bat ..\\update.bat")
     os.system("start /b ..\\update.bat")
+    return redirect("/dashboard")
 
 
 
