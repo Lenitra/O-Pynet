@@ -8,5 +8,5 @@ move /y O-Pynet\config.json tempopyconfig.json -f
 move /y O-Pynet\torun.bat torun.bat
 
 @REM exécute le fichier de lancement
-start ./torun.bat
+start torun.bat
 
