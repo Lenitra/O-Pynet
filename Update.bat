@@ -4,7 +4,12 @@ cd ..
 @REM déplace le fichier de configuration 
 move /y O-Pynet\config.json tempopyconfig.json
 
-@REM déplace le fichier de lancement
-move /y O-Pynet\torun.bat torun.bat
+rmdir /s /q O-Pynet
 
+git clone https://github.com/Lenitra/O-Pynet.git
 
+move /y tempopyconfig.json O-Pynet\config.json
+
+move /y O-Pynet\start.bat start.bat 
+
+move /y O-Pynet\update.bat update.bat

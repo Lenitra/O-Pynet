@@ -96,6 +96,14 @@ def uptime():
     return {"uptime": str(uptime)}
 
 
+@app.route("/update", methods=['GET'])
+def update():
+    if 'user' not in session:
+        return redirect("/login")
+    os.system("move /y update.bat ..\\update.bat")
+    os.system("start /b ..\\update.bat")
+
+
 
 
 if __name__ == '__main__':
