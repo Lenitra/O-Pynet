@@ -84,4 +84,6 @@ def uptime():
 
 if __name__ == '__main__':
     STARTTIME = datetime.now()
-    app.run()
+    with open("config.json") as f:
+        config = json.load(f)
+    app.run(host=config["host"], port=config["port"])

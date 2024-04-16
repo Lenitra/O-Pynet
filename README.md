@@ -6,4 +6,5 @@ Panneau administratif pour serveur vps ou dédié
 - Bouton de redémarrage rapide
 - Boutons vers liens externes
 - Navigation et gestion des fichiers (TODO)
-### Installation
+### Executer start.bat pour lancer le serveur
+```
