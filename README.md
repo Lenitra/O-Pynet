@@ -17,3 +17,4 @@ Panneau administratif pour serveur vps ou dédié
 ⛔⛔⛔ ne pas bouger le start.bat et le update.bat de leur emplacement ⛔⛔⛔
 
 Les mises à jour se font automatiquement. Pour les forcer, executez update.bat dans le répertoire parent du clone.
+
