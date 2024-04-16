@@ -2,10 +2,10 @@
 cd ..
 
 @REM déplace le fichier de configuration 
-move O-Pynet/config.json /tempopyconfig.json
+move -Force O-Pynet/config.json tempopyconfig.json
 
 @REM déplace le fichier de lancement
-move O-Pynet/torun.bat /torun.bat
+move -Force O-Pynet/torun.bat torun.bat
 
 @REM exécute le fichier de lancement
 start ./torun.bat
