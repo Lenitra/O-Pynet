@@ -4,11 +4,30 @@ import psutil
 import json
 import os
 from datetime import datetime
-
+import subprocess
 
 app = Flask(__name__)
 app.secret_key = "ahcestcontulaspas"
 app.debug = True
+
+
+
+def is_repo_up_to_date():
+    try:
+        # Run 'git fetch' command to update the remote-tracking branches
+        subprocess.check_output(['git', 'fetch'])
+        
+        # Run 'git status' command to check the status of the repository
+        output = subprocess.check_output(['git', 'status', '-uno'])
+        
+        # Check if the output contains the phrase 'Your branch is up to date'
+        if b'Your branch is up to date' in output:
+            return True
+        else:
+            return False
+    except subprocess.CalledProcessError:
+        # Handle any errors that occur during the subprocess calls
+        return False
 
 
 
@@ -54,6 +73,8 @@ def login():
 def dashboard():
     if 'user' not in session:
         return redirect("/login")
+    if not is_repo_up_to_date():
+        return redirect("/update")
     
     with open("config.json") as f:
         config = json.load(f)
