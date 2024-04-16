@@ -1,12 +1,5 @@
-@REM passe sur le répertoire parent
-cd ..
+@REM Passe sur le répertoire O-Pynet
+cd O-Pynet
 
-@REM déplace le fichier de configuration 
-move /y O-Pynet\config.json tempopyconfig.json
-
-@REM déplace le fichier de lancement
-move /y O-Pynet\torun.bat torun.bat
-
-@REM exécute le fichier de lancement
-start torun.bat
-
+@REM Exécute le programme
+python main.py

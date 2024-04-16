@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorateur de fichiers</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Explorateur de fichiers</h1>
+        <h2>Répertoires:</h2>
+        <ul>
+            {% for directory in directories %}
+                <li>{{ directory }}</li>
+            {% endfor %}
+        </ul>
+        <h2>Fichiers:</h2>
+        <ul>
+            {% for file in files %}
+                <li>{{ file }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

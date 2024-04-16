@@ -11,6 +11,21 @@ app.secret_key = "ahcestcontulaspas"
 app.debug = True
 
 
+
+
+ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
+
+
+@app.route('/files')
+def files():
+    # Liste des fichiers dans le répertoire racine
+    files = os.listdir(ROOT_DIR)
+    # Filtre les répertoires
+    directories = [f for f in files if os.path.isdir(os.path.join(ROOT_DIR, f))]
+    # Filtre les fichiers
+    files = [f for f in files if os.path.isfile(os.path.join(ROOT_DIR, f))]
+    return render_template('files.html', directories=directories, files=files)
+
 # Redirection vers la page de login si l'utilisateur n'est pas connecté
 @app.route('/')
 def index():
@@ -44,6 +59,7 @@ def dashboard():
         config = json.load(f)
     refresh = config["refresh"]*1000
     return render_template("dashboard.html", refresh = refresh)
+
 
 
 

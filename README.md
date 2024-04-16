@@ -6,5 +6,10 @@ Panneau administratif pour serveur vps ou dédié
 - Bouton de redémarrage rapide
 - Boutons vers liens externes
 - Navigation et gestion des fichiers (TODO)
-### Executer start.bat pour lancer le serveur
-```
+### Installation
+1. Cloner le dépôt
+2. Installer les dépendances
+3. Déplacez le Start.bat dans le répertoire parent
+4. Exécutez le Start.bat
+
+
