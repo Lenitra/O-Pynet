@@ -52,7 +52,7 @@ def dashboard():
 def reboot():
     if 'user' not in session:
         return redirect("/login")
-    os.system("shutdown /r /t 0")
+    os.system("shutdown /r /f /t 0")
     return redirect("/dashboard")
 
 # API
