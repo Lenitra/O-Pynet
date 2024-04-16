@@ -10,6 +10,6 @@ Panneau administratif pour serveur vps ou dédié
 1. Cloner le dépôt
 2. Installer les dépendances
 3. Déplacez le Start.bat dans le répertoire parent
-4. Exécutez le Start.bat
+4. Exécutez le Start.bat pour exécuter le serveur
 
 
