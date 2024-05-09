@@ -1,5 +1,5 @@
 # Author: TauMah
-from flask import Flask, jsonify, render_template, request, redirect, send_file, send_from_directory, session
+from flask import Flask, jsonify, render_template, request, redirect, send_file, session
 import psutil
 import json
 import os
@@ -71,7 +71,7 @@ def get_files_data(directory_path):
         if count % 3 == 0:
             filesshortshtml += '<br style="margin-top: 50px;">'
 
-    return render_template('files.html', files_data=files_data, buttons = filesshortshtml)
+    return render_template('files.html', files_data=files_data, buttons = filesshortshtml, defaultFile = config["defaultFile"])
 
 
 
