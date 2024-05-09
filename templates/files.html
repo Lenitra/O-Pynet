@@ -6,6 +6,8 @@
     <title>Explorateur de fichiers</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
     <!-- Thème sombre personnalisé -->
     <style>
         body {
@@ -108,7 +110,7 @@
                 } else {
                     const fileDiv = document.createElement('div');
                     const filePath = window.location.href.split('/files/').slice(1).join('') + '/' + file.name;
-                    fileDiv.innerHTML = '<span class="badge badge-success badge-pill mr-2">Fichier</span><span style="color:white">' + file.name + '</span><a href="' + window.location.origin + '/download/' + filePath + '" class="btn btn-sm btn-success float-right">Télécharger</a>';
+                    fileDiv.innerHTML = '<span class="badge badge-success badge-pill mr-2">Fichier</span><span style="color:white">' + file.name + '</span><a href="' + window.location.origin + '/download/' + filePath + '" class="btn btn-sm btn-primary float-right"><i class="fas fa-download"></i></a>';
                     li.appendChild(fileDiv);
                     li.classList.add('text-success');
                 }
