@@ -11,8 +11,8 @@
     },
     "defaultFile" : "C:",
     "filesShorts":{
-        "Disque C": "C:",
-        "Disque E": "E:",
+        "Disque C": "C:/",
+        "Disque E": "E:/",
         "Burreau": "C:/Users/thoma/Desktop"
     }
 }
