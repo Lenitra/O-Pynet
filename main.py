@@ -82,9 +82,10 @@ def fileview(file_path):
     if not os.path.isfile(file_path):
         return jsonify({'error': 'Le chemin spécifié n\'existe pas ou n\'est pas un fichier.'}), 404
 
-    # Lire le contenu du fichier
+    # Lire le contenu du fichier ligne par ligne
     with open(file_path, 'r') as file:
         file_content = file.read()
+    file_content = file_content.replace("\n", "<br>")
 
     # Rendre le template 'fileview.html' avec le contenu du fichier
     return file_content
