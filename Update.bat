@@ -1,7 +1,7 @@
 @REM déplace le fichier de configuration 
 move /y O-Pynet\config.json tempopyconfig.json
 
-rmdir /s /q O-Pynet
+rmdir /s /q O-Pynet\
 
 git clone https://github.com/Lenitra/O-Pynet.git
 
