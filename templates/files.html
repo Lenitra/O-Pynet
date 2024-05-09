@@ -102,15 +102,14 @@
                 if (file.type === 'directory') {
                     const link = document.createElement('a');
                     link.href = window.location.href + '/' + file.name;
-                    link.innerHTML = '<span class="badge badge-primary badge-pill mr-2">Dossier</span>' + file.name;
+                    link.innerHTML = '<span class="badge badge-primary badge-pill mr-2">Dossier</span>' + file.name + "/";
                     li.appendChild(link);
                     li.classList.add('text-primary');
                 } else {
-                    const downloadLink = document.createElement('a');
+                    const fileDiv = document.createElement('div');
                     const filePath = window.location.href.split('/files/').slice(1).join('') + '/' + file.name;
-                    downloadLink.href = window.location.origin + '/download/' + filePath;
-                    downloadLink.innerHTML = '<span class="badge badge-success badge-pill mr-2">Télécharger</span>' + file.name;
-                    li.appendChild(downloadLink);
+                    fileDiv.innerHTML = '<span class="badge badge-success badge-pill mr-2">Fichier</span><span style="color:white">' + file.name + '</span><a href="' + window.location.origin + '/download/' + filePath + '" class="btn btn-sm btn-success float-right">Télécharger</a>';
+                    li.appendChild(fileDiv);
                     li.classList.add('text-success');
                 }
                 parentElement.appendChild(li);
