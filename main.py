@@ -74,7 +74,20 @@ def get_files_data(directory_path):
     return render_template('files.html', files_data=files_data, buttons = filesshortshtml, defaultFile = config["defaultFile"])
 
 
+@app.route('/fileview/<path:file_path>')
+def fileview(file_path):
+    if 'user' not in session:
+        return redirect("/login")
+    # Vérifier si le chemin spécifié existe et est un fichier
+    if not os.path.isfile(file_path):
+        return jsonify({'error': 'Le chemin spécifié n\'existe pas ou n\'est pas un fichier.'}), 404
 
+    # Lire le contenu du fichier
+    with open(file_path, 'r') as file:
+        file_content = file.read()
+
+    # Rendre le template 'fileview.html' avec le contenu du fichier
+    return file_content
 
 
 
