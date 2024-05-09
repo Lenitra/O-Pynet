@@ -61,7 +61,17 @@ def get_files_data(directory_path):
                 })
 
     # Rendre le template 'files.html' avec les données JSON
-    return render_template('files.html', files_data=files_data)
+    with open("config.json") as f:
+        config = json.load(f)
+    filesshortshtml = "" 
+    count = 0
+    for name, link in config["filesShorts"].items():
+        count += 1
+        filesshortshtml += f'<div class="col-md-4"><a href="/files/{link}" class="btn btn-primary btn-block">{name}</a></div>'
+        if count % 3 == 0:
+            filesshortshtml += '<br style="margin-top: 50px;">'
+
+    return render_template('files.html', files_data=files_data, buttons = filesshortshtml)
 
 
 
@@ -119,13 +129,11 @@ def login():
 def dashboard():
     if 'user' not in session:
         return redirect("/login")
-    if not is_repo_up_to_date():
-        return redirect("/update")
     
     with open("config.json") as f:
         config = json.load(f)
     refresh = config["refresh"]*1000
-    return render_template("dashboard.html", refresh = refresh)
+    return render_template("dashboard.html", refresh = refresh, defaultFile = config["defaultFile"])
 
 
 
@@ -163,12 +171,6 @@ def uptime():
     return {"uptime": str(uptime)}
 
 
-@app.route("/update", methods=['GET'])
-def update():
-    if 'user' not in session:
-        return redirect("/login")
-    os.system("start /b ..\\update.bat")
-    return redirect("/dashboard")
 
 
 

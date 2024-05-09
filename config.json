@@ -3,15 +3,16 @@
     "port": "",
     "refresh": 5,
     "users": {
-        "TauMah": "aaa",
-        "Valahak": "123"
+        "TauMah": "aaa"
     },
     "buttons":{
         "Imprimante 1": "#",
         "Imprimante 2": "#"
     },
+    "defaultFile" : "C:",
     "filesShorts":{
         "Disque C": "C:",
-        "Disque E": "E:"
+        "Disque E": "E:",
+        "Burreau": "C:/Users/thoma/Desktop"
     }
 }
