@@ -31,6 +31,49 @@ def download_file(file_path):
 
 
 
+@app.route('/files')
+def get_discks():
+    if 'user' not in session:
+        return redirect("/login")
+    
+    # lister les disques
+    disks = []
+    files_data = []
+    for part in psutil.disk_partitions():
+        disks.append({"device": part.device, "usage": psutil.disk_usage(part.mountpoint).percent})
+        print(part.device, part.mountpoint, psutil.disk_usage(part.mountpoint).percent)
+        files_data.append({
+            'name': part.device.split("\\")[0],
+            'type': 'directory'
+        })
+
+
+
+    # Rendre le template 'files.html' avec les données JSON
+    with open("config.json") as f:
+        config = json.load(f)
+    filesshortshtml = "" 
+    count = 0
+    for name, link in config["filesShorts"].items():
+        count += 1
+        filesshortshtml += f'<div class="col-md-4"><a href="/files/{link}" class="btn btn-primary btn-block">{name}</a></div>'
+        if count % 3 == 0:
+            filesshortshtml += '<br style="margin-top: 50px;">'
+
+    return render_template('files.html', files_data=files_data, buttons = filesshortshtml, defaultFile = config["defaultFile"])
+
+
+
+
+
+
+
+
+
+
+
+
+
 @app.route('/files/<path:directory_path>')
 def get_files_data(directory_path):
     if 'user' not in session:
