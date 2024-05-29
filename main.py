@@ -220,6 +220,8 @@ def disk():
     # lister tous les disques
     disk = []
     for part in psutil.disk_partitions():
+        if "loop" in part.device:
+            continue
         disk.append({"device": part.device, "usage": psutil.disk_usage(part.mountpoint).percent})
     return {"disk": disk}
 
