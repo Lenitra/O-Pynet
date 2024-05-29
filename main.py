@@ -222,6 +222,14 @@ def disk():
     for part in psutil.disk_partitions():
         if "loop" in part.device:
             continue
+        already = False
+        for diskpart in psutil.disk_partitions():
+            if diskpart.device == part.device:
+                already = True
+                break
+        if already:
+            continue
+        
         disk.append({"device": part.device, "usage": psutil.disk_usage(part.mountpoint).percent})
     return {"disk": disk}
 
