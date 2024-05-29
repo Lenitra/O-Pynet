@@ -219,12 +219,15 @@ def memory():
 def disk():
     # lister tous les disques
     disk = []
+    
     for part in psutil.disk_partitions():
         if "loop" in part.device:
             continue
+        
+        
         already = False
-        for diskpart in psutil.disk_partitions():
-            if diskpart.device == part.device:
+        for diskpart in disk:
+            if diskpart["device"] == part.device:
                 already = True
                 break
         if already:
