@@ -201,7 +201,7 @@ def reboot():
     if 'user' not in session:
         return redirect("/login")
     os.system("shutdown /r /f /t 0")
-    os.system("reboot")
+    os.system("sudo reboot")
     return redirect("/dashboard")
 
 # API
