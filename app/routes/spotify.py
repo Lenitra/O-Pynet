@@ -37,8 +37,6 @@ def startSoftwareSpotify():
     if spotify_path:
         # Exécuter spotify
         subprocess.run([spotify_path])
-    else:
-        return "Spotify n'est pas installé sur votre système.", 500
     return redirect("/musique")
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
