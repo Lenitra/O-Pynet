@@ -36,7 +36,7 @@ def play():
     response = requests.put('https://api.spotify.com/v1/me/player/play', headers=headers)
     if response.status_code != 204:
         webbrowser.open_new('http://localhost:'+config["port"]+'/spotify/getkey')
-        time.sleep(3)
+        time.sleep(5)
         requests.post('http://localhost:' + config["port"] + '/spotify/play')
     return redirect("/musique")
 
