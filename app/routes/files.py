@@ -23,7 +23,7 @@ def download_file(file_path):
 
 
 
-
+# Afficher les différents répertoires de disques
 @FILES.route('/files')
 def get_discks():
     if 'user' not in session:
@@ -31,13 +31,23 @@ def get_discks():
     
     # lister les disques
     files_data = []
+    tmp_disk = []
     for part in psutil.disk_partitions():
+        if "loop" in part.device:
+            continue
+        if part.device in tmp_disk:
+            continue
+        
+        tmp_disk.append(part.device)
+
+        
         files_data.append({
             'name': part.device.split("\\")[0],
             'type': 'directory'
         })
 
-    # Rendre le template 'files.html' avec les données JSON
+
+    # Gestion des raccourcis
     with open("config.json") as f:
         config = json.load(f)
     filesshortshtml = "" 
