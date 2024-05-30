@@ -33,10 +33,9 @@ def play():
     headers = {'Authorization': 'Bearer ' + access_token}
     response = requests.put('https://api.spotify.com/v1/me/player/play', headers=headers)
     if response.status_code != 204:
-        webbrowser.open('http://'+config["host"]+':'+config["port"]+'/spotify/getkey')
+        webbrowser.open('http://localhost:'+config["port"]+'/spotify/getkey')
         time.sleep(3)
-        requests.post('http://' + config["host"] + ':' + config["port"] + '/spotify/play')
-        return "Erreur lors de la lecture de la musique", 500
+        requests.post('http://localhost:' + config["port"] + '/musique/play')
     return redirect("/musique")
 
 
@@ -52,7 +51,7 @@ def get_access_token(code):
     data = {
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': "http://" + config["host"]+ ":" + config["port"] + '/spotify/callback',
+        'redirect_uri': "http://localhost:" + config["port"] + '/spotify/callback',
     }
     response = requests.post(token_url, headers=headers, data=data)
     token_info = response.json()
@@ -81,7 +80,7 @@ def login():
     with open('config.json') as f:
         config = json.load(f)
     client_id = config['spotify']['client_id']
-    redirect_uri = "http://" + config["host"]+ ":" + config["port"] + '/spotify/callback'
+    redirect_uri = "http://localhost:" + config["port"] + '/spotify/callback'
     # Remplacez les scopes par ceux que vous souhaitez demander à l'utilisateur
     scope = 'user-read-playback-state user-modify-playback-state user-read-currently-playing app-remote-control streaming '
     state = 'some_state_value'  # Vous pouvez générer un état aléatoire ici si nécessaire
@@ -94,7 +93,7 @@ def login():
     
     
     
-@SPOTIFY.route('/musique/addqueue', methods=['POST' , 'GET'])
+@SPOTIFY.route('/musique/addqueue',methods=['POST' , 'GET'])
 def addqueue():
     # Récupérer le jeton d'accès
     with open('access_token.txt', 'r') as f:
@@ -105,7 +104,7 @@ def addqueue():
     uri = request.args.get('uri')
     response = requests.post(f'https://api.spotify.com/v1/me/player/queue?uri={uri}', headers=headers)
     if response.status_code != 204:
-        webbrowser.open('http://'+config["host"]+':'+config["port"]+'/spotify/getkey')
+        webbrowser.open('http://localhost:'+config["port"]+'/spotify/getkey')
         time.sleep(3)
         requests.post(f'http://' + config["host"] + ':' + config["port"] + '/musique/addqueue?uri=' + uri)
     return "OK", 200
