@@ -28,7 +28,7 @@ def startSoftwareSpotify():
     os.system("spotify &")
     try:
     # Lancer Spotify via le shell
-        subprocess.run("spotify", shell=True, check=True)
+        subprocess.run("spotify &", shell=True, check=True)
         print("Spotify lancé avec succès.")
     except subprocess.CalledProcessError as e:
         print(f"Erreur lors du lancement de Spotify : {e}")
