@@ -12,6 +12,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 with open('access_token.txt', 'w') as f:
     f.write('')
+os.system("firefox --new-window https://open.spotify.com/ &")
     
 SPOTIFY = Blueprint('spotify', __name__)
 
