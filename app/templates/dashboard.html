@@ -139,7 +139,7 @@
                         strong.textContent = disk.device;
                         p.appendChild(strong);
                         const span = document.createElement('span');
-                        span.textContent = " : "+disk.usage + '%';
+                        span.textContent = " - "+ disk.details + " - (" + disk.usage + "%)";
                         p.appendChild(span);
                         disks.appendChild(p);
 
