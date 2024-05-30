@@ -3,7 +3,7 @@ import time
 import webbrowser
 from flask import Blueprint, render_template, session, redirect, request, jsonify
 import json
-import os
+import subprocess 
 
 import requests
 
@@ -20,7 +20,7 @@ def spotify():
 
 @SPOTIFY.route('/spotify/start')
 def startSoftwareSpotify():
-    os.system("spotify")
+    subprocess.run(["spotify"])
     return "OK", 200
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
