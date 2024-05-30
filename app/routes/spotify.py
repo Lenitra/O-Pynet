@@ -4,7 +4,7 @@ import webbrowser
 from flask import Blueprint, render_template, session, redirect, request, jsonify
 import json
 import subprocess 
-
+import shutil 
 import requests
 import os
 
@@ -33,11 +33,14 @@ def find_executable(executable):
 def startSoftwareSpotify():
     subprocess.run("spotify", shell=True)
     spotify_path = find_executable("spotify")
+    spotify_path = shutil.which("spotify")
 
     if spotify_path:
         # Exécuter spotify
         subprocess.run([spotify_path])
-    return redirect("/musique")
+    else:
+        print("Spotify executable not found in PATH")
+    return "OK", 200
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
 def get_access_token(code):
