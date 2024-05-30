@@ -131,7 +131,8 @@ def fileview(file_path):
     
     # Vérifier si le chemin spécifié existe et est un fichier
     if not os.path.isfile(file_path):
-        return jsonify({'error': 'Le chemin spécifié n\'existe pas ou n\'est pas un fichier.'}), 404
+        return jsonify({'error': 'Le chemin spécifié n\'existe pas ou n\'est pas un fichier.', 
+                        "file_path": file_path}), 404
 
     # Lire le contenu du fichier ligne par ligne
     with open(file_path, 'r') as file:
