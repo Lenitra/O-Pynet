@@ -35,7 +35,7 @@ def play():
     headers = {'Authorization': 'Bearer ' + access_token}
     response = requests.put('https://api.spotify.com/v1/me/player/play', headers=headers)
     if response.status_code != 204:
-        os.system('/usr/bin/fireox http://localhost:'+config["port"]+'/spotify/getkey &')
+        os.system('http://localhost:'+config["port"]+'/spotify/getkey')
         time.sleep(1.5)
         requests.post('http://localhost:' + config["port"] + '/spotify/play')
     return redirect("/musique")
