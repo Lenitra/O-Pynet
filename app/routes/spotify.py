@@ -22,14 +22,22 @@ def spotify():
     return render_template("spotify.html")
 
 
-
-
-
-@SPOTIFY.route('/spotify/start')
-def startSoftwareSpotify():
-    webbrowser.open('https://open.spotify.com/')
-    
-    return "OK", 200
+@SPOTIFY.route('/spotify/play', methods=['POST'])
+def play():
+    with open('config.json') as f:
+        config = json.load(f)
+        
+    # Récupérer le jeton d'accès
+    with open('access_token.txt', 'r') as f:
+        access_token = f.read()
+    headers = {'Authorization': 'Bearer ' + access_token}
+    response = requests.put('https://api.spotify.com/v1/me/player/play', headers=headers)
+    if response.status_code != 204:
+        webbrowser.open('http://'+config["host"]+':'+config["port"]+'/spotify/getkey')
+        time.sleep(3)
+        requests.post('http://' + config["host"] + ':' + config["port"] + '/musique/play')
+        return "Erreur lors de la lecture de la musique", 500
+    return redirect("/musique")
 
 
 
