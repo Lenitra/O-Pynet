@@ -26,6 +26,7 @@ def spotify():
 @SPOTIFY.route('/spotify/start')
 def startSoftwareSpotify():
     os.system("spotify &")
+    subprocess.Popen(['spotify'])
     
     # try:
     # # Lancer Spotify via le shell
