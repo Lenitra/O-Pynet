@@ -7,6 +7,8 @@ import subprocess
 import shutil 
 import requests
 import os
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 
 with open('access_token.txt', 'w') as f:
     f.write('')
@@ -26,29 +28,6 @@ def spotify():
 @SPOTIFY.route('/spotify/start')
 def startSoftwareSpotify():
     os.system("spotify &")
-    subprocess.Popen(['spotify'])
-    
-    # try:
-    # # Lancer Spotify via le shell
-    #     subprocess.run("spotify &", shell=True, check=True)
-    #     print("Spotify lancé avec succès.")
-    # except subprocess.CalledProcessError as e:
-    #     print(f"Erreur lors du lancement de Spotify : {e}")
-    # except FileNotFoundError as e:
-    #     print(f"Commande introuvable : {e}")
-    
-    spotify_path = shutil.which("spotify")
-
-    if spotify_path:
-        try:
-            # Lancer Spotify
-            subprocess.run([spotify_path], check=True)
-            print("Spotify lancé avec succès.")
-        except subprocess.CalledProcessError as e:
-            print(f"Erreur lors du lancement de Spotify : {e}")
-    else:
-        print("Spotify n'a pas été trouvé dans le PATH.")
-    
     
     return "OK", 200
 
@@ -124,3 +103,57 @@ def addqueue():
     return "OK", 200
 
 
+# region Spotify API Credentials
+def recherche_chanson(nom_chanson):
+    with open('config.json') as f:
+        config = json.load(f)
+    client_id = config['spotify']['client_id']
+    client_secret = config['spotify']['client_secret']
+    # Authentification avec les clés d'API
+    client_credentials_manager = SpotifyClientCredentials(
+        client_id=client_id, client_secret=client_secret
+    )
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+    # Recherche de la chanson
+    results = sp.search(q=nom_chanson, limit=1)
+
+    # Récupération de l'URI de la première chanson trouvée
+    if results["tracks"]["items"]:
+        uri = results["tracks"]["items"][0]["uri"]
+        return uri
+    else:
+        return None
+
+
+
+def get_track_info(uri):
+    with open('config.json') as f:
+        config = json.load(f)
+    client_id = config['spotify']['client_id']
+    client_secret = config['spotify']['client_secret']
+    # Remplacez ces variables par vos clés d'API Spotify
+
+    # Authentification avec les clés d'API
+    client_credentials_manager = SpotifyClientCredentials(
+        client_id=client_id, client_secret=client_secret
+    )
+    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+    try:
+        # Obtenir les informations sur la piste à partir de son URI
+        track_info = sp.track(uri)
+
+        # Extraire le nom du titre et le premier artiste
+        if track_info:
+            track_name = track_info["name"]
+            artist_name = track_info["artists"][0]["name"]
+            url = track_info["external_urls"]["spotify"]
+            return track_name, artist_name, url
+        else:
+            return None, None, None
+    except spotipy.SpotifyException as e:
+        print(f"Erreur : {e}")
+        return None, None, None
+
+# endregion
