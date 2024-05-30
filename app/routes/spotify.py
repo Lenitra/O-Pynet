@@ -6,6 +6,7 @@ import json
 import subprocess 
 
 import requests
+import os
 
 with open('access_token.txt', 'w') as f:
     f.write('')
@@ -18,10 +19,27 @@ def spotify():
         return redirect("/login")
     return render_template("spotify.html")
 
+
+def find_executable(executable):
+    """Return the path of the given executable if found in PATH, else None."""
+    for dir in os.environ["PATH"].split(os.pathsep):
+        full_path = os.path.join(dir, executable)
+        if os.path.isfile(full_path) and os.access(full_path, os.X_OK):
+            return full_path
+    return None
+
+
 @SPOTIFY.route('/spotify/start')
 def startSoftwareSpotify():
     subprocess.run("spotify", shell=True)
-    return "OK", 200
+    spotify_path = find_executable("spotify")
+
+    if spotify_path:
+        # Exécuter spotify
+        subprocess.run([spotify_path])
+    else:
+        return "Spotify n'est pas installé sur votre système.", 500
+    return redirect("/musique")
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
 def get_access_token(code):
