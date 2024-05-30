@@ -35,7 +35,7 @@ def play():
     if response.status_code != 204:
         webbrowser.open('http://'+config["host"]+':'+config["port"]+'/spotify/getkey')
         time.sleep(3)
-        requests.post('http://' + config["host"] + ':' + config["port"] + '/musique/play')
+        requests.post('http://' + config["host"] + ':' + config["port"] + '/spotify/play')
         return "Erreur lors de la lecture de la musique", 500
     return redirect("/musique")
 
