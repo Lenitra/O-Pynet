@@ -36,7 +36,7 @@ def play():
     response = requests.put('https://api.spotify.com/v1/me/player/play', headers=headers)
     if response.status_code != 204:
         webbrowser.open_new('http://localhost:'+config["port"]+'/spotify/getkey')
-        time.sleep(1.5)
+        time.sleep(3)
         requests.post('http://localhost:' + config["port"] + '/spotify/play')
     return redirect("/musique")
 
@@ -71,7 +71,7 @@ def callback():
         f.write(access_token)
     if access_token:
         # Vous pouvez effectuer d'autres actions ici, comme enregistrer le jeton d'accès dans une base de données
-        return "Jetons d'accès obtenu avec succès!<script>setTimeout(function(){window.close();}, 1);</script>"
+        return "Jetons d'accès obtenu avec succès!<script>setTimeout(function(){window.close();}, 10);</script>"
     else:
         return "Impossible d'obtenir le jeton d'accès."
     
