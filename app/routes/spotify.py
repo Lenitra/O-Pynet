@@ -25,8 +25,6 @@ def spotify():
 
 @SPOTIFY.route('/spotify/play', methods=['POST' , 'GET'])
 def play():
-    if 'user' not in session:
-        return redirect("/login")
     
     with open('config.json') as f:
         config = json.load(f)
