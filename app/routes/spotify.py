@@ -26,8 +26,14 @@ def spotify():
 @SPOTIFY.route('/spotify/start')
 def startSoftwareSpotify():
     os.system("spotify &")
-    subprocess.run(["spotify"])
-    # subprocess.run(["spotify"])
+    try:
+    # Lancer Spotify via le shell
+        subprocess.run("spotify", shell=True, check=True)
+        print("Spotify lancé avec succès.")
+    except subprocess.CalledProcessError as e:
+        print(f"Erreur lors du lancement de Spotify : {e}")
+    except FileNotFoundError as e:
+        print(f"Commande introuvable : {e}")
     
     return "OK", 200
 
