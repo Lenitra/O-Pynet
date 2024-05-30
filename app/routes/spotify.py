@@ -26,7 +26,8 @@ def spotify():
 @SPOTIFY.route('/spotify/start')
 def startSoftwareSpotify():
     os.system("spotify &")
-    os.system("gnome-terminal -- spotify &")
+    subprocess.Popen(["spotify"])
+    # subprocess.run(["spotify"])
     
     return "OK", 200
 
