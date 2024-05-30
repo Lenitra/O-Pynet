@@ -12,9 +12,9 @@
     "users": {
         "TauMah": "aaa"
     },
-    "buttons":{
-        "Imprimante 1": "#",
-        "Imprimante 2": "#"
+    "liens":{
+        "lien test 1": "https://www.google.com",
+        "lien test 2": "https://www.google.com"
     },
     "defaultFile" : "C:/",
     "filesShorts":{
