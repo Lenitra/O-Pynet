@@ -33,9 +33,8 @@ def play():
     headers = {'Authorization': 'Bearer ' + access_token}
     response = requests.put('https://api.spotify.com/v1/me/player/play', headers=headers)
     if response.status_code != 204:
-        webbrowser.open_new('http://localhost:'+config["port"]+'/spotify/getkey')
-        time.sleep(1.5)
-        requests.post('http://localhost:' + config["port"] + '/spotify/play')
+        session['redirect'] = '/spotify/play'
+        return redirect("/spotify/getkey")
     return redirect("/musique")
 
 
@@ -69,14 +68,18 @@ def callback():
         f.write(access_token)
     if access_token:
         # Vous pouvez effectuer d'autres actions ici, comme enregistrer le jeton d'accès dans une base de données
-        return "Jetons d'accès obtenu avec succès!<br>"+access_token+"<script>setTimeout(function(){window.close();}, 1);</script>"
+        return redirect(session['redirect'])
     else:
-        return "Impossible d'obtenir le jeton d'accès."
+        return "ERREUR"
     
     
     
 @SPOTIFY.route('/spotify/getkey', methods=['GET' , 'POST'])
 def login():
+    if 'user' not in session:
+        return redirect("/login")
+    if 'redirect' not in session:
+        return redirect("/musique")
     with open('config.json') as f:
         config = json.load(f)
     client_id = config['spotify']['client_id']
@@ -93,8 +96,10 @@ def login():
     
     
     
-@SPOTIFY.route('/musique/addqueue',methods=['POST' , 'GET'])
+@SPOTIFY.route('/spotify/addqueue',methods=['POST' , 'GET'])
 def addqueue():
+    if 'user' not in session:
+        return redirect("/login")
     # Récupérer le jeton d'accès
     with open('access_token.txt', 'r') as f:
         access_token = f.read()
@@ -104,9 +109,8 @@ def addqueue():
     uri = request.args.get('uri')
     response = requests.post(f'https://api.spotify.com/v1/me/player/queue?uri={uri}', headers=headers)
     if response.status_code != 204:
-        webbrowser.open('http://localhost:'+config["port"]+'/spotify/getkey')
-        time.sleep(3)
-        requests.post(f'http://' + config["host"] + ':' + config["port"] + '/musique/addqueue?uri=' + uri)
+        session['redirect'] = '/spotify/addqueue'
+        return redirect("/spotify/getkey")
     return "OK", 200
 
 
