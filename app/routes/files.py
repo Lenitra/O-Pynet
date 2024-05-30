@@ -71,7 +71,13 @@ def get_discks():
 def get_files_data(directory_path):
     if 'user' not in session:
         return redirect("/login")
+    
+    with open("config.json") as f:
+        config = json.load(f)
+    if config["os"] == "linux":
+        directory_path = f"/{directory_path}"
     # Vérifier si le chemin spécifié existe et est un répertoire
+    
     if not os.path.isdir(directory_path):
         return jsonify({
             'error': 'Le chemin spécifié n\'existe pas ou n\'est pas un répertoire.',
@@ -100,8 +106,6 @@ def get_files_data(directory_path):
                 })
 
     # Gestion des raccourcis
-    with open("config.json") as f:
-        config = json.load(f)
     filesshortshtml = "" 
     count = 0
     for name, link in config["filesShorts"].items():
