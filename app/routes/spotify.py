@@ -22,7 +22,7 @@ def spotify():
     return render_template("spotify.html")
 
 
-@SPOTIFY.route('/spotify/play', methods=['POST'])
+@SPOTIFY.route('/spotify/play', methods=['POST' , 'GET'])
 def play():
     with open('config.json') as f:
         config = json.load(f)
@@ -60,7 +60,7 @@ def get_access_token(code):
 
 
 
-@SPOTIFY.route('/spotify/callback')
+@SPOTIFY.route('/spotify/callback', methods=['POST' , 'GET'])
 def callback():
     code = request.args.get('code')
     print("Le code expirera dans : ", request.args.get('expires_in'), " secondes")
@@ -94,7 +94,7 @@ def login():
     
     
     
-@SPOTIFY.route('/musique/addqueue', methods=['POST'])
+@SPOTIFY.route('/musique/addqueue', methods=['POST' , 'GET'])
 def addqueue():
     # Récupérer le jeton d'accès
     with open('access_token.txt', 'r') as f:
