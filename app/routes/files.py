@@ -123,6 +123,12 @@ def get_files_data(directory_path):
 def fileview(file_path):
     if 'user' not in session:
         return redirect("/login")
+    
+    with open("config.json") as f:
+        config = json.load(f)
+    if config["os"] == "linux":
+        file_path = f"/{file_path}"
+    
     # Vérifier si le chemin spécifié existe et est un fichier
     if not os.path.isfile(file_path):
         return jsonify({'error': 'Le chemin spécifié n\'existe pas ou n\'est pas un fichier.'}), 404
