@@ -26,20 +26,10 @@ def spotify():
 @SPOTIFY.route('/spotify/start')
 def startSoftwareSpotify():
     os.system("spotify &")
-    os.system("spotify &")
-    subprocess.run("spotify &", shell=True)
-    subprocess.run("spotify &")
+    os.system("gnome-terminal -- spotify &")
+    # 
+    # subprocess.run(['gnome-terminal', '--', 'spotify', "&"])
     
-    spotify_path = shutil.which("spotify")
-
-    if spotify_path:
-        # Exécuter spotify
-        subprocess.run([spotify_path + " &"])
-    else:
-        print("1. KO")
-    
-
-        
     
     return "OK", 200
 
