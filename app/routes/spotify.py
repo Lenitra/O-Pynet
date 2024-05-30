@@ -33,10 +33,7 @@ def play():
     headers = {'Authorization': 'Bearer ' + access_token}
     response = requests.put('https://api.spotify.com/v1/me/player/play', headers=headers)
     if response.status_code != 204:
-
-        browser_cmd = 'firefox http://localhost:'+config["port"]+'/spotify/getkey'
-        subprocess.Popen(browser_cmd, shell=True)
-        # webbrowser.open('http://localhost:'+config["port"]+'/spotify/getkey')
+        webbrowser.open_new_tab('http://localhost:'+config["port"]+'/spotify/getkey')
         time.sleep(3)
         requests.post('http://localhost:' + config["port"] + '/musique/play')
     return redirect("/musique")
