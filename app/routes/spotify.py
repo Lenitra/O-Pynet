@@ -26,13 +26,25 @@ def spotify():
 @SPOTIFY.route('/spotify/start')
 def startSoftwareSpotify():
     subprocess.run("spotify", shell=True)
+    
     spotify_path = shutil.which("spotify")
 
     if spotify_path:
         # Exécuter spotify
-        subprocess.run([spotify_path])
+        subprocess.run([spotify_path + " &"])
     else:
-        print("Spotify executable not found in PATH")
+        print("1. KO")
+    
+    try:
+    # Exécuter la commande spotify comme dans le terminal
+        result = subprocess.run(["spotify &"], check=True)
+        print("Spotify a été lancé avec succès.")
+    except subprocess.CalledProcessError as e:
+        print(f"Erreur lors de l'exécution de Spotify: {e}")
+    except FileNotFoundError:
+        print("Spotify n'a pas été trouvé.")
+        
+    
     return "OK", 200
 
 
