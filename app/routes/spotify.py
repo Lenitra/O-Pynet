@@ -20,19 +20,12 @@ def spotify():
     return render_template("spotify.html")
 
 
-def find_executable(executable):
-    """Return the path of the given executable if found in PATH, else None."""
-    for dir in os.environ["PATH"].split(os.pathsep):
-        full_path = os.path.join(dir, executable)
-        if os.path.isfile(full_path) and os.access(full_path, os.X_OK):
-            return full_path
-    return None
+
 
 
 @SPOTIFY.route('/spotify/start')
 def startSoftwareSpotify():
     subprocess.run("spotify", shell=True)
-    spotify_path = find_executable("spotify")
     spotify_path = shutil.which("spotify")
 
     if spotify_path:
@@ -41,6 +34,8 @@ def startSoftwareSpotify():
     else:
         print("Spotify executable not found in PATH")
     return "OK", 200
+
+
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
 def get_access_token(code):
