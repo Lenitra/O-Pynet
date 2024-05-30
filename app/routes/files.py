@@ -40,7 +40,7 @@ def get_discks():
         
         tmp_disk.append(part.device)
 
-        
+
         files_data.append({
             'name': part.device.split("\\")[0],
             'type': 'directory'
@@ -73,7 +73,10 @@ def get_files_data(directory_path):
         return redirect("/login")
     # Vérifier si le chemin spécifié existe et est un répertoire
     if not os.path.isdir(directory_path):
-        return jsonify({'error': 'Le chemin spécifié n\'existe pas ou n\'est pas un répertoire.'}), 404
+        return jsonify({
+            'error': 'Le chemin spécifié n\'existe pas ou n\'est pas un répertoire.',
+            "directory_path": directory_path
+            }), 404
 
     files_data = []
 
@@ -96,7 +99,7 @@ def get_files_data(directory_path):
                     'size': os.path.getsize(file_path)  # Taille du fichier en octets
                 })
 
-    # Rendre le template 'files.html' avec les données JSON
+    # Gestion des raccourcis
     with open("config.json") as f:
         config = json.load(f)
     filesshortshtml = "" 
