@@ -27,7 +27,7 @@ def spotify():
 
 @SPOTIFY.route('/spotify/start')
 def startSoftwareSpotify():
-    os.system("spotify &")
+    webbrowser.open('https://open.spotify.com/')
     
     return "OK", 200
 
