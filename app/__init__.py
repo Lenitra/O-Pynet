@@ -25,5 +25,8 @@ def create_app():
                 obj = getattr(module, attr)
                 if isinstance(obj, Blueprint):
                     app.register_blueprint(obj)
+    # if there is a blueprint named 'spotify'
+    if 'spotify' in app.blueprints:
+        os.system('firefox open.spotify.com')
 
     return app
