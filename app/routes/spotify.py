@@ -20,7 +20,7 @@ def spotify():
 
 @SPOTIFY.route('/spotify/start')
 def startSoftwareSpotify():
-    subprocess.run(["spotify"])
+    subprocess.run("spotify", shell=True)
     return "OK", 200
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
