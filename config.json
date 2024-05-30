@@ -21,5 +21,9 @@
         "Disque C": "C:/",
         "Disque E": "E:/",
         "Burreau": "C:/Users/thoma/Desktop"
+    },
+    "spotify": {
+        "client_id": "aaa",
+        "client_secret": "aaa"
     }
 }
