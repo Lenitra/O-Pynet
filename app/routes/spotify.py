@@ -27,9 +27,6 @@ def spotify():
 def startSoftwareSpotify():
     os.system("spotify &")
     os.system("gnome-terminal -- spotify &")
-    # 
-    # subprocess.run(['gnome-terminal', '--', 'spotify', "&"])
-    
     
     return "OK", 200
 
