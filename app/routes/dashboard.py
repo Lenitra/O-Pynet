@@ -32,7 +32,7 @@ def dashboard():
         html_liens += '</div></div>'
         
     
-    return render_template("dashboard.html", refresh = refresh, defaultFile = config["defaultFile"], liens = html_liens)
+    return render_template("dashboard.html", refresh = refresh, liens = html_liens)
 
 
 

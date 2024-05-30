@@ -3,7 +3,6 @@ import importlib
 from flask import Flask, Blueprint
 
 def create_app():
-    
     app = Flask(__name__)
     app.config.from_object('config.Config')
     

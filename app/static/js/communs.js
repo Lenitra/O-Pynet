@@ -7,7 +7,8 @@ function writeHTMLNav() {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/files/{{defaultFile}}">Fichiers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/musique">Musique</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/files">Fichiers</a></li>
                     <li class="nav-item"><a class="nav-link" href="/login">Déconnexion</a></li>
                 </ul>
             </div>

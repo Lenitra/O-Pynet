@@ -12,7 +12,7 @@ with open('access_token.txt', 'w') as f:
     
 SPOTIFY = Blueprint('spotify', __name__)
 
-@SPOTIFY.route('/spotify')
+@SPOTIFY.route('/musique')
 def spotify():
     if 'user' not in session:
         return redirect("/login")
@@ -76,7 +76,7 @@ def login():
     
     
     
-@SPOTIFY.route('/addqueue', methods=['POST'])
+@SPOTIFY.route('/musique/addqueue', methods=['POST'])
 def addqueue():
     # Récupérer le jeton d'accès
     with open('access_token.txt', 'r') as f:
@@ -89,7 +89,7 @@ def addqueue():
     if response.status_code != 204:
         webbrowser.open('http://'+config["host"]+':'+config["port"]+'/spotify/getkey')
         time.sleep(3)
-        requests.post(f'http://' + config["host"] + ':' + config["port"] + '/addqueue?uri=' + uri)
+        requests.post(f'http://' + config["host"] + ':' + config["port"] + '/musique/addqueue?uri=' + uri)
     return "OK", 200
 
 

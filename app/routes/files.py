@@ -58,7 +58,7 @@ def get_discks():
         if count % 3 == 0:
             filesshortshtml += '<br style="margin-top: 50px;">'
 
-    return render_template('files.html', files_data=files_data, buttons = filesshortshtml, defaultFile = config["defaultFile"])
+    return render_template('files.html', files_data=files_data, buttons = filesshortshtml)
 
 
 
@@ -114,7 +114,7 @@ def get_files_data(directory_path):
         if count % 3 == 0:
             filesshortshtml += '<br style="margin-top: 50px;">'
 
-    return render_template('files.html', files_data=files_data, buttons = filesshortshtml, defaultFile = config["defaultFile"])
+    return render_template('files.html', files_data=files_data, buttons = filesshortshtml)
 
 
 
