@@ -14,4 +14,4 @@ mv -f tempopyconfig.json O-Pynet/config.json
 
 
 # Remet le fichier de mise à jour
-mv -f O-Pynet/update.bash update.bash
+mv -f O-Pynet/executables/update.bash updateOpynet.bash
