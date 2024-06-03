@@ -85,7 +85,6 @@
                 <!-- Partie pour afficher les informations du titre joué -->
                 <p><strong>Titre:</strong> <span id="titre">Nom du Titre</span></p>
                 <p><strong>Artiste:</strong> <span id="artiste">Nom de l'Artiste</span></p>
-                <p><strong>Album:</strong> <span id="album">Nom de l'Album</span></p>
             </div>
         </div>
 
@@ -104,6 +103,21 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Script actualisant le nome de l'artiste et le titre de la musique -->
+    <script>
+        // Fonction pour actualiser le nom de l'artiste et le titre de la musique
+        function updateMusicInfo() {
+            fetch('/spotify/music-info')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('titre').innerText = data.title;
+                    document.getElementById('artiste').innerText = data.artist;
+                });
+        }
+
+        // Actualiser les informations de la musique toutes les 5 secondes
+        setInterval(updateMusicInfo, 3000);
+    </script>
 </body>
 
 </html>

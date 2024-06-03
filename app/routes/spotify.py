@@ -143,7 +143,27 @@ def next():
             print("Erreur inconnue")
     return redirect("/musique")
 
-
+# retourne les informations de la musique en cours de lecture et de la file d'attente
+@SPOTIFY.route('/spotify/music-info', methods=['POST' , 'GET'])
+def getinfos():
+    with open('config.json') as f:
+        config = json.load(f)
+    # Récupérer le jeton d'accès
+    with open('access_token.txt', 'r') as f:
+        access_token = f.read()
+    headers = {'Authorization': 'Bearer ' + access_token}
+    toret = {}
+    response = requests.get('https://api.spotify.com/v1/me/player/currently-playing"', headers=headers)
+    if response.status_code == 200:
+        response = response.json()['context']
+        if response:
+            response = get_track_info(response)
+            toret = {"title": response[0], "artist": response[1], "url": response[2]}
+    if toret == {}:
+        toret = {"title": "Aucun", "artist": "Aucun", "url": "Aucun"}
+        
+    return jsonify(response)
+    
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
 def get_access_token(code):
