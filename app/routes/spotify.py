@@ -164,9 +164,12 @@ def getinfos():
         if item:
             infos = get_track_info(item['uri'])
             toret = {"title": infos[0], "artist": infos[1]}
+            print(infos)
+            print(toret)
     if toret == {}:
         toret = {"title": "Chargement...", "artist": "Chargement..."}
         
+    print(toret)
     return jsonify(toret)
     
 
