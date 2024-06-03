@@ -153,16 +153,18 @@ def getinfos():
         access_token = f.read()
     headers = {'Authorization': 'Bearer ' + access_token}
     toret = {}
-    response = requests.get('https://api.spotify.com/v1/me/player/currently-playing"', headers=headers)
+    response = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers=headers)
+    if response.status_code == 401 or response.status_code == 400:
+        os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
     if response.status_code == 200:
         response = response.json()['context']
         if response:
             response = get_track_info(response)
             toret = {"title": response[0], "artist": response[1], "url": response[2]}
     if toret == {}:
-        toret = {"title": "Aucun", "artist": "Aucun", "url": "Aucun"}
+        toret = {"title": "Chargement...", "artist": "Chargement...", "url": "Aucun"}
         
-    return jsonify(response)
+    return jsonify(toret)
     
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
