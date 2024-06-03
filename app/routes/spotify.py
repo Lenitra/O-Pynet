@@ -50,7 +50,6 @@ def play():
             
         elif response.status_code == 401 or response.status_code == 400:
             os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
-            webbrowser.open_new('http://localhost:'+config["port"]+'/spotify/getkey')
             time.sleep(3)
             requests.post('http://localhost:' + config["port"] + '/spotify/play')
         else:
@@ -70,7 +69,19 @@ def definedevice():
     headers = {'Authorization': 'Bearer ' + access_token}
     device_id = request.args.get('device_id')
     response = requests.get(f'https://api.spotify.com/v1/me/player/devices', headers=headers, json={"device_ids": [device_id]})
-    print(response.json())
+    if response.status_code != 200:
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
+            
+        if response.status_code == 401 or response.status_code == 400:
+            os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
+            time.sleep(3)
+            requests.post('http://localhost:' + config["port"] + '/spotify/test')
+
     return "OK", 200
 
 
