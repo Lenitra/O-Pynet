@@ -45,6 +45,7 @@ def play():
         if response.status_code == 404:
             # Definir l'ordi comme device actif
             if requests.post('http://localhost:' + config["port"] + '/spotify/activatedevice').status_code == 200:
+                time.sleep(0.5)
                 requests.post('http://localhost:' + config["port"] + '/spotify/play')
             else:
                 return "Spotify n'est pas ouvert sur l'ordinateur", 400
