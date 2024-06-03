@@ -170,7 +170,7 @@ def getinfos():
         print(item)
         
         if item:
-            infos = get_track_info(item['uri'])
+            infos = get_track_info(item['uri'].split(":")[-1])
             toret = {"title": infos[0], "artist": infos[1]}
     if toret == {}:
         toret = {"title": "Chargement...", "artist": "Chargement..."}
