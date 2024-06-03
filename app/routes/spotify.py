@@ -274,7 +274,6 @@ def get_track_info(uri):
         config = json.load(f)
     client_id = config['spotify']['client_id']
     client_secret = config['spotify']['client_secret']
-    # Remplacez ces variables par vos clés d'API Spotify
 
     # Authentification avec les clés d'API
     client_credentials_manager = SpotifyClientCredentials(
@@ -290,10 +289,11 @@ def get_track_info(uri):
         if track_info:
             track_name = track_info["name"]
             artist_name = track_info["artists"][0]["name"]
-            url = track_info["external_urls"]["spotify"]
+            url = "https://open.spotify.com/track/" + uri.split(":")[-1]
             return track_name, artist_name, url
-    except:
-        pass
+    except Exception as e:
+        print("Erreur lors de la récupération des informations de la piste.")
+        print(e)
         
     return None, None, None
 
