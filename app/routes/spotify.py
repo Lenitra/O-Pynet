@@ -87,33 +87,60 @@ def activatedevice():
         else:
             return "Erreur", 400
     
-    
 
-@SPOTIFY.route('/spotify/test', methods=['POST' , 'GET'])
-def definedevice():
+@SPOTIFY.route('/spotify/pause', methods=['POST' , 'GET'])
+def pause():
     with open('config.json') as f:
         config = json.load(f)
-
     # Récupérer le jeton d'accès
     with open('access_token.txt', 'r') as f:
         access_token = f.read()
     headers = {'Authorization': 'Bearer ' + access_token}
-    response = requests.get(f'https://api.spotify.com/v1/me/player/devices', headers=headers)
-    if response.status_code != 200:
-        print(response.status_code)
-        print(response.status_code)
-        print(response.status_code)
-        print(response.status_code)
-        print(response.status_code)
-        print(response.status_code)
-            
-        if response.status_code == 401 or response.status_code == 400:
+    response = requests.put('https://api.spotify.com/v1/me/player/pause', headers=headers)
+    if response.status_code != 204:
+        if response.status_code == 404:
+            # Definir l'ordi comme device actif
+            if requests.post('http://localhost:' + config["port"] + '/spotify/activatedevice').status_code == 200:
+                time.sleep(0.5)
+                requests.post('http://localhost:' + config["port"] + '/spotify/pause')
+            else:
+                return "Spotify n'est pas ouvert sur l'ordinateur", 400
+        elif response.status_code == 403:
+            # musique déjà en pause
+            return redirect("/musique")
+        elif response.status_code == 401 or response.status_code == 400:
             os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
-            time.sleep(3)
-            requests.post('http://localhost:' + config["port"] + '/spotify/test')
-    else:
-        return jsonify(response.json()), 200
-    
+            time.sleep(2)
+            requests.post('http://localhost:' + config["port"] + '/spotify/pause')
+        else:
+            print("Erreur inconnue")
+    return redirect("/musique")
+
+
+@SPOTIFY.route('/spotify/next', methods=['POST' , 'GET'])
+def next():
+    with open('config.json') as f:
+        config = json.load(f)
+    # Récupérer le jeton d'accès
+    with open('access_token.txt', 'r') as f:
+        access_token = f.read()
+    headers = {'Authorization': 'Bearer ' + access_token}
+    response = requests.post('https://api.spotify.com/v1/me/player/next', headers=headers)
+    if response.status_code != 204:
+        if response.status_code == 404:
+            # Definir l'ordi comme device actif
+            if requests.post('http://localhost:' + config["port"] + '/spotify/activatedevice').status_code == 200:
+                time.sleep(0.5)
+                requests.post('http://localhost:' + config["port"] + '/spotify/next')
+            else:
+                return "Spotify n'est pas ouvert sur l'ordinateur", 400
+            
+        elif response.status_code == 401 or response.status_code == 400:
+            os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
+            time.sleep(2)
+            requests.post('http://localhost:' + config["port"] + '/spotify/next')
+        else:
+            print("Erreur inconnue")
     return redirect("/musique")
 
 
