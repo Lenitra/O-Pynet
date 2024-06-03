@@ -1,4 +1,5 @@
 import base64
+import platform
 import time
 import webbrowser
 from flask import Blueprint, render_template, session, redirect, request, jsonify
@@ -43,7 +44,10 @@ def play():
         print(response.status_code)
         if response.status_code == 404:
             # Definir l'ordi comme device actif
-            pass
+            if requests.post('http://localhost:' + config["port"] + '/spotify/activatedevice').status_code == 200:
+                requests.post('http://localhost:' + config["port"] + '/spotify/play')
+            else:
+                return "Spotify n'est pas ouvert sur l'ordinateur", 400
         
         elif response.status_code == 403:
             # musique déjà en cours de lecture
@@ -61,15 +65,27 @@ def play():
 
 @SPOTIFY.route('/spotify/actvatedevice', methods=['POST' , 'GET'])
 def activatedevice():
-    with open('config.json') as f:
-        config = json.load(f)
         
     with open('access_token.txt', 'r') as f:
         access_token = f.read()
     headers = {'Authorization': 'Bearer ' + access_token}
     response = requests.get(f'https://api.spotify.com/v1/me/player/devices', headers=headers)
+    # dans la liste récupérée, on cherche l'appareil qui a le nom donné
+    device_name = request.args.get('device_name')
+    devices = response.json()['devices']
+    device_id = None
+    for device in devices:
+        if device['name'] == device_name:
+            device_id = device['id']
+            break
+    if device_id:
+        data = {'device_ids': [device_id]}
+        response = requests.put('https://api.spotify.com/v1/me/player', headers=headers, json=data)
+        if response.status_code == 204:
+            return "OK", 200
+        else:
+            return "Erreur", 400
     
-    return "OK", 200
     
 
 @SPOTIFY.route('/spotify/test', methods=['POST' , 'GET'])
@@ -77,8 +93,8 @@ def definedevice():
     with open('config.json') as f:
         config = json.load(f)
     # récupérer le nom de l'appareil
-    device_name = request.args.get('device_name')
-    return str(device_name), 200
+
+    return str(platform.node()), 200
     # # Récupérer le jeton d'accès
     # with open('access_token.txt', 'r') as f:
     #     access_token = f.read()
