@@ -36,7 +36,8 @@ def play():
     response = requests.put('https://api.spotify.com/v1/me/player/play', headers=headers)
     if response.status_code != 204:
         if response.status_code == 404:
-            os.system("firefox open.spotify.com")
+            os.system("spotify")
+            # os.system("firefox open.spotify.com")
             time.sleep(5)
             requests.post('http://localhost:' + config["port"] + '/spotify/play')
             
