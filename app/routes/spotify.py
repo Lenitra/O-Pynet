@@ -48,11 +48,14 @@ def play():
         elif response.status_code == 403:
             return redirect("/musique")
             
-        else:
+        elif response.status_code == 401:
             os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
             webbrowser.open_new('http://localhost:'+config["port"]+'/spotify/getkey')
             time.sleep(3)
             requests.post('http://localhost:' + config["port"] + '/spotify/play')
+        else:
+            print("Erreur inconnue")
+            return redirect("/musique")
             
     return redirect("/musique")
 
