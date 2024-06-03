@@ -1,18 +1,13 @@
 function writeHTMLNav() {
     var htmlCode = `
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home"></i></a></li>
-                <li class="nav-item"><a class="nav-link" href="/musique"><i class="fas fa-music"></i></a></li>
-                <li class="nav-item"><a class="nav-link" href="/files"><i class="fas fa-file-alt"></i></a></li>
-                <li class="nav-item"><a class="nav-link" href="/login"><i class="fas fa-sign-out-alt"></i></a></li>
-                </ul>
-            </div>
-        </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link" href="/"><i class="fas fa-home"></i></a>
+            <a class="nav-item nav-link" href="/musique"><i class="fas fa-music"></i></a>
+            <a class="nav-item nav-link" href="/files"><i class="fas fa-file-alt"></i></a>
+            <a class="nav-item nav-link" href="/login"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </nav>
     `;
     document.write(htmlCode);
 }
