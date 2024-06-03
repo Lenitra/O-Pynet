@@ -35,6 +35,12 @@ def play():
     headers = {'Authorization': 'Bearer ' + access_token}
     response = requests.put('https://api.spotify.com/v1/me/player/play', headers=headers)
     if response.status_code != 204:
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
         if response.status_code == 404:
             os.system("spotify")
             # os.system("firefox open.spotify.com")
