@@ -152,17 +152,17 @@ def getinfos():
     with open('access_token.txt', 'r') as f:
         access_token = f.read()
     headers = {'Authorization': 'Bearer ' + access_token}
-    toret = {}
     response = requests.get('https://api.spotify.com/v1/me/player', headers=headers)
+    
+    toret = {}
+    
     if response.status_code == 401 or response.status_code == 400:
         os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
+        
     if response.status_code == 200:
         item = response.json()['item']
         if item:
-            print("uri : ", item['uri'])
-            print("uri : ", item['uri'])
-            print("uri : ", item['uri'])
-            infos = get_track_info(item['uri'].split(":")[-1])
+            infos = get_track_info(item['uri'])
             toret = {"title": infos[0], "artist": infos[1]}
     if toret == {}:
         toret = {"title": "Chargement...", "artist": "Chargement..."}
