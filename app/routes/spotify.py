@@ -153,7 +153,7 @@ def getinfos():
         access_token = f.read()
     headers = {'Authorization': 'Bearer ' + access_token}
     toret = {}
-    response = requests.get('https://api.spotify.com/v1/me/player/currently-playing', headers=headers)
+    response = requests.get('https://api.spotify.com/v1/me/player', headers=headers)
     if response.status_code == 401 or response.status_code == 400:
         os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
     if response.status_code == 200:
@@ -162,15 +162,15 @@ def getinfos():
         print()
         print("--- Réponse")
         print(response.json())
-        context = response.json()['context']
+        item = response.json()['item']
         print()
         print()
         print()
         print("--- Contexte")
-        print(context)
+        print(item)
         
-        if context:
-            infos = get_track_info(context['uri'])
+        if item:
+            infos = get_track_info(item['uri'])
             toret = {"title": infos[0], "artist": infos[1]}
     if toret == {}:
         toret = {"title": "Chargement...", "artist": "Chargement..."}
