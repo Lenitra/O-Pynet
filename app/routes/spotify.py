@@ -171,6 +171,17 @@ def getinfos():
         
     print(toret)
     return jsonify(toret)
+
+@SPOTIFY.route('/spotify/search', methods=['POST' , 'GET'])
+def search():
+    with open('config.json') as f:
+        config = json.load(f)
+    nom_chanson = request.args.get('nom_chanson')
+    uri = recherche_chanson(nom_chanson)
+    if uri:
+        return jsonify({"uri": uri})
+    else:
+        return jsonify({"uri": None})
     
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
@@ -245,6 +256,11 @@ def addqueue():
     return "OK", 200
 
 
+
+
+
+
+
 # region Spotify API Credentials
 def recherche_chanson(nom_chanson):
     with open('config.json') as f:
@@ -258,21 +274,18 @@ def recherche_chanson(nom_chanson):
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
     # Recherche de la chanson
-    results = sp.search(q=nom_chanson, limit=1)
+    results = sp.search(q=nom_chanson, limit=1, type="track")
+    
+    elem = results["tracks"]["items"]
+    toret = {"title": elem["name"], "artist": elem["artists"][0]["name"], "uri": elem["uri"], "img": elem["album"]["images"][0]["url"]}
+    return toret
+        
 
-    # Récupération de l'URI de la première chanson trouvée
-    if results["tracks"]["items"]:
-        uri = results["tracks"]["items"][0]["uri"]
-        return uri
-    else:
-        return None
+
 
 
 
 def get_track_info(uri):
-    print("GET TRACK INFO CALLED !")
-    print("GET TRACK INFO CALLED !")
-    print("GET TRACK INFO CALLED !")
     with open('config.json') as f:
         config = json.load(f)
     client_id = config['spotify']['client_id']
