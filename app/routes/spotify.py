@@ -157,19 +157,11 @@ def getinfos():
     if response.status_code == 401 or response.status_code == 400:
         os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
     if response.status_code == 200:
-        print()
-        print()
-        print()
-        print("--- Réponse")
-        print(response.json())
         item = response.json()['item']
-        print()
-        print()
-        print()
-        print("--- Contexte")
-        print(item)
-        
         if item:
+            print("uri : ", item['uri'])
+            print("uri : ", item['uri'])
+            print("uri : ", item['uri'])
             infos = get_track_info(item['uri'].split(":")[-1])
             toret = {"title": infos[0], "artist": infos[1]}
     if toret == {}:
@@ -275,6 +267,9 @@ def recherche_chanson(nom_chanson):
 
 
 def get_track_info(uri):
+    print("GET TRACK INFO CALLED !")
+    print("GET TRACK INFO CALLED !")
+    print("GET TRACK INFO CALLED !")
     with open('config.json') as f:
         config = json.load(f)
     client_id = config['spotify']['client_id']

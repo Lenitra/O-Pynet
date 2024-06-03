@@ -6,10 +6,10 @@ function writeHTMLNav() {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/musique">Musique</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/files">Fichiers</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/login">Déconnexion</a></li>
+                <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home"></i></a></li>
+                <li class="nav-item"><a class="nav-link" href="/musique"><i class="fas fa-music"></i></a></li>
+                <li class="nav-item"><a class="nav-link" href="/files"><i class="fas fa-file-alt"></i></a></li>
+                <li class="nav-item"><a class="nav-link" href="/login"><i class="fas fa-sign-out-alt"></i></a></li>
                 </ul>
             </div>
         </nav>
