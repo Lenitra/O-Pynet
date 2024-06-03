@@ -158,6 +158,7 @@ def getinfos():
         os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
     if response.status_code == 200:
         response = response.json()['context']
+        
         if response:
             response = get_track_info(response['uri'].split(":")[2])
             toret = {"title": response[0], "artist": response[1]}
@@ -285,6 +286,10 @@ def get_track_info(uri):
             track_name = track_info["name"]
             artist_name = track_info["artists"][0]["name"]
             url = track_info["external_urls"]["spotify"]
+            print(track_name, artist_name)
+            print(track_name, artist_name)
+            print(track_name, artist_name)
+            print(track_name, artist_name)
             return track_name, artist_name, url
     except:
         pass
