@@ -60,6 +60,19 @@ def play():
     return redirect("/musique")
 
 
+@SPOTIFY.route('/spotify/test', methods=['POST' , 'GET'])
+def definedevice():
+    with open('config.json') as f:
+        config = json.load(f)
+    # Récupérer le jeton d'accès
+    with open('access_token.txt', 'r') as f:
+        access_token = f.read()
+    headers = {'Authorization': 'Bearer ' + access_token}
+    device_id = request.args.get('device_id')
+    response = requests.get(f'https://api.spotify.com/v1/me/player/devices', headers=headers, json={"device_ids": [device_id]})
+    print(response.json())
+    return "OK", 200
+
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
 def get_access_token(code):
