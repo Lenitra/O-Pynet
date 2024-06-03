@@ -64,7 +64,7 @@ def play():
     return redirect("/musique")
 
 
-@SPOTIFY.route('/spotify/actvatedevice', methods=['POST' , 'GET'])
+@SPOTIFY.route('/spotify/activatedevice', methods=['POST' , 'GET'])
 def activatedevice():
         
     with open('access_token.txt', 'r') as f:
