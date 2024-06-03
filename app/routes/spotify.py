@@ -159,7 +159,7 @@ def getinfos():
     if response.status_code == 200:
         response = response.json()['context']
         if response:
-            response = get_track_info(response['uri'])
+            response = get_track_info(response['uri'].split(":")[2])
             toret = {"title": response[0], "artist": response[1]}
     if toret == {}:
         toret = {"title": "Chargement...", "artist": "Chargement..."}
