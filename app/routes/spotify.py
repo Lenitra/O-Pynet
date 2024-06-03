@@ -44,6 +44,7 @@ def play():
         if response.status_code == 404:
             # Definir l'ordi comme device actif
             pass
+        
         elif response.status_code == 403:
             # musique déjà en cours de lecture
             return redirect("/musique")
@@ -58,13 +59,26 @@ def play():
     return redirect("/musique")
 
 
+@SPOTIFY.route('/spotify/actvatedevice', methods=['POST' , 'GET'])
+def activatedevice():
+    with open('config.json') as f:
+        config = json.load(f)
+        
+    with open('access_token.txt', 'r') as f:
+        access_token = f.read()
+    headers = {'Authorization': 'Bearer ' + access_token}
+    response = requests.get(f'https://api.spotify.com/v1/me/player/devices', headers=headers)
+    
+    return "OK", 200
+    
+
 @SPOTIFY.route('/spotify/test', methods=['POST' , 'GET'])
 def definedevice():
     with open('config.json') as f:
         config = json.load(f)
     # récupérer le nom de l'appareil
     device_name = request.args.get('device_name')
-    return device_name, 200
+    return str(device_name), 200
     # # Récupérer le jeton d'accès
     # with open('access_token.txt', 'r') as f:
     #     access_token = f.read()
