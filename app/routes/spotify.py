@@ -42,19 +42,18 @@ def play():
         print(response.status_code)
         print(response.status_code)
         if response.status_code == 404:
-            os.system("spotify")
-            time.sleep(5)
-            requests.post('http://localhost:' + config["port"] + '/spotify/play')
+            # Definir l'ordi comme device actif
+            pass
         elif response.status_code == 403:
+            # musique déjà en cours de lecture
             return redirect("/musique")
             
         elif response.status_code == 401 or response.status_code == 400:
             os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
-            time.sleep(3)
+            time.sleep(2)
             requests.post('http://localhost:' + config["port"] + '/spotify/play')
         else:
             print("Erreur inconnue")
-            return redirect("/musique")
             
     return redirect("/musique")
 
@@ -63,27 +62,30 @@ def play():
 def definedevice():
     with open('config.json') as f:
         config = json.load(f)
-    # Récupérer le jeton d'accès
-    with open('access_token.txt', 'r') as f:
-        access_token = f.read()
-    headers = {'Authorization': 'Bearer ' + access_token}
-    response = requests.get(f'https://api.spotify.com/v1/me/player/devices', headers=headers)
-    if response.status_code != 200:
-        print(response.status_code)
-        print(response.status_code)
-        print(response.status_code)
-        print(response.status_code)
-        print(response.status_code)
-        print(response.status_code)
+    # récupérer le nom de l'appareil
+    device_name = request.args.get('device_name')
+    return device_name, 200
+    # # Récupérer le jeton d'accès
+    # with open('access_token.txt', 'r') as f:
+    #     access_token = f.read()
+    # headers = {'Authorization': 'Bearer ' + access_token}
+    # response = requests.get(f'https://api.spotify.com/v1/me/player/devices', headers=headers)
+    # if response.status_code != 200:
+    #     print(response.status_code)
+    #     print(response.status_code)
+    #     print(response.status_code)
+    #     print(response.status_code)
+    #     print(response.status_code)
+    #     print(response.status_code)
             
-        if response.status_code == 401 or response.status_code == 400:
-            os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
-            time.sleep(3)
-            requests.post('http://localhost:' + config["port"] + '/spotify/test')
-    else:
-        return jsonify(response.json()), 200
+    #     if response.status_code == 401 or response.status_code == 400:
+    #         os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
+    #         time.sleep(3)
+    #         requests.post('http://localhost:' + config["port"] + '/spotify/test')
+    # else:
+    #     return jsonify(response.json()), 200
     
-    return redirect("/musique")
+    # return redirect("/musique")
 
 
 
