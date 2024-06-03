@@ -106,6 +106,12 @@
         // Fonction pour actualiser le nom de l'artiste et le titre de la musique
         function updateMusicInfo() {
             fetch('/spotify/music-info')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     document.getElementById('titre').innerText = data.title;
                     document.getElementById('artiste').innerText = data.artist;
@@ -119,6 +125,7 @@
         setInterval(updateMusicInfo, 3000);
         updateMusicInfo();
     </script>
+    
     
 </body>
 
