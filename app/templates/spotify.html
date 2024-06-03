@@ -144,7 +144,13 @@
         });
 
         function displaySearchResults() {
-            fetch('/spotify/search')
+            fetch('/spotify/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query: document.getElementById('searchInput').value })
+            })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
