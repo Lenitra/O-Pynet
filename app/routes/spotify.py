@@ -72,7 +72,7 @@ def activatedevice():
     headers = {'Authorization': 'Bearer ' + access_token}
     response = requests.get(f'https://api.spotify.com/v1/me/player/devices', headers=headers)
     # dans la liste récupérée, on cherche l'appareil qui a le nom donné
-    device_name = request.args.get('device_name')
+    device_name = platform.node()
     devices = response.json()['devices']
     device_id = None
     for device in devices:
@@ -93,30 +93,28 @@ def activatedevice():
 def definedevice():
     with open('config.json') as f:
         config = json.load(f)
-    # récupérer le nom de l'appareil
 
-    return str(platform.node()), 200
-    # # Récupérer le jeton d'accès
-    # with open('access_token.txt', 'r') as f:
-    #     access_token = f.read()
-    # headers = {'Authorization': 'Bearer ' + access_token}
-    # response = requests.get(f'https://api.spotify.com/v1/me/player/devices', headers=headers)
-    # if response.status_code != 200:
-    #     print(response.status_code)
-    #     print(response.status_code)
-    #     print(response.status_code)
-    #     print(response.status_code)
-    #     print(response.status_code)
-    #     print(response.status_code)
+    # Récupérer le jeton d'accès
+    with open('access_token.txt', 'r') as f:
+        access_token = f.read()
+    headers = {'Authorization': 'Bearer ' + access_token}
+    response = requests.get(f'https://api.spotify.com/v1/me/player/devices', headers=headers)
+    if response.status_code != 200:
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
+        print(response.status_code)
             
-    #     if response.status_code == 401 or response.status_code == 400:
-    #         os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
-    #         time.sleep(3)
-    #         requests.post('http://localhost:' + config["port"] + '/spotify/test')
-    # else:
-    #     return jsonify(response.json()), 200
+        if response.status_code == 401 or response.status_code == 400:
+            os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
+            time.sleep(3)
+            requests.post('http://localhost:' + config["port"] + '/spotify/test')
+    else:
+        return jsonify(response.json()), 200
     
-    # return redirect("/musique")
+    return redirect("/musique")
 
 
 
