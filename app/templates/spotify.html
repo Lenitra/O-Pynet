@@ -81,8 +81,8 @@
             </div>
             <div class="mt-3">
                 <!-- Partie pour afficher les informations du titre joué -->
-                <p><strong>Titre:</strong> <span id="titre">Nom du Titre</span></p>
-                <p><strong>Artiste:</strong> <span id="artiste">Nom de l'Artiste</span></p>
+                <p><strong>Titre:</strong> <span id="titre">Chargement...</span></p>
+                <p><strong>Artiste:</strong> <span id="artiste">Chargement...</span></p>
             </div>
         </div>
 
@@ -106,16 +106,20 @@
         // Fonction pour actualiser le nom de l'artiste et le titre de la musique
         function updateMusicInfo() {
             fetch('/spotify/music-info')
-                .then(response => response.json())
                 .then(data => {
                     document.getElementById('titre').innerText = data.title;
                     document.getElementById('artiste').innerText = data.artist;
+                })
+                .catch(error => {
+                    console.error('Error fetching music info:', error);
                 });
         }
-
-        // Actualiser les informations de la musique toutes les 5 secondes
+    
+        // Actualiser les informations de la musique toutes les 3 secondes
         setInterval(updateMusicInfo, 3000);
+        updateMusicInfo();
     </script>
+    
 </body>
 
 </html>

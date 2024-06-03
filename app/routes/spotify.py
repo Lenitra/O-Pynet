@@ -160,9 +160,9 @@ def getinfos():
         response = response.json()['context']
         if response:
             response = get_track_info(response)
-            toret = {"title": response[0], "artist": response[1], "url": response[2]}
+            toret = {"title": response[0], "artist": response[1]}
     if toret == {}:
-        toret = {"title": "Chargement...", "artist": "Chargement...", "url": "Aucun"}
+        toret = {"title": "Chargement...", "artist": "Chargement..."}
         
     return jsonify(toret)
     
@@ -286,10 +286,9 @@ def get_track_info(uri):
             artist_name = track_info["artists"][0]["name"]
             url = track_info["external_urls"]["spotify"]
             return track_name, artist_name, url
-        else:
-            return None, None, None
-    except spotipy.SpotifyException as e:
-        print(f"Erreur : {e}")
-        return None, None, None
+    except:
+        pass
+        
+    return None, None, None
 
 # endregion
