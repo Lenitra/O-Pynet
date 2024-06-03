@@ -80,8 +80,11 @@ def definedevice():
             os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
             time.sleep(3)
             requests.post('http://localhost:' + config["port"] + '/spotify/test')
+    else:
+        return jsonify(response.json()), 200
+    
+    return redirect("/musique")
 
-    return "OK", 200
 
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
