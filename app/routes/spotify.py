@@ -173,12 +173,9 @@ def getinfos():
 def search():
     with open('config.json') as f:
         config = json.load(f)
-    nom_chanson = request.args.get('nom_chanson')
-    uri = recherche_chanson(nom_chanson)
-    if uri:
-        return jsonify({"uri": uri})
-    else:
-        return jsonify({"uri": None})
+    champRecherche = request.args.get('nom_chanson')
+    infos = recherche_chanson(champRecherche)
+    return jsonify(infos)
     
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
@@ -268,7 +265,7 @@ def recherche_chanson(nom_chanson):
         client_id=client_id, client_secret=client_secret
     )
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-
+    toret = None
     # Recherche de la chanson
     results = sp.search(q=nom_chanson, limit=1, type="track")
     
