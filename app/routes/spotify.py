@@ -173,7 +173,8 @@ def getinfos():
 def search():
     with open('config.json') as f:
         config = json.load(f)
-    champRecherche = request.args.get('nom_chanson')
+    data = request.get_json()
+    champRecherche = data.get('query')
     infos = recherche_chanson(champRecherche)
     return jsonify(infos)
     
