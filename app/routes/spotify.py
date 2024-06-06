@@ -240,8 +240,11 @@ def addqueue():
         access_token = f.read()
     with open('config.json') as f:
         config = json.load(f)
-    headers = {'Authorization': 'Bearer ' + access_token}
+    uri = request.get_json()['uri']  
     uri = request.args.get('uri').split(":")[-1]
+    
+    
+    headers = {'Authorization': 'Bearer ' + access_token}
     response = requests.post(f'https://api.spotify.com/v1/me/player/queue?uri={uri}', headers=headers)
     if response.status_code != 204:
         webbrowser.open('http://localhost:'+config["port"]+'/spotify/getkey')
