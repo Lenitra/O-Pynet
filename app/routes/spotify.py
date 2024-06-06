@@ -251,7 +251,29 @@ def addqueue():
 
 
 
-
+def recherche_chanson(nom_chanson):
+    with open('access_token.txt', 'r') as f:
+        access_token = f.read()
+    with open('config.json') as f:
+        config = json.load(f)
+    headers = {'Authorization': 'Bearer ' + access_token}
+    response = requests.get(f'https://api.spotify.com/v1/search?q={nom_chanson}&type=track&limit=1', headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        if data['tracks']['items']:
+            track_data = data['tracks']['items'][0]
+            return {
+                "title": track_data["name"],
+                "artist": track_data["artists"][0]["name"],
+                "uri": track_data["uri"],
+                "img": track_data["album"]["images"][0]["url"],
+            }
+    if response.status_code == 401 or response.status_code == 400:
+        webbrowser.open('http://localhost:'+config["port"]+'/spotify/getkey')
+        time.sleep(3)
+        return recherche_chanson(nom_chanson)
+    return None
+        
 
 
 # region Spotify API Credentials
@@ -274,37 +296,35 @@ def addqueue():
 #     return toret
         
         
-def recherche_chanson(nom_chanson):
-    with open('access_token.txt', 'r') as f:
-        access_token = f.read()
-    base_url = "https://api.spotify.com/v1/search"
-    headers = {
-        "Authorization": f"Bearer {access_token}",  # Replace with actual access token
-        "Content-Type": "application/json",
-    }
-    payload = {"q": nom_chanson, "type": "track", "limit": 1}
 
-    try:
-        response = requests.get(base_url, headers=headers, params=payload)
-        response.raise_for_status()  # Check for HTTP errors
+#     base_url = "https://api.spotify.com/v1/search"
+#     headers = {
+#         "Authorization": f"Bearer {access_token}",  # Replace with actual access token
+#         "Content-Type": "application/json",
+#     }
+#     payload = {"q": nom_chanson, "type": "track", "limit": 1}
 
-        data = json.loads(response.text)
-        tracks = data.get("tracks", {}).get("items", [])
+#     try:
+#         response = requests.get(base_url, headers=headers, params=payload)
+#         response.raise_for_status()  # Check for HTTP errors
 
-        if tracks:  # Check if any results were found
-            track_data = tracks[0]
-            return {
-                "title": track_data["name"],
-                "artist": track_data["artists"][0]["name"],
-                "uri": track_data["uri"],
-                "img": track_data["album"]["images"][0]["url"],
-            }
-        else:
-            return None
+#         data = json.loads(response.text)
+#         tracks = data.get("tracks", {}).get("items", [])
 
-    except requests.exceptions.RequestException as e:
-        print(f"An error occurred: {e}")
-        return None
+#         if tracks:  # Check if any results were found
+#             track_data = tracks[0]
+#             return {
+#                 "title": track_data["name"],
+#                 "artist": track_data["artists"][0]["name"],
+#                 "uri": track_data["uri"],
+#                 "img": track_data["album"]["images"][0]["url"],
+#             }
+#         else:
+#             return None
+
+#     except requests.exceptions.RequestException as e:
+#         print(f"An error occurred: {e}")
+#         return None
 
 
 
