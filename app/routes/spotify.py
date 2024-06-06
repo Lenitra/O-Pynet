@@ -241,7 +241,6 @@ def addqueue():
     with open('config.json') as f:
         config = json.load(f)
     uri = request.get_json()['uri']  
-    uri = request.args.get('uri').split(":")[-1]
     
     
     headers = {'Authorization': 'Bearer ' + access_token}
