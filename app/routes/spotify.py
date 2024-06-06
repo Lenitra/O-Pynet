@@ -164,12 +164,9 @@ def getinfos():
         if item:
             infos = get_track_info(item['uri'])
             toret = {"title": infos[0], "artist": infos[1]}
-            print(infos)
-            print(toret)
     if toret == {}:
         toret = {"title": "Chargement...", "artist": "Chargement..."}
         
-    print(toret)
     return jsonify(toret)
 
 @SPOTIFY.route('/spotify/search', methods=['POST' , 'GET'])
@@ -206,7 +203,6 @@ def get_access_token(code):
 @SPOTIFY.route('/spotify/callback', methods=['POST' , 'GET'])
 def callback():
     code = request.args.get('code')
-    print("Le code expirera dans : ", request.args.get('expires_in'), " secondes")
     access_token = get_access_token(code)
     # save the access_token in a file
     with open('access_token.txt', 'w') as f:
