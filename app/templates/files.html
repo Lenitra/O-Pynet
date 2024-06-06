@@ -37,8 +37,17 @@
     </style>
 </head>
 <body>
-    <script src="../static/js/communs.js" onload="writeHTMLNav()"></script>
+    <!-- Importation dynamique du menu de navigation -->
+    <script>
+        // Récupérer l'URL actuelle
+        let currentURL = window.location.href;
+        let srcScript = currentURL.split('/files')[0] + '/static/js/communs.js';
 
+        // Ajouter le script JS pour le menu de navigation
+        document.write(`<script src="` + srcScript + `" onload="writeHTMLNav()"><\/script>`);
+    </script>
+
+    <!-- <script src="../static/js/communs.js" onload="writeHTMLNav()"></script> -->
 
     <!-- Div contenant des boutons racourcis configurés -->
     <div class="container mt-5">
