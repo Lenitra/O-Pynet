@@ -175,7 +175,7 @@
         document.querySelector('.spotifyAdd').addEventListener('click', function() {
             document.getElementById('searchResult').style.display = 'none';
             const uri = document.getElementById('searchUri').innerText;
-            fetch('/spotify/add', {
+            fetch('/spotify/addqueue', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
