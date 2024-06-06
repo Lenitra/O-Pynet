@@ -231,7 +231,7 @@ def login():
     
     
     
-@SPOTIFY.route('/musique/addqueue',methods=['POST' , 'GET'])
+@SPOTIFY.route('/spotify/addqueue',methods=['POST' , 'GET'])
 def addqueue():
     if 'user' not in session:
         return redirect("/login")
