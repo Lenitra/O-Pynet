@@ -260,7 +260,7 @@ def recherche_chanson(nom_chanson):
     with open('config.json') as f:
         config = json.load(f)
     headers = {'Authorization': 'Bearer ' + access_token}
-    response = requests.get(f'https://api.spotify.com/v1/search?q={nom_chanson}&type=track&limit=1', headers=headers)
+    response = requests.get(f'https://api.spotify.com/v1/search?q={nom_chanson}&type=track&limit=3', headers=headers)
     if response.status_code == 200:
         data = response.json()
         if data['tracks']['items']:
