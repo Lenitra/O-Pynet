@@ -172,13 +172,13 @@
             })
             .then(response => {
                 console.log(document.getElementById('searchInput').value);
+                console.log(data);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
             .then(data => {
-                console.log(data);
                 
                 // min entre 3 et le nombre de musiques trouvées
                 let i = Math.min(3, data.length);
