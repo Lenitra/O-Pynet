@@ -263,14 +263,18 @@ def recherche_chanson(nom_chanson):
     response = requests.get(f'https://api.spotify.com/v1/search?q={nom_chanson}&type=track&limit=3', headers=headers)
     if response.status_code == 200:
         data = response.json()
-        if data['tracks']['items']:
-            track_data = data['tracks']['items'][0]
-            return {
-                "title": track_data["name"],
-                "artist": track_data["artists"][0]["name"],
-                "uri": track_data["uri"],
-                "img": track_data["album"]["images"][0]["url"],
-            }
+        toret = []
+        for item in data['tracks']['items']:
+            track_data = item['tracks']['items'][0]
+            toret.append( 
+                {
+                    "title": track_data["name"],
+                    "artist": track_data["artists"][0]["name"],
+                    "uri": track_data["uri"],
+                    "img": track_data["album"]["images"][0]["url"],
+                }
+            )
+        return toret
     if response.status_code == 401 or response.status_code == 400:
         webbrowser.open('http://localhost:'+config["port"]+'/spotify/getkey')
         time.sleep(3)
