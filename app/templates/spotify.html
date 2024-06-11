@@ -178,11 +178,9 @@
                 return response.json();
             })
             .then(data => {
-                console.log(data);
-                if (data.length !== 3) {
-                    throw new Error('Expected 3 elements in the response');
-                }
-                for (let i = 0; i < 3; i++) {
+                // Ensure there are at most 3 results displayed
+                const resultsCount = Math.min(data.length, 3);
+                for (let i = 0; i < resultsCount; i++) {
                     const resultDiv = document.getElementById('searchResult' + (i + 1));
                     resultDiv.style.display = 'block';
                     resultDiv.querySelector('.searchTitre').innerText = data[i].title;
@@ -190,11 +188,18 @@
                     resultDiv.querySelector('.searchUri').innerText = data[i].uri;
                     resultDiv.querySelector('.searchImage').src = data[i].img;
                 }
+                
+                // Hide any remaining result divs if fewer than 3 results
+                for (let i = resultsCount; i < 3; i++) {
+                    const resultDiv = document.getElementById('searchResult' + (i + 1));
+                    resultDiv.style.display = 'none';
+                }
             })
             .catch(error => {
                 console.error('Error fetching music info:', error);
             });
         }
+        
         
 
         
