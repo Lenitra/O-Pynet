@@ -35,7 +35,7 @@ def wirteCommonJS():
                 <a class="nav-item nav-link" href="/"><i class="fas fa-home"></i></a>
         """
         
-    if config["modules"]["spotify"] or config["spotify"]["client_id"] == "" or config["spotify"]["client_secret"] == "":
+    if config["modules"]["spotify"]:
         toregister += '<a class="nav-item nav-link" href="/musique"><i class="fas fa-music"></i></a>'
             
     if config["modules"]["files"]:

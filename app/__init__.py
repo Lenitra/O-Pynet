@@ -19,13 +19,20 @@ def create_app():
     # Importer tous les fichiers .py dans le dossier des routes
     for filename in os.listdir(routes_dir):
         if filename.endswith('.py') and filename != '__init__.py':
+            
+            # Regarde les modules à ne pas charger dans le fichier config.json
             with open("config.json") as f:
                 config = json.load(f)
             try:
                 if config["modules"][filename[:-3]] == False:
                     continue
-            except KeyError:
+            except:
                 pass
+            
+            if filename == "spotify.py":
+                if config["spotify"]["client_id"] == "" or config["spotify"]["client_secret"] == "":
+                    config["modules"]["spotify"] = False
+                    continue
                 
             module_name = f'app.routes.{filename[:-3]}'
             module = importlib.import_module(module_name)
@@ -36,7 +43,12 @@ def create_app():
                 if isinstance(obj, Blueprint):
                     app.register_blueprint(obj)
                     print(f"Module {filename[:-3]} chargé")
-                    
+
+    # enregistre le fichier config.json
+    with open("config.json", "w") as f:
+        json.dump(config, f, indent=4)
+    
+    # Créer le fichier commun.js
     wirteCommonJS()
 
     return app
