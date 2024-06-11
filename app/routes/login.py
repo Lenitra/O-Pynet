@@ -16,5 +16,5 @@ def login():
         for u, p in config["users"].items():
             if u == username and p == password:
                 session['user'] = username
-                return redirect("/dashboard")
+                return redirect(f"/{session['redirect']}")
     return render_template("login.html")

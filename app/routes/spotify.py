@@ -20,6 +20,7 @@ SPOTIFY = Blueprint('spotify', __name__)
 @SPOTIFY.route('/musique')
 def spotify():
     if 'user' not in session:
+        session['redirect'] = 'musique'
         return redirect("/login")
     return render_template("spotify.html")
 
@@ -214,7 +215,7 @@ def callback():
     
     
 @SPOTIFY.route('/spotify/getkey', methods=['GET' , 'POST'])
-def login():
+def getkey():
     with open('config.json') as f:
         config = json.load(f)
     client_id = config['spotify']['client_id']
