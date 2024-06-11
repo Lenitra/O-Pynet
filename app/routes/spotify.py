@@ -4,8 +4,6 @@ import time
 import webbrowser
 from flask import Blueprint, render_template, session, redirect, request, jsonify
 import json
-import subprocess 
-import shutil 
 import requests
 import os
 import spotipy

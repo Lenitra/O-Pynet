@@ -22,12 +22,11 @@ def dashboard():
     
     with open("config.json") as f:
         config = json.load(f)
-    refresh = config["refresh"]*1000
     
 
         
     
-    return render_template("dashboard.html", refresh = refresh)
+    return render_template("dashboard.html")
 
 
 

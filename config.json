@@ -8,14 +8,16 @@
     "host": "0.0.0.0",
     "port": "5000",
     "SECRET_KEY": "aaa",
-    "refresh": 5,
     "users": {
         "TauMah": "aaa"
     },
-    "liens":{
-        "lien test 1": "https://www.google.com",
-        "lien test 2": "https://www.google.com"
+
+    "modules":{
+        "spotify": true,
+        "files": true
     },
+
+
     "filesShorts":{
         "Disque C": "C:/",
         "Disque E": "E:/",
