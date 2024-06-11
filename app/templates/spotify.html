@@ -181,15 +181,17 @@
                 console.log(data);
                 
                 // min entre 3 et le nombre de musiques trouvées
-                let i = Math.min(3, data.length);
+                let resultsCount = Math.min(3, data.length);
 
-                for (let j = 0; j < i; j++) {
-                    document.getElementById('searchResult' + (j + 1)).style.display = 'block';
-                    document.getElementById('searchImage').src = data[j].img;
-                    document.getElementById('searchTitre').innerText = data[j].title;
-                    document.getElementById('searchArtiste').innerText = data[j].artist;
-                    document.getElementById('searchUri').innerText = data[j].uri;
+                for (let i = 0; i < resultsCount; i++) {
+                    const resultDiv = document.getElementById('searchResult' + (i + 1));
+                    resultDiv.style.display = 'block';
+                    resultDiv.querySelector('.searchTitre').innerText = data[i].title;
+                    resultDiv.querySelector('.searchArtiste').innerText = data[i].artist;
+                    resultDiv.querySelector('.searchUri').innerText = data[i].uri;
+                    resultDiv.querySelector('.searchImage').src = data[i].img;
                 }
+                
             })
             .catch(error => {
                 console.error('Error fetching music info:', error);
