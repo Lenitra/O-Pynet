@@ -265,13 +265,12 @@ def recherche_chanson(nom_chanson):
         data = response.json()
         toret = []
         for item in data['tracks']['items']:
-            track_data = item['tracks']['items'][0]
             toret.append( 
                 {
-                    "title": track_data["name"],
-                    "artist": track_data["artists"][0]["name"],
-                    "uri": track_data["uri"],
-                    "img": track_data["album"]["images"][0]["url"],
+                    "title": item["name"],
+                    "artist": item["artists"][0]["name"],
+                    "uri": item["uri"],
+                    "img": item["album"]["images"][0]["url"],
                 }
             )
         return toret
