@@ -58,6 +58,7 @@
     
     <script src="../static/js/communs.js" onload="writeHTMLNav()"></script>
 
+    <div id="popup"></div>
     <div class="container">
         <!-- Section de recherche de musique -->
         <div class="section">
@@ -237,8 +238,7 @@
             const popup = document.createElement('div');
             popup.className = 'alert alert-success';
             popup.textContent = message;
-            // mettre la popup dans en dessous de la navbar
-            document.body.insertBefore(popup, document.body.firstChild);
+            document.getElementById('popup').appendChild(popup);
             setTimeout(function() {
                 popup.remove();
             }, 2000);
