@@ -121,7 +121,7 @@
             <ul class="list-group">
                 <!-- Liste des musiques en attente -->
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>Titre 1</span>
+                    <span style="color: #121212;"><strong>Titre</strong> - Artist</span>
                 </li>
             </ul>
         </div>
@@ -250,6 +250,33 @@
         }
     </script>
     
+    <!-- appel d'api pour récupérer la file d'attente -->
+    <script>
+        function updateQueue() {
+            fetch('/spotify/queue')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const queueList = document.querySelector('.list-group');
+                    queueList.innerHTML = '';
+                    data.forEach(function(item) {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                        listItem.innerHTML = `<span style="color: #121212;"><strong>${item.title}</strong> - ${item.artist}</span>`;
+                        queueList.appendChild(listItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching queue:', error);
+                });
+        }
+        setInterval(updateQueue, 5000);
+
+    </script>
     
 </body>
 
