@@ -176,6 +176,37 @@ def search():
     champRecherche = data.get('query')
     infos = recherche_chanson(champRecherche)
     return jsonify(infos)
+
+@SPOTIFY.route('/spotify/queue', methods=['POST' , 'GET'])
+def queue():
+    with open('config.json') as f:
+        config = json.load(f)
+    # Récupérer le jeton d'accès
+    with open('access_token.txt', 'r') as f:
+        access_token = f.read()
+    headers = {'Authorization': 'Bearer ' + access_token}
+    response = requests.get('https://api.spotify.com/v1/me/player/queue', headers=headers)
+    if response.status_code != 204:
+        if response.status_code == 404:
+            # Definir l'ordi comme device actif
+            if requests.post('http://localhost:' + config["port"] + '/spotify/activatedevice').status_code == 200:
+                time.sleep(0.5)
+                requests.post('http://localhost:' + config["port"] + '/spotify/queue')
+            else:
+                return "Spotify n'est pas ouvert sur l'ordinateur", 400
+        elif response.status_code == 401 or response.status_code == 400:
+            os.system('firefox http://localhost:'+config["port"]+'/spotify/getkey')
+            time.sleep(2)
+            requests.post('http://localhost:' + config["port"] + '/spotify/queue')
+        else:
+            print("Erreur inconnue")
+    toret = []
+    if response.status_code == 200:
+        data = response.json()
+        for item in data['queue']:
+            toret.append({"title": item["name"]
+                          , "artist": item["artists"][0]["name"]})
+    return jsonify(toret)
     
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
