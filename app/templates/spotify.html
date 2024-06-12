@@ -164,6 +164,8 @@
         });
 
         function displaySearchResults() {
+            // Add a icon on the search button to show that the search is in progress
+            document.querySelector('.btn-primary').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Recherche en cours...';
             fetch('/spotify/search', {
                 method: 'POST',
                 headers: {
@@ -179,6 +181,8 @@
                 return response.json();
             })
             .then(data => {
+                // Remove the spinner icon from the search button
+                document.querySelector('.btn-primary').innerHTML = 'Rechercher';
                 console.log(data);
                 
                 // min entre 3 et le nombre de musiques trouvées
