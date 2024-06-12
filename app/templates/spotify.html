@@ -205,7 +205,10 @@
             document.getElementById('searchResult1').style.display = 'none';
             document.getElementById('searchResult2').style.display = 'none';
             document.getElementById('searchResult3').style.display = 'none';
-            const uri = document.getElementById('searchUri').innerText;
+            // TODO: rectifier et récupérer l'uri de la musique sélectionnée
+            // récupérer le parent de l'élément cliqué
+            let parent = this.parentElement;
+            const uri = parent.querySelector('.searchUri').innerText;
             fetch('/spotify/addqueue', {
                 method: 'POST',
                 headers: {
