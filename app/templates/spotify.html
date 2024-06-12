@@ -151,7 +151,7 @@
     
         // Actualiser les informations de la musique toutes les 3 secondes
         setInterval(updateMusicInfo, 3000);
-        updateMusicInfo();
+        
     </script>
 
     <!-- script affichant le résultat de la recherche -->
@@ -186,9 +186,9 @@
                 for (let i = 0; i < resultsCount; i++) {
                     const resultDiv = document.getElementById('searchResult' + (i + 1));
                     resultDiv.style.display = 'block';
-                    resultDiv.querySelector('.searchTitre').innerText = data[i].title;
-                    resultDiv.querySelector('.searchArtiste').innerText = data[i].artist;
-                    resultDiv.querySelector('.searchUri').innerText = data[i].uri;
+                    resultDiv.querySelector('.searchTitre').textContent = data[i].title;
+                    resultDiv.querySelector('.searchArtiste').textContent = data[i].artist;
+                    resultDiv.querySelector('.searchUri').textContent = data[i].uri;
                     resultDiv.querySelector('.searchImage').src = data[i].img;
                 }
                 
