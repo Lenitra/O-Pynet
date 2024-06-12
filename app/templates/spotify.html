@@ -219,10 +219,10 @@
                 }) 
                 .then(response => {
                     console.log(response);
-                    showPopup("Musique ajoutée à la liste d'attente");
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
-                    }
+                        }
+                    showPopup("Musique ajoutée à la liste d'attente");
                     console.log("Musique ajoutée à la liste d'attente");
                 })
             });
@@ -237,11 +237,11 @@
             const popup = document.createElement('div');
             popup.className = 'alert alert-success';
             popup.textContent = message;
-            // mettre la popup dans en haut du body
-            document.body.prepend(popup);
+            // mettre la popup dans en dessous de la navbar
+            document.body.insertBefore(popup, document.body.firstChild);
             setTimeout(function() {
                 popup.remove();
-            }, 1000);
+            }, 2000);
         }
     </script>
     
