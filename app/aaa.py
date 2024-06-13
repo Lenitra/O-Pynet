@@ -42,6 +42,7 @@ def wirteCommonJS():
         toregister += '<a class="nav-item nav-link" href="/files"><i class="fas fa-file-alt"></i></a>'
             
     toregister += """
+                <a class="nav-item nav-link" href="/cam"><i class="fas fa-camera"></i></a>
                 <a class="nav-item nav-link" href="/login"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </nav>

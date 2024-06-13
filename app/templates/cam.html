@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Capturée</title>
+</head>
+<body>
+    <h1>Image Capturée</h1>
+    <img src="{{ img_path }}" alt="Image capturée">
+    
+
+    <script type="text/javascript">
+        // Fonction qui actualise la page
+        function refreshPage() {
+            location.reload(); // Actualise la page
+        }
+
+        // Configure le rafraîchissement toutes les 3 secondes (3000 millisecondes)
+        setInterval(refreshPage, 3000);
+    </script>
+
+</body>
+</html>
