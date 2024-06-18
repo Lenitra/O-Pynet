@@ -11,3 +11,6 @@ Panneau administratif pour serveur personnel
 
 ### Installation
 Démerdez vous, je ferai un truc clean plus tard
+
+## Notes :
+sudo usermod -aG video,sudo $USER
