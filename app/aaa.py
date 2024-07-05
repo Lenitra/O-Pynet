@@ -15,7 +15,7 @@ def format_size(size):
 def wirteCommonJS():
     with open("config.json") as f:
         config = json.load(f)
-        
+
     toregister = """
     function writeHTMLNav() {
         var htmlCode = `
@@ -34,15 +34,16 @@ def wirteCommonJS():
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="/"><i class="fas fa-home"></i></a>
         """
-        
+
     if config["modules"]["spotify"]:
         toregister += '<a class="nav-item nav-link" href="/musique"><i class="fas fa-music"></i></a>'
-            
+
     if config["modules"]["files"]:
         toregister += '<a class="nav-item nav-link" href="/files"><i class="fas fa-file-alt"></i></a>'
-            
+
     toregister += """
                 <a class="nav-item nav-link" href="/cam"><i class="fas fa-camera"></i></a>
+                <a class="nav-item nav-link" href="/config"><i class="fas fa-cog"></i></a>
                 <a class="nav-item nav-link" href="/login"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </nav>
@@ -50,9 +51,6 @@ def wirteCommonJS():
         document.write(htmlCode);
     }
     """
-    
+
     with open("app/static/js/communs.js", "w") as f:
         f.write(toregister)
-        
-        
-    
