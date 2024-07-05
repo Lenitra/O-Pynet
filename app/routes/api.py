@@ -1,7 +1,8 @@
+import json
 from flask import Blueprint
-import psutil
 from datetime import datetime
 from app.aaa import format_size
+import psutil
 
 # Heure de démarrage du serveur
 STARTTIME = datetime.now()
@@ -41,8 +42,10 @@ def disk():
                 break
         if already:
             continue
-        
-        disk.append({"device": part.device, "usage": psutil.disk_usage(part.mountpoint).percent, "details": f"{format_size(psutil.disk_usage(part.mountpoint).used)} / {format_size(psutil.disk_usage(part.mountpoint).total)}"})
+        #  ne pas afficher les disques à moins de 2.5go
+        if psutil.disk_usage(part.mountpoint).total > 2500000000:
+            psutil.disk_usage(part.mountpoint).total
+            disk.append({"device": part.device, "usage": psutil.disk_usage(part.mountpoint).percent, "details": f"{format_size(psutil.disk_usage(part.mountpoint).used)} / {format_size(psutil.disk_usage(part.mountpoint).total)}"})
     return {"disk": disk}
 
 
@@ -52,3 +55,9 @@ def disk():
 def uptime():
     uptime = datetime.now() - STARTTIME
     return {"uptime": str(uptime)}
+
+@API.route('/api/configs', methods=['GET'])
+def configs():
+    with open("config.json") as f:
+        config = json.load(f)
+    return config
