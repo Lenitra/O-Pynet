@@ -13,8 +13,8 @@ def login():
         password = request.form['password']
         with open("config.json") as f:
             config = json.load(f)
-        for u, p in config["users"].items():
-            if u == username and p == password:
+        for u, val in config["users"].items():
+            if u == username and val["password"] == password:
                 session['user'] = username
                 if 'redirect' in session and session['redirect'] != "":
                     return redirect(f"/{session['redirect']}")

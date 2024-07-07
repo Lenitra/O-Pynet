@@ -1,25 +1,42 @@
 {
-    "_comment": "Param\u00c3\u00a8tres de configuration pour l'application Opynet",
-    "_note1": "Les param\u00c3\u00a8tres 'host' et 'port' d\u00c3\u00a9terminent o\u00c3\u00b9 le serveur Flask sera ex\u00c3\u00a9cut\u00c3\u00a9.",
-    "_note2": "La 'SECRET_KEY' est cruciale pour la s\u00c3\u00a9curit\u00c3\u00a9 des sessions et doit \u00c3\u00aatre une cha\u00c3\u00aene al\u00c3\u00a9atoire et difficile \u00c3\u00a0 deviner.",
-    "os": "windows",
     "host": "0.0.0.0",
     "port": "5000",
-    "SECRET_KEY": "aaa",
-    "users": {
-        "TauMah": "aaa"
-    },
+    "os": "linux",
     "modules": {
-        "spotify": false,
-        "files": true
-    },
-    "filesShorts": {
-        "Disque C": "C:/",
-        "Disque E": "E:/",
-        "Burreau": "C:/Users/thoma/Desktop"
+        "spotify": true,
+        "files": true,
+        "camera": false
     },
     "spotify": {
         "client_id": "",
         "client_secret": ""
+    },
+    "users": {
+        "Admin": {
+            "password": "aaa",
+            "permissions": {
+                "files": false,
+                "spotify": true,
+                "camera": true,
+                "config": true,
+                "reboot": true
+            }
+        },
+        "TauMah": {
+            "password": "aaa",
+            "permissions": {
+                "files": true,
+                "spotify": true,
+                "camera": true,
+                "config": true,
+                "reboot": true
+            }
+        }
+    },
+    "SECRET_KEY": "aaa",
+    "filesShorts": {
+        "Disque C": "C:/",
+        "Disque E": "E:/",
+        "Burreau": "C:/Users/thoma/Desktop"
     }
 }

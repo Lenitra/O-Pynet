@@ -40,9 +40,10 @@ def wirteCommonJS():
 
     if config["modules"]["files"]:
         toregister += '<a class="nav-item nav-link" href="/files"><i class="fas fa-file-alt"></i></a>'
+    if config["modules"]["camera"]:
+        toregister += '<a class="nav-item nav-link" href="/cam"><i class="fas fa-camera"></i></a>'
 
     toregister += """
-                <a class="nav-item nav-link" href="/cam"><i class="fas fa-camera"></i></a>
                 <a class="nav-item nav-link" href="/config"><i class="fas fa-cog"></i></a>
                 <a class="nav-item nav-link" href="/login"><i class="fas fa-sign-out-alt"></i></a>
             </div>

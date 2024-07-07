@@ -1,24 +1,39 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Surveillance</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-</head>
-<body>
     <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
         img {
             display: block;
             margin-left: auto;
             margin-right: auto;
-            max-width: 100vw;
+            max-width: 100%;
             height: auto;
         }
-    </style>
-    <script src="../static/js/communs.js" onload="writeHTMLNav()"></script>
-    <img src="../static/captured_image.jpg" alt="Image capturée">
-    
 
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <script src="../static/js/communs.js" onload="writeHTMLNav()"></script>
+        <div class="container">
+            <img src="../static/captured_image.jpg" alt="Image capturée" class="img-fluid">
+        </div>
+    
     <script type="text/javascript">
         // Fonction qui actualise la page
         function refreshPage() {
@@ -28,6 +43,6 @@
         // Configure le rafraîchissement toutes les 3 secondes (3000 millisecondes)
         setInterval(refreshPage, 3000);
     </script>
-
 </body>
+
 </html>

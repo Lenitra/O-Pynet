@@ -1,14 +1,14 @@
 import json
-from flask import Blueprint
+from flask import Blueprint, request
 from datetime import datetime
 from app.aaa import format_size
 import psutil
+import app.aaa as aaa
 
 # Heure de démarrage du serveur
 STARTTIME = datetime.now()
 
 API = Blueprint('api', __name__)
-
 
 
 # Retourne l'utilisation du processeur
@@ -18,13 +18,11 @@ def cpu():
     return {"cpu": cpu}
 
 
-
 # Retourne l'utilisation de la RAM
 @API.route('/api/memory', methods=['GET'])
 def memory():
     memory = psutil.virtual_memory().percent
     return {"memory": memory}
-
 
 
 # Retourne l'utilisation des différents disques de stockage
@@ -49,7 +47,6 @@ def disk():
     return {"disk": disk}
 
 
-
 # Retourne le temps de fonctionnement du serveur
 @API.route('/api/uptime', methods=['GET'])
 def uptime():
@@ -61,3 +58,20 @@ def configs():
     with open("config.json") as f:
         config = json.load(f)
     return config
+
+@API.route('/api/saveconfigs', methods=['GET', 'POST'])
+def saveconfigs():
+    print(request.json)
+
+    toreg = request.json
+    with open("config.json") as f:
+        config = json.load(f)
+
+    for key, value in config.items():
+        if key not in toreg:
+            toreg[key] = value
+
+    with open("config.json", "w") as f:
+        json.dump(toreg, f)
+    aaa.wirteCommonJS()
+    return {"status": "ok"}

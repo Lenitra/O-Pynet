@@ -9,6 +9,13 @@
 
 <body>
 
+    <style>
+                body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+    </style>
+
     <script src="../static/js/communs.js" onload="writeHTMLNav()"></script>
 
     <div class="container mt-5">
@@ -17,7 +24,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="ip">Adresse IP</label>
+                        <label for="ip">Adresse IP <small>Laissez 0.0.0.0 pour mettre sur toutes les IP disponibles</small></label>
                         <input type="text" class="form-control" id="ip" placeholder="Entrez l'adresse IP">
                     </div>
 
@@ -40,27 +47,30 @@
                             <label class="form-check-label" for="m-spotify">Spotify</label>
                         </div>
                         <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="m-camera">
+                            <label class="form-check-label" for="m-camera">Caméra</label>
+                        </div>
+                        <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="m-files">
                             <label class="form-check-label" for="m-files">Fichiers</label>
                         </div>
                         <br><br><br>
-                        <label><strong>API Spotify</strong></label>
-                        <div class="form-group">
-                            <label for="spotify-client-id">Client ID</label>
-                            <input type="text" class="form-control" id="spotify-client-id" placeholder="Client ID">
-                        </div>
-                        <div class="form-group">
-                            <label for="spotify-client-secret">Client Secret</label>
-                            <input type="text" class="form-control" id="spotify-client-secret" placeholder="Client Secret">
+                        
+                        <div class="spotify-module">
+                            <label><strong>API Spotify</strong></label>
+                            <div class="form-group">
+                                <label for="spotify-client-id">Client ID</label>
+                                <input type="text" class="form-control" id="spotify-client-id" placeholder="Client ID">
+                            </div>
+                            <div class="form-group">
+                                <label for="spotify-client-secret">Client Secret</label>
+                                <input type="text" class="form-control" id="spotify-client-secret" placeholder="Client Secret">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 usrs">
                     <label><strong>Utilisateurs</strong></label>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="usr1" placeholder="Nom d'utilisateur">
-                        <input type="password" class="form-control" id="usr1-pass" placeholder="Changer le mot de passe">
-                    </div>
                 </div>
             </div>
             <br>
@@ -82,7 +92,32 @@
                     document.getElementById('m-spotify').checked = data.modules.spotify;
                     document.getElementById('m-files').checked = data.modules.files;
                     document.getElementById('spotify-client-id').value = data.spotify.client_id;
-                    document.getElementById('spotify-client-secret').value = data.spotify.client_secret;
+                    document.getElementById('spotify-client-secret').value = data.spotify.client_secret;    
+
+                    // create a new user input field
+                    const users = data.users;
+                    console.log(users)
+                    // value : key
+                    // username : password
+                    let counter = 0;
+                    for (const [key, value] of Object.entries(users)) {
+                        const usr = document.createElement('div');
+                        usr.className = 'usr';
+                        usr.innerHTML = `
+                            <input type="text" autocomplete="off" class="form-control" id="usr${counter}" placeholder="Nom d'utilisateur" value="${key}">
+                            <input type="password" autocomplete="off" class="form-control" id="pwd${counter}-pass" placeholder="Changer le mot de passe" value="${value.password}">
+                            <label for="perm1${counter}">Fichiers :</label>  <input type="checkbox" id="perm1${counter}" ${value.permissions.files ? 'checked' : ''}><br>
+                            <label for="perm2${counter}">Spotify :</label>  <input type="checkbox" id="perm2${counter}" ${value.permissions.spotify ? 'checked' : ''}><br>
+                            <label for="perm3${counter}">Caméra :</label>  <input type="checkbox" id="perm3${counter}" ${value.permissions.camera ? 'checked' : ''}><br>
+                            <label for="perm4${counter}">Configuration :</label>  <input type="checkbox" id="perm4${counter}" ${value.permissions.config ? 'checked' : ''}><br>
+                            <label for="perm5${counter}">Reboot :</label>  <input type="checkbox" id="perm5${counter}" ${value.permissions.reboot ? 'checked' : ''}><br>
+                        `;
+
+                        document.querySelector('.usrs').appendChild(usr);
+                        document.querySelector('.usrs').appendChild(document.createElement('br'))
+                        document.querySelector('.usrs').appendChild(document.createElement('br'))
+                        counter++;
+                    }
                 })
                 .catch(error => console.error('Error fetching the configuration:', error));
         });
@@ -100,6 +135,7 @@
             const spotifyClientSecret = document.getElementById('spotify-client-secret').value;
             const spotify = document.getElementById('m-spotify').checked;
             const files = document.getElementById('m-files').checked;
+            const camera = document.getElementById('m-camera').checked;
 
             const data = {
                 "host": ip,
@@ -107,13 +143,36 @@
                 "os": os,
                 "modules": {
                     "spotify": spotify,
-                    "files": files
+                    "files": files,
+                    "camera": camera
                 },
                 "spotify": {
                     "client_id": spotifyClientId,
                     "client_secret": spotifyClientSecret
-                }
+                },
             };
+
+            // add users
+            const users = {};
+            const usrs = document.querySelectorAll('.usr');
+            usrs.forEach((usr, index) => {
+                const username = document.getElementById(`usr${index}`).value;
+                const password = document.getElementById(`pwd${index}-pass`).value;
+                const permissions = {
+                    "files": document.getElementById(`perm1${index}`).checked,
+                    "spotify": document.getElementById(`perm2${index}`).checked,
+                    "camera": document.getElementById(`perm3${index}`).checked,
+                    "config": document.getElementById(`perm4${index}`).checked,
+                    "reboot": document.getElementById(`perm5${index}`).checked
+                };
+                users[username] = {
+                    "password": password,
+                    "permissions": permissions
+                };
+            });
+
+            data.users = users;
+
 
             const confirmation = confirm('Voulez-vous vraiment soumettre ces données ?');
             if (confirmation) {
@@ -124,11 +183,32 @@
                     },
                     body: JSON.stringify(data)
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert('Données soumises avec succès');
-                    })
+                    .then(response => response.json()
+                        // refresh the page
+                        .then(() => window.location.reload())
+                    )
                     .catch(error => console.error('Error submitting the configuration:', error));
+            }
+        });
+    </script>
+
+    <script>
+        // if on load spotify module is not checked, hide the spotify client id and secret fields = display none
+        document.addEventListener('DOMContentLoaded', function () {
+            const spotifyModule = document.querySelector('.spotify-module');
+            const spotifyCheckbox = document.getElementById('m-spotify');
+            if (!spotifyCheckbox.checked) {
+                spotifyModule.style.display = 'none';
+            }
+        });
+
+        // if the spotify module is checked, show the spotify client id and secret fields
+        document.getElementById('m-spotify').addEventListener('change', function () {
+            const spotifyModule = document.querySelector('.spotify-module');
+            if (this.checked) {
+                spotifyModule.style.display = 'block';
+            } else {
+                spotifyModule.style.display = 'none';
             }
         });
     </script>
