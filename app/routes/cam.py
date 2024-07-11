@@ -1,6 +1,6 @@
 from flask import Blueprint, session, redirect, render_template
 import cv2
-import os
+import app.routes.api as api
 
 
 CAM = Blueprint('cam', __name__)
@@ -8,9 +8,8 @@ CAM = Blueprint('cam', __name__)
 
 @CAM.route('/cam')
 def camera():
-    if "user" not in session:
-        session["redirect"] = "cam"
-        return redirect("/login")
+    if api.checks(["login", "module-camera"]):
+        return api.checks(["login", "module-camera"])
 
     # Assurez-vous que la caméra est correctement initialisée
     cap = cv2.VideoCapture(0)

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erreur - Opynet</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .section {
+            background-color: #333;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .section h2 {
+            margin-bottom: 20px;
+        }
+
+        .error-code {
+            font-size: 72px;
+            font-weight: bold;
+            color: #ff4757;
+        }
+
+        .error-message {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-home {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="../static/js/communs.js" onload="writeHTMLNav()"></script>
+
+    <div class="container">
+        <div class="section">
+            <h2>Oups, quelque chose s'est mal passé...</h2>
+            <div class="error-code">
+                {{code}}
+            </div>
+            <div class="error-message">
+                {{message}}
+            </div>
+            <a href="/" class="btn btn-primary btn-home"><i class="fas fa-home"></i> Retour à l'accueil</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

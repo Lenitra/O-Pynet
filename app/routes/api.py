@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, request
+from flask import Blueprint, request, redirect, session, render_template
 from datetime import datetime
 from app.aaa import format_size
 import psutil
@@ -75,3 +75,40 @@ def saveconfigs():
         json.dump(toreg, f)
     aaa.wirteCommonJS()
     return {"status": "ok"}
+
+
+# @arg tocheck: list of permissions to check
+# list of checks : login, module-config, module-files, module-spotify, module-camera, reboot
+# @return: None if all permissions are ok, redirect to error page if not
+def checks(tocheck):
+    for e in tocheck:
+        if e == "login":
+            if "user" not in session:
+                return redirect("/login")
+
+        with open("config.json") as f:
+            config = json.load(f)
+
+        if session["user"] not in config["users"]:
+            return redirect("/login")
+
+        permissions = config["users"][session["user"]]["permissions"]
+
+        if e == "module-config" and not permissions.get("config", False):
+            return redirect("/error?code=403")
+
+        if e == "module-files" and not permissions.get("files", False):
+            return redirect("/error?code=403")
+
+        if e == "module-spotify" and not permissions.get("spotify", False):
+            return redirect("/error?code=403")
+
+        if e == "module-camera" and not permissions.get("camera", False):
+            return redirect("/error?code=403")
+
+        if e == "reboot" and not permissions.get("reboot", False):
+            return redirect("/error?code=403")
+        
+    return None
+
+

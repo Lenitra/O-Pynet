@@ -2,15 +2,15 @@ from flask import Blueprint, send_file, session, redirect, render_template, json
 import psutil
 import json
 import os
+import app.routes.api as api
 
 FILES = Blueprint('files', __name__)
 
 
-
 @FILES.route('/download/<path:file_path>')
 def download_file(file_path):
-    if 'user' not in session:
-        return redirect("/login")
+    if api.checks(["login", "module-files"]):
+        return api.checks(["login", "module-files"])
     # Obtenir le chemin complet du fichier à télécharger
     full_path = os.path.join('./', file_path)
 
@@ -22,13 +22,13 @@ def download_file(file_path):
         return 'Le fichier spécifié n\'existe pas.', 404
 
 
-
 # Afficher les différents répertoires de disques
 @FILES.route('/files')
 def get_discks():
-    if 'user' not in session:
-        return redirect("/login")
-    
+
+    if api.checks(["login", "module-files"]):
+        return api.checks(["login", "module-files"])
+
     # lister les disques
     files_data = []
     tmp_disk = []
@@ -37,15 +37,13 @@ def get_discks():
             continue
         if part.device in tmp_disk:
             continue
-        
-        tmp_disk.append(part.device)
 
+        tmp_disk.append(part.device)
 
         files_data.append({
             'name': part.device.split("\\")[0],
             'type': 'directory'
         })
-
 
     # Gestion des raccourcis
     with open("config.json") as f:
@@ -61,23 +59,18 @@ def get_discks():
     return render_template('files.html', files_data=files_data, buttons = filesshortshtml)
 
 
-
-
-
-
-
-
 @FILES.route('/files/<path:directory_path>')
 def get_files_data(directory_path):
-    if 'user' not in session:
-        return redirect("/login")
-    
+
+    if api.checks(["login", "module-files"]):
+        return api.checks(["login", "module-files"])
+
     with open("config.json") as f:
         config = json.load(f)
     if config["os"] == "linux":
         directory_path = f"/{directory_path}"
     # Vérifier si le chemin spécifié existe et est un répertoire
-    
+
     if not os.path.isdir(directory_path):
         return jsonify({
             'error': 'Le chemin spécifié n\'existe pas ou n\'est pas un répertoire.',
@@ -117,18 +110,17 @@ def get_files_data(directory_path):
     return render_template('files.html', files_data=files_data, buttons = filesshortshtml)
 
 
-
-
 @FILES.route('/fileview/<path:file_path>')
 def fileview(file_path):
-    if 'user' not in session:
-        return redirect("/login")
-    
+
+    if api.checks(["login", "module-files"]):
+        return api.checks(["login", "module-files"])
+
     with open("config.json") as f:
         config = json.load(f)
     if config["os"] == "linux":
         file_path = f"/{file_path}"
-    
+
     # Vérifier si le chemin spécifié existe et est un fichier
     if not os.path.isfile(file_path):
         return jsonify({'error': 'Le chemin spécifié n\'existe pas ou n\'est pas un fichier.', 

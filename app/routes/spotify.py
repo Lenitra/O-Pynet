@@ -8,23 +8,29 @@ import requests
 import os
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+import app.routes.api as api
 
 with open('access_token.txt', 'w') as f:
     f.write('')
-    
-    
+
+
 SPOTIFY = Blueprint('spotify', __name__)
 
 @SPOTIFY.route('/musique')
 def spotify():
-    if 'user' not in session:
-        session['redirect'] = 'musique'
-        return redirect("/login")
+    
+    session['redirect'] = 'musique'
+    if api.checks(["login", "module-spotify"]):
+        return api.checks(["login", "module-spotify"])
+    
     return render_template("spotify.html")
 
 
 @SPOTIFY.route('/spotify/play', methods=['POST' , 'GET'])
 def play():
+
+    if api.checks(["login", "module-spotify"]):
+        return api.checks(["login", "module-spotify"])
     
     with open('config.json') as f:
         config = json.load(f)
@@ -85,10 +91,12 @@ def activatedevice():
             return "OK", 200
         else:
             return "Erreur", 400
-    
+
 
 @SPOTIFY.route('/spotify/pause', methods=['POST' , 'GET'])
 def pause():
+    if api.checks(["login", "module-spotify"]):
+        return api.checks(["login", "module-spotify"])
     with open('config.json') as f:
         config = json.load(f)
     # Récupérer le jeton d'accès
@@ -118,6 +126,8 @@ def pause():
 
 @SPOTIFY.route('/spotify/next', methods=['POST' , 'GET'])
 def next():
+    if api.checks(["login", "module-spotify"]):
+        return api.checks(["login", "module-spotify"])
     with open('config.json') as f:
         config = json.load(f)
     # Récupérer le jeton d'accès
@@ -145,6 +155,8 @@ def next():
 # retourne les informations de la musique en cours de lecture et de la file d'attente
 @SPOTIFY.route('/spotify/music-info', methods=['POST' , 'GET'])
 def getinfos():
+    if api.checks(["login", "module-spotify"]):
+        return api.checks(["login", "module-spotify"])
     with open('config.json') as f:
         config = json.load(f)
     # Récupérer le jeton d'accès
@@ -170,6 +182,8 @@ def getinfos():
 
 @SPOTIFY.route('/spotify/search', methods=['POST' , 'GET'])
 def search():
+    if api.checks(["login", "module-spotify"]):
+        return api.checks(["login", "module-spotify"])
     with open('config.json') as f:
         config = json.load(f)
     data = request.get_json()
@@ -179,6 +193,8 @@ def search():
 
 @SPOTIFY.route('/spotify/queue', methods=['POST' , 'GET'])
 def queue():
+    if api.checks(["login", "module-spotify"]):
+        return api.checks(["login", "module-spotify"])
     with open('config.json') as f:
         config = json.load(f)
     # Récupérer le jeton d'accès
@@ -207,7 +223,7 @@ def queue():
             toret.append({"title": item["name"]
                           , "artist": item["artists"][0]["name"]})
     return jsonify(toret)
-    
+
 
 # Fonction pour obtenir le jeton d'accès en échange du code d'autorisation
 def get_access_token(code):
@@ -227,7 +243,6 @@ def get_access_token(code):
     return token_info.get('access_token')
 
 
-
 @SPOTIFY.route('/spotify/callback', methods=['POST' , 'GET'])
 def callback():
     code = request.args.get('code')
@@ -240,11 +255,12 @@ def callback():
         return "Jetons d'accès obtenu avec succès!<script>setTimeout(function(){window.close();}, 10);</script>"
     else:
         return "Impossible d'obtenir le jeton d'accès."
-    
-    
-    
+
+
 @SPOTIFY.route('/spotify/getkey', methods=['GET' , 'POST'])
 def getkey():
+    if api.checks(["login", "module-spotify"]):
+        return api.checks(["login", "module-spotify"])
     with open('config.json') as f:
         config = json.load(f)
     client_id = config['spotify']['client_id']
@@ -258,13 +274,12 @@ def getkey():
                     '&redirect_uri=' + redirect_uri + \
                     '&state=' + state
     return redirect(authorize_url)
-    
-    
-    
+
+
 @SPOTIFY.route('/spotify/addqueue',methods=['POST' , 'GET'])
 def addqueue():
-    if 'user' not in session:
-        return redirect("/login")
+    if api.checks(["login", "module-spotify"]):
+        return api.checks(["login", "module-spotify"])
     # Récupérer le jeton d'accès
     with open('access_token.txt', 'r') as f:
         access_token = f.read()
@@ -280,8 +295,6 @@ def addqueue():
         time.sleep(3)
         requests.post(f'http://' + config["host"] + ':' + config["port"] + '/musique/addqueue?uri=' + uri)
     return "OK", 200
-
-
 
 
 def recherche_chanson(nom_chanson):
@@ -310,7 +323,6 @@ def recherche_chanson(nom_chanson):
         time.sleep(3)
         return recherche_chanson(nom_chanson)
     return None
-        
 
 
 # region Spotify API Credentials
@@ -327,12 +339,11 @@ def recherche_chanson(nom_chanson):
 #     toret = None
 #     # Recherche de la chanson
 #     results = sp.search(q=nom_chanson, limit=1, type="track")
-    
+
 #     elem = results["tracks"]["items"]
 #     toret = {"title": elem["name"], "artist": elem["artists"][0]["name"], "uri": elem["uri"], "img": elem["album"]["images"][0]["url"]}
 #     return toret
-        
-        
+
 
 #     base_url = "https://api.spotify.com/v1/search"
 #     headers = {
@@ -362,8 +373,6 @@ def recherche_chanson(nom_chanson):
 #     except requests.exceptions.RequestException as e:
 #         print(f"An error occurred: {e}")
 #         return None
-
-
 
 
 def get_track_info(uri):
