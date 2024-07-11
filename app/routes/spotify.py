@@ -325,56 +325,6 @@ def recherche_chanson(nom_chanson):
     return None
 
 
-# region Spotify API Credentials
-# def recherche_chanson(nom_chanson):
-#     with open('config.json') as f:
-#         config = json.load(f)
-#     client_id = config['spotify']['client_id']
-#     client_secret = config['spotify']['client_secret']
-#     # Authentification avec les clés d'API
-#     client_credentials_manager = SpotifyClientCredentials(
-#         client_id=client_id, client_secret=client_secret
-#     )
-#     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-#     toret = None
-#     # Recherche de la chanson
-#     results = sp.search(q=nom_chanson, limit=1, type="track")
-
-#     elem = results["tracks"]["items"]
-#     toret = {"title": elem["name"], "artist": elem["artists"][0]["name"], "uri": elem["uri"], "img": elem["album"]["images"][0]["url"]}
-#     return toret
-
-
-#     base_url = "https://api.spotify.com/v1/search"
-#     headers = {
-#         "Authorization": f"Bearer {access_token}",  # Replace with actual access token
-#         "Content-Type": "application/json",
-#     }
-#     payload = {"q": nom_chanson, "type": "track", "limit": 1}
-
-#     try:
-#         response = requests.get(base_url, headers=headers, params=payload)
-#         response.raise_for_status()  # Check for HTTP errors
-
-#         data = json.loads(response.text)
-#         tracks = data.get("tracks", {}).get("items", [])
-
-#         if tracks:  # Check if any results were found
-#             track_data = tracks[0]
-#             return {
-#                 "title": track_data["name"],
-#                 "artist": track_data["artists"][0]["name"],
-#                 "uri": track_data["uri"],
-#                 "img": track_data["album"]["images"][0]["url"],
-#             }
-#         else:
-#             return None
-
-#     except requests.exceptions.RequestException as e:
-#         print(f"An error occurred: {e}")
-#         return None
-
-
 def get_track_info(uri):
     with open('config.json') as f:
         config = json.load(f)
