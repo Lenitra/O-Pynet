@@ -3,7 +3,7 @@
     "port": "5000",
     "os": "linux",
     "modules": {
-        "spotify": true,
+        "spotify": false,
         "files": true,
         "camera": false
     },
@@ -15,7 +15,7 @@
         "Admin": {
             "password": "aaa",
             "permissions": {
-                "files": false,
+                "files": true,
                 "spotify": true,
                 "camera": true,
                 "config": true,
