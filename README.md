@@ -10,7 +10,10 @@ Panneau administratif pour serveur personnel
 - Camera de surveillance (experimental)
 
 ### Installation
-Démerdez vous, je ferai un truc clean plus tard
+Pour les utilisateurs sous Débian:
+- Installez le package libgl1-mesa-glx (sudo apt-get install libgl1-mesa-glx)
+- Installez le package opencv-python-headless (pip install opencv-python-headless)
+- Exécutez le fichier main.py (python3 main.py) pour démarrer le projet
 
 ## Notes :
 sudo usermod -aG video,sudo $USER
