@@ -12,9 +12,7 @@ Panneau administratif pour serveur personnel
 ### Installation
 Pour les utilisateurs sous Débian:
 - Installez le package libgl1-mesa-glx (sudo apt-get install libgl1-mesa-glx)
-- Installez le package opencv-python-headless (pip install opencv-python-headless)
-- Installez le package flask (pip install flask)
-- Installez le package psutil (pip install psutil)
+- Installez les requirements (pip install -r requirements.txt)
 - Exécutez le fichier main.py (python3 main.py) pour démarrer le projet
 
 ## Notes :
