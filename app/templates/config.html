@@ -10,7 +10,7 @@
 <body>
 
     <style>
-                body {
+        body {
             background-color: #121212;
             color: #ffffff;
         }
@@ -55,7 +55,7 @@
                             <label class="form-check-label" for="m-files">Fichiers</label>
                         </div>
                         <br><br><br>
-                        
+
                         <div class="spotify-module">
                             <label><strong>API Spotify</strong></label>
                             <div class="form-group">
@@ -67,6 +67,17 @@
                                 <input type="text" class="form-control" id="spotify-client-secret" placeholder="Client Secret">
                             </div>
                         </div>
+                        <div class="files-module">
+                            <label><strong>Navigateur de fichiers</strong></label>
+                            <br>
+                            <br>
+                            <button type="button" class="btn btn-primary" onclick="addFile()">Ajouter un raccourci</button>
+                            <br>
+                            <br>
+                            <div id="filesContainer">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-md-6 usrs">
@@ -76,6 +87,7 @@
                     <button type="button" class="btn btn-primary" onclick="addUser()">Ajouter un utilisateur</button>
                     <br>
                     <br>
+                    <div id="usersContainer"></div>
                 </div>
             </div>
             <br>
@@ -87,44 +99,121 @@
 
     <script>
         function addUser() {
-            const usr = document.createElement('div');
-            usr.className = 'usr';
-            // "ooo" is a placeholder for the index, it will be replaced by the index of the user in the funtion setUsersId
-            usr.innerHTML = `
-                <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">Supprimer</button>
-                <input type="text" autocomplete="off" class="form-control" placeholder="Nom d'utilisateur" id="usrooo">
-                <input type="password" autocomplete="off" class="form-control" placeholder="Mot de passe" id="pwdooo-pass">
-                <label for="perm1ooo">Fichiers :</label>  <input type="checkbox" id="perm1ooo"><br>
-                <label for="perm2ooo">Spotify :</label>  <input type="checkbox" id="perm2ooo"><br>
-                <label for="perm3ooo">Caméra :</label>  <input type="checkbox" id="perm3ooo"><br>
-                <label for="perm4ooo">Configuration :</label>  <input type="checkbox" id="perm4ooo"><br>
-                <label for="perm5ooo">Reboot :</label>  <input type="checkbox" id="perm5ooo"><br>
+            const usersContainer = document.getElementById('usersContainer');
+            const index = usersContainer.querySelectorAll('.usr').length;
+            const userDiv = document.createElement('div');
+            userDiv.className = 'usr';
+            userDiv.innerHTML = `
+                <button type="button" class="btn btn-danger" onclick="removeUser(this)">Supprimer</button>
+                <input type="text" autocomplete="off" class="form-control" id="usr${index}" placeholder="Nom d'utilisateur">
+                <input type="password" autocomplete="off" class="form-control" id="pwd${index}-pass" placeholder="Changer le mot de passe">
+                <label for="perm1${index}">Fichiers :</label>  <input type="checkbox" id="perm1${index}"><br>
+                <label for="perm2${index}">Spotify :</label>  <input type="checkbox" id="perm2${index}"><br>
+                <label for="perm3${index}">Caméra :</label>  <input type="checkbox" id="perm3${index}"><br>
+                <label for="perm4${index}">Configuration :</label>  <input type="checkbox" id="perm4${index}"><br>
+                <label for="perm5${index}">Reboot :</label>  <input type="checkbox" id="perm5${index}"><br>
             `;
-
-            document.querySelector('.usrs').appendChild(usr);
-            document.querySelector('.usrs').appendChild(document.createElement('br'))
-            document.querySelector('.usrs').appendChild(document.createElement('br'))
-            setUsersId();
+            usersContainer.appendChild(userDiv);
+            usersContainer.appendChild(document.createElement('br'));
+            usersContainer.appendChild(document.createElement('br'));
+            reassignUserIDs();
         }
 
+        function removeUser(button) {
+            button.parentElement.nextElementSibling.remove(); // remove the <br> after the user div
+            button.parentElement.nextElementSibling.remove(); // remove the second <br> after the user div
+            button.parentElement.remove();
+            reassignUserIDs();
+        }
 
-        // fonction pour boucler tout les users et définir leurs id dans l'ordre
-        function setUsersId() {
-            // for eatch children of classes usr replace ooo by the index
-            const usrs = document.querySelectorAll('.usr');
-            usrs.forEach((usr, index) => {
-                const inputs = usr.querySelectorAll('input');
-                const labels = usr.querySelectorAll('label');
-                inputs.forEach(input => {
-                    input.id = input.id.replace('ooo', index);
-                });
-                labels.forEach(label => {
-                    label.htmlFor = label.htmlFor.replace('ooo', index);
-                });
+        function reassignUserIDs() {
+            const users = document.querySelectorAll('.usr');
+            users.forEach((usr, index) => {
+                usr.querySelector('input[type="text"]').id = `usr${index}`;
+                usr.querySelector('input[type="password"]').id = `pwd${index}-pass`;
+                usr.querySelector('label[for^="perm1"]').setAttribute('for', `perm1${index}`);
+                usr.querySelector('input[id^="perm1"]').id = `perm1${index}`;
+                usr.querySelector('label[for^="perm2"]').setAttribute('for', `perm2${index}`);
+                usr.querySelector('input[id^="perm2"]').id = `perm2${index}`;
+                usr.querySelector('label[for^="perm3"]').setAttribute('for', `perm3${index}`);
+                usr.querySelector('input[id^="perm3"]').id = `perm3${index}`;
+                usr.querySelector('label[for^="perm4"]').setAttribute('for', `perm4${index}`);
+                usr.querySelector('input[id^="perm4"]').id = `perm4${index}`;
+                usr.querySelector('label[for^="perm5"]').setAttribute('for', `perm5${index}`);
+                usr.querySelector('input[id^="perm5"]').id = `perm5${index}`;
             });
         }
     </script>
 
+
+
+    <script>
+    function addFile() {
+        const filesContainer = document.getElementById('filesContainer');
+        const index = filesContainer.querySelectorAll('.file').length;
+        const fileDiv = document.createElement('div');
+        fileDiv.className = 'file';
+        fileDiv.innerHTML = `
+            <input type="text" autocomplete="off" class="form-control" id="file-name${index}" placeholder="Nom du raccourci">
+            <input type="text" autocomplete="off" class="form-control" id="file-path${index}" placeholder="Chemin">
+            <button type="button" class="btn btn-danger" onclick="removeFile(this)">x</button>
+        `;
+        filesContainer.appendChild(fileDiv);
+        filesContainer.appendChild(document.createElement('br'));
+        filesContainer.appendChild(document.createElement('br'));
+        reassignFileIDs();
+    }
+
+    function removeFile(button) {
+        button.parentElement.nextElementSibling.remove(); // remove the <br> after the file div
+        button.parentElement.nextElementSibling.remove(); // remove the second <br> after the file div
+        button.parentElement.remove();
+        reassignFileIDs();
+    }
+
+    function reassignFileIDs() {
+        const files = document.querySelectorAll('.file');
+        files.forEach((file, index) => {
+            file.querySelector('input[id^="file-name"]').id = `file-name${index}`;
+            file.querySelector('input[id^="file-path"]').id = `file-path${index}`;
+        });
+    }
+</script>
+
+
+    
+<script>
+                            function addFile() {
+        const filesContainer = document.getElementById('filesContainer');
+                            const index = filesContainer.querySelectorAll('.file').length;
+                            const fileDiv = document.createElement('div');
+                            fileDiv.className = 'file';
+                            fileDiv.innerHTML = `
+                            <input type="text" autocomplete="off" class="form-control" id="file-name${index}" placeholder="Nom du raccourci">
+                                <input type="text" autocomplete="off" class="form-control" id="file-path${index}" placeholder="Chemin">
+                                    <button type="button" class="btn btn-danger" onclick="removeFile(this)">x</button>
+                                    `;
+                                    filesContainer.appendChild(fileDiv);
+                                    filesContainer.appendChild(document.createElement('br'));
+                                    filesContainer.appendChild(document.createElement('br'));
+                                    reassignFileIDs();
+    }
+
+                                    function removeFile(button) {
+                                        button.parentElement.nextElementSibling.remove(); // remove the <br> after the file div
+                                            button.parentElement.nextElementSibling.remove(); // remove the second <br> after the file div
+                                                button.parentElement.remove();
+                                                reassignFileIDs();
+    }
+
+                                                function reassignFileIDs() {
+        const files = document.querySelectorAll('.file');
+        files.forEach((file, index) => {
+                                                file.querySelector('input[id^="file-name"]').id = `file-name${index}`;
+                                            file.querySelector('input[id^="file-path"]').id = `file-path${index}`;
+        });
+    }
+</script>
 
 
     <!-- affiche les données déjà présentes dans le formulaire -->
@@ -140,11 +229,32 @@
                     document.getElementById('m-files').checked = data.modules.files;
                     document.getElementById('m-camera').checked = data.modules.camera;
                     document.getElementById('spotify-client-id').value = data.spotify.client_id;
-                    document.getElementById('spotify-client-secret').value = data.spotify.client_secret;    
+                    document.getElementById('spotify-client-secret').value = data.spotify.client_secret;
 
-                    // create a new user input field
+
+
+                    // MODULE FILES
+                    // filesShorts
+                    let counterr = 0;
+                    for (const [key, value] of Object.entries(data.filesShorts)) {
+                        const file = document.createElement('div');
+                        file.className = 'file';
+                        file.innerHTML = `
+                            <input type="text" autocomplete="off" class="form-control" id="file-name${counterr}" placeholder="Nom du raccourci" value="${key}">
+                            <input type="text" autocomplete="off" class="form-control" id="file-path${counterr}" placeholder="Chemin" value="${value}">
+                            <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">x</button>
+                        `;
+
+                        document.querySelector('.files-module').appendChild(file);
+                        document.querySelector('.files-module').appendChild(document.createElement('br'))
+                        document.querySelector('.files-module').appendChild(document.createElement('br'))
+                        counterr++;
+                    }
+
+
+
+                    // USERS 
                     const users = data.users;
-                    console.log(users)
                     // value : key
                     // username : password
                     let counter = 0;
@@ -180,7 +290,8 @@
     <!-- Permet d'afficher une popup de confirmation et soumettre -->
     <script>
         document.getElementById('configForm').addEventListener('submit', function (event) {
-            setUsersId();
+            reassignUserIDs();
+            reassignFileIDs();
             event.preventDefault();
 
             const ip = document.getElementById('ip').value;
@@ -206,6 +317,17 @@
                     "client_secret": spotifyClientSecret
                 },
             };
+
+            // files shorts
+            const filesShorts = {};
+            const file = document.querySelectorAll('.file');
+            file.forEach((file, index) => {
+                const name = document.getElementById(`file-name${index}`).value;
+                const path = document.getElementById(`file-path${index}`).value;
+                filesShorts[name] = path;
+            });
+            data.filesShorts = filesShorts;
+
 
             // add users
             const users = {};
