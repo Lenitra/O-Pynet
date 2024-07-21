@@ -71,6 +71,11 @@
                 </div>
                 <div class="col-md-6 usrs">
                     <label><strong>Utilisateurs</strong></label>
+                    <br>
+                    <br>
+                    <button type="button" class="btn btn-primary" onclick="addUser()">Ajouter un utilisateur</button>
+                    <br>
+                    <br>
                 </div>
             </div>
             <br>
@@ -79,6 +84,48 @@
             </div>
         </form>
     </div>
+
+    <script>
+        function addUser() {
+            const usr = document.createElement('div');
+            usr.className = 'usr';
+            // "ooo" is a placeholder for the index, it will be replaced by the index of the user in the funtion setUsersId
+            usr.innerHTML = `
+                <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">Supprimer</button>
+                <input type="text" autocomplete="off" class="form-control" placeholder="Nom d'utilisateur" id="usrooo">
+                <input type="password" autocomplete="off" class="form-control" placeholder="Mot de passe" id="pwdooo-pass">
+                <label for="perm1ooo">Fichiers :</label>  <input type="checkbox" id="perm1ooo"><br>
+                <label for="perm2ooo">Spotify :</label>  <input type="checkbox" id="perm2ooo"><br>
+                <label for="perm3ooo">Caméra :</label>  <input type="checkbox" id="perm3ooo"><br>
+                <label for="perm4ooo">Configuration :</label>  <input type="checkbox" id="perm4ooo"><br>
+                <label for="perm5ooo">Reboot :</label>  <input type="checkbox" id="perm5ooo"><br>
+            `;
+
+            document.querySelector('.usrs').appendChild(usr);
+            document.querySelector('.usrs').appendChild(document.createElement('br'))
+            document.querySelector('.usrs').appendChild(document.createElement('br'))
+            setUsersId();
+        }
+
+
+        // fonction pour boucler tout les users et définir leurs id dans l'ordre
+        function setUsersId() {
+            // for eatch children of classes usr replace ooo by the index
+            const usrs = document.querySelectorAll('.usr');
+            usrs.forEach((usr, index) => {
+                const inputs = usr.querySelectorAll('input');
+                const labels = usr.querySelectorAll('label');
+                inputs.forEach(input => {
+                    input.id = input.id.replace('ooo', index);
+                });
+                labels.forEach(label => {
+                    label.htmlFor = label.htmlFor.replace('ooo', index);
+                });
+            });
+        }
+    </script>
+
+
 
     <!-- affiche les données déjà présentes dans le formulaire -->
     <script>
@@ -105,6 +152,7 @@
                         const usr = document.createElement('div');
                         usr.className = 'usr';
                         usr.innerHTML = `
+                            <button type="button" class="btn btn-danger" onclick="this.parentElement.remove()">Supprimer</button>
                             <input type="text" autocomplete="off" class="form-control" id="usr${counter}" placeholder="Nom d'utilisateur" value="${key}">
                             <input type="password" autocomplete="off" class="form-control" id="pwd${counter}-pass" placeholder="Changer le mot de passe" value="${value.password}">
                             <label for="perm1${counter}">Fichiers :</label>  <input type="checkbox" id="perm1${counter}" ${value.permissions.files ? 'checked' : ''}><br>
@@ -124,9 +172,15 @@
         });
     </script>
 
-    <!-- Permet d'afficher une popup de confirmation en soumettre -->
+
+
+
+
+
+    <!-- Permet d'afficher une popup de confirmation et soumettre -->
     <script>
         document.getElementById('configForm').addEventListener('submit', function (event) {
+            setUsersId();
             event.preventDefault();
 
             const ip = document.getElementById('ip').value;
@@ -193,6 +247,8 @@
         });
     </script>
 
+
+    <!-- affichage des options spotify qand le module est activé -->
     <script>
         // if on load spotify module is not checked, hide the spotify client id and secret fields = display none
         document.addEventListener('DOMContentLoaded', function () {
