@@ -97,6 +97,10 @@
         </form>
     </div>
 
+
+
+
+    <!-- gestion des utilisateurs -->
     <script>
         function addUser() {
             const usersContainer = document.getElementById('usersContainer');
@@ -147,73 +151,42 @@
 
 
 
+
+
+
+    <!-- gestion des raccourcis dans le module des fichiers -->
     <script>
-    function addFile() {
-        const filesContainer = document.getElementById('filesContainer');
-        const index = filesContainer.querySelectorAll('.file').length;
-        const fileDiv = document.createElement('div');
-        fileDiv.className = 'file';
-        fileDiv.innerHTML = `
-            <input type="text" autocomplete="off" class="form-control" id="file-name${index}" placeholder="Nom du raccourci">
-            <input type="text" autocomplete="off" class="form-control" id="file-path${index}" placeholder="Chemin">
-            <button type="button" class="btn btn-danger" onclick="removeFile(this)">x</button>
-        `;
-        filesContainer.appendChild(fileDiv);
-        filesContainer.appendChild(document.createElement('br'));
-        filesContainer.appendChild(document.createElement('br'));
-        reassignFileIDs();
-    }
-
-    function removeFile(button) {
-        button.parentElement.nextElementSibling.remove(); // remove the <br> after the file div
-        button.parentElement.nextElementSibling.remove(); // remove the second <br> after the file div
-        button.parentElement.remove();
-        reassignFileIDs();
-    }
-
-    function reassignFileIDs() {
-        const files = document.querySelectorAll('.file');
-        files.forEach((file, index) => {
-            file.querySelector('input[id^="file-name"]').id = `file-name${index}`;
-            file.querySelector('input[id^="file-path"]').id = `file-path${index}`;
-        });
-    }
-</script>
-
-
-    
-<script>
-                            function addFile() {
-        const filesContainer = document.getElementById('filesContainer');
-                            const index = filesContainer.querySelectorAll('.file').length;
-                            const fileDiv = document.createElement('div');
-                            fileDiv.className = 'file';
-                            fileDiv.innerHTML = `
+        function addFile() {
+            const filesContainer = document.getElementById('filesContainer');
+            const index = filesContainer.querySelectorAll('.file').length;
+            const fileDiv = document.createElement('div');
+            fileDiv.className = 'file';
+            fileDiv.innerHTML = `
                             <input type="text" autocomplete="off" class="form-control" id="file-name${index}" placeholder="Nom du raccourci">
                                 <input type="text" autocomplete="off" class="form-control" id="file-path${index}" placeholder="Chemin">
                                     <button type="button" class="btn btn-danger" onclick="removeFile(this)">x</button>
                                     `;
-                                    filesContainer.appendChild(fileDiv);
-                                    filesContainer.appendChild(document.createElement('br'));
-                                    filesContainer.appendChild(document.createElement('br'));
-                                    reassignFileIDs();
-    }
+            filesContainer.appendChild(fileDiv);
+            filesContainer.appendChild(document.createElement('br'));
+            filesContainer.appendChild(document.createElement('br'));
+            reassignFileIDs();
+        }
 
-                                    function removeFile(button) {
-                                        button.parentElement.nextElementSibling.remove(); // remove the <br> after the file div
-                                            button.parentElement.nextElementSibling.remove(); // remove the second <br> after the file div
-                                                button.parentElement.remove();
-                                                reassignFileIDs();
-    }
+        function removeFile(button) {
+            button.parentElement.nextElementSibling.remove(); // remove the <br> after the file div
+            button.parentElement.nextElementSibling.remove(); // remove the second <br> after the file div
+            button.parentElement.remove();
+            reassignFileIDs();
+        }
 
-                                                function reassignFileIDs() {
-        const files = document.querySelectorAll('.file');
-        files.forEach((file, index) => {
-                                                file.querySelector('input[id^="file-name"]').id = `file-name${index}`;
-                                            file.querySelector('input[id^="file-path"]').id = `file-path${index}`;
-        });
-    }
-</script>
+        function reassignFileIDs() {
+            const files = document.querySelectorAll('.file');
+            files.forEach((file, index) => {
+                file.querySelector('input[id^="file-name"]').id = `file-name${index}`;
+                file.querySelector('input[id^="file-path"]').id = `file-path${index}`;
+            });
+        }
+    </script>
 
 
     <!-- affiche les données déjà présentes dans le formulaire -->
@@ -370,7 +343,7 @@
     </script>
 
 
-    <!-- affichage des options spotify qand le module est activé -->
+    <!-- affichage des options spotify quand le module est activé -->
     <script>
         // if on load spotify module is not checked, hide the spotify client id and secret fields = display none
         document.addEventListener('DOMContentLoaded', function () {
@@ -392,6 +365,28 @@
         });
     </script>
 
+
+    <!-- affichage des options files quand le module est activé -->
+    <script>
+        // if on load files module is not checked, hide the files fields = display none
+        document.addEventListener('DOMContentLoaded', function () {
+            const filesModule = document.querySelector('.files-module');
+            const filesCheckbox = document.getElementById('m-files');
+            if (!filesCheckbox.checked) {
+                filesModule.style.display = 'none';
+            }
+        });
+
+        // if the files module is checked, show the files fields
+        document.getElementById('m-files').addEventListener('change', function () {
+            const filesModule = document.querySelector('.files-module');
+            if (this.checked) {
+                filesModule.style.display = 'block';
+            } else {
+                filesModule.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>

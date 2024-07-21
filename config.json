@@ -1,1 +1,31 @@
-{"host": "0.0.0.0", "port": "5000", "os": "linux", "modules": {"spotify": false, "files": true, "camera": true}, "spotify": {"client_id": "", "client_secret": ""}, "filesShorts": {"Test": "/", "AAAAAAAAA": "C:/Users/thoma/Desktop"}, "users": {"TauMah": {"password": "aaa", "permissions": {"files": true, "spotify": true, "camera": true, "config": true, "reboot": false}}}, "SECRET_KEY": "aaa"}
+{
+    "host": "0.0.0.0",
+    "port": "5000",
+    "os": "linux",
+    "modules": {
+        "spotify": false,
+        "files": false,
+        "camera": false
+    },
+    "spotify": {
+        "client_id": "",
+        "client_secret": ""
+    },
+    "filesShorts": {
+        "Bureau": "/home/taumah/Bureau",
+        "Home": "/home/taumah"
+    },
+    "users": {
+        "TauMah": {
+            "password": "aaa",
+            "permissions": {
+                "files": true,
+                "spotify": true,
+                "camera": true,
+                "config": true,
+                "reboot": true
+            }
+        }
+    },
+    "SECRET_KEY": "aaa"
+}
